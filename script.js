@@ -100,7 +100,6 @@
     const cards = Array.from(hscroll.querySelectorAll(".ecard"));
     const reduceMotion = reduce;
     let drag = null;
-    let raf = 0;
     let suppressClick = false;
 
     const maxScroll = () => Math.max(hscroll.scrollWidth - hscroll.clientWidth, 0);
@@ -109,7 +108,7 @@
       const card = cards[0];
       return card ? card.offsetWidth + gap() : 320;
     };
-    const cardPositions = () => cards.map((card) => card.offsetLeft - hscroll.offsetLeft);
+    const cardPositions = () => cards.map((_, i) => i * step());
     const nearestCardIndex = () => {
       const positions = cardPositions();
       let best = 0;
@@ -139,35 +138,25 @@
     const scrollToX = (left) => {
       hscroll.scrollTo({ left: Math.max(0, Math.min(left, maxScroll())), behavior: reduceMotion ? "auto" : "smooth" });
     };
-    const stopMomentum = () => {
-      if (raf) cancelAnimationFrame(raf);
-      raf = 0;
-    };
     const release = () => {
       if (!drag) return;
-      const velocity = drag.velocity;
       const moved = drag.moved;
       suppressClick = moved;
+      try { hscroll.releasePointerCapture(drag.pointerId); } catch (_) {}
       drag = null;
       hscroll.classList.remove("grabbing");
       hscroll.style.scrollSnapType = "";
 
       if (!moved) return;
-      const projected = hscroll.scrollLeft - velocity * 75;
-      scrollToX(Math.abs(velocity) > 0.15 ? projected : nearestSnap());
-      window.setTimeout(() => scrollToX(nearestSnap()), reduceMotion ? 0 : 260);
+      scrollToX(nearestSnap());
     };
 
     hscroll.addEventListener("pointerdown", (e) => {
       if (e.button !== 0) return;
-      stopMomentum();
       drag = {
         pointerId: e.pointerId,
         startX: e.clientX,
-        lastX: e.clientX,
         startLeft: hscroll.scrollLeft,
-        lastTime: performance.now(),
-        velocity: 0,
         moved: false
       };
       hscroll.classList.add("grabbing");
@@ -177,21 +166,16 @@
 
     hscroll.addEventListener("pointermove", (e) => {
       if (!drag) return;
-      const now = performance.now();
       const dx = e.clientX - drag.startX;
-      const frameDx = e.clientX - drag.lastX;
-      const dt = Math.max(now - drag.lastTime, 16);
 
       if (Math.abs(dx) > 5) drag.moved = true;
-      drag.velocity = frameDx / dt;
-      drag.lastX = e.clientX;
-      drag.lastTime = now;
+      if (!drag.moved) return;
+      e.preventDefault();
       hscroll.scrollLeft = drag.startLeft - dx;
     });
 
     hscroll.addEventListener("pointerup", release);
     hscroll.addEventListener("pointercancel", release);
-    hscroll.addEventListener("pointerleave", release);
 
     hscroll.addEventListener("click", (e) => {
       if (suppressClick) {
