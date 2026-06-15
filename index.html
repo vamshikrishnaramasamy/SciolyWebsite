@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Westview Science Olympiad</title>
+  <meta name="description" content="Westview High School Science Olympiad. 100+ students, 23 events, one podium. Poway Unified · San Diego Regional · Division C." />
+  <meta name="theme-color" content="#fbfbfd" />
+  <meta property="og:title" content="Westview Science Olympiad" />
+  <meta property="og:description" content="100+ students. 23 events. One podium." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <canvas id="bg3d" aria-hidden="true"></canvas>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav" data-state="top">
+    <div class="nav__inner">
+      <a href="#top" class="brand" aria-label="Westview Science Olympiad">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="3.4" fill="currentColor"/><g stroke="currentColor" stroke-width="1.4"><ellipse cx="20" cy="20" rx="17.5" ry="6.6"/><ellipse cx="20" cy="20" rx="17.5" ry="6.6" transform="rotate(60 20 20)"/><ellipse cx="20" cy="20" rx="17.5" ry="6.6" transform="rotate(120 20 20)"/></g></svg>
+        </span>
+        <span class="brand__name">Westview&nbsp;<span>Science&nbsp;Olympiad</span></span>
+      </a>
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#events">Events</a>
+        <a href="#results">Results</a>
+        <a href="#team">Team</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a href="#join" class="nav__cta">Join</a>
+      <button class="nav__toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span></button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu" hidden>
+      <a href="#about">About</a><a href="#events">Events</a><a href="#results">Results</a><a href="#team">Team</a><a href="#faq">FAQ</a>
+      <a href="#join" class="btn btn--dark">Join the team</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <span id="top"></span>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="hero__copy">
+        <p class="kicker" data-hero><span class="kicker__dot"></span> Poway Unified · San Diego Regional · Division C</p>
+        <h1 class="hero__title" data-hero>Science is a<br><em class="goldword">team&nbsp;sport.</em></h1>
+        <p class="hero__sub" data-hero>Westview's Science Olympiad team — 100+ Wolverines competing across 23 events. We don't just study science. We compete in it.</p>
+        <div class="hero__cta" data-hero>
+          <a href="#join" class="btn btn--dark">Join the team</a>
+          <a href="#events" class="btn btn--text">Explore the events <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+      <div class="hero__stage" id="heroStage" data-hero>
+        <div class="hero__fallback" aria-hidden="true">
+          <svg class="mol" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="gCore" cx="38%" cy="32%" r="75%">
+                <stop offset="0%" stop-color="#FBEFC6"/><stop offset="45%" stop-color="#E8B73A"/><stop offset="100%" stop-color="#9A7B1E"/>
+              </radialGradient>
+              <radialGradient id="gAtom" cx="36%" cy="30%" r="80%">
+                <stop offset="0%" stop-color="#55555f"/><stop offset="60%" stop-color="#2f2f36"/><stop offset="100%" stop-color="#17171b"/>
+              </radialGradient>
+            </defs>
+            <g class="mol__orbits">
+              <ellipse cx="200" cy="200" rx="165" ry="58" stroke="#C9A227" stroke-width="1.4" opacity=".3" transform="rotate(24 200 200)"/>
+              <ellipse cx="200" cy="200" rx="165" ry="58" stroke="#C9A227" stroke-width="1.4" opacity=".3" transform="rotate(-38 200 200)"/>
+            </g>
+            <g class="mol__core">
+              <g stroke="#CBA94B" stroke-width="6" stroke-linecap="round" opacity=".85">
+                <line x1="200" y1="200" x2="200" y2="78"/><line x1="200" y1="200" x2="200" y2="322"/>
+                <line x1="200" y1="200" x2="84" y2="200"/><line x1="200" y1="200" x2="316" y2="200"/>
+                <line x1="200" y1="200" x2="296" y2="112"/><line x1="200" y1="200" x2="104" y2="288"/>
+              </g>
+              <circle cx="200" cy="78"  r="26" fill="url(#gAtom)"/>
+              <circle cx="200" cy="322" r="26" fill="url(#gAtom)"/>
+              <circle cx="84"  cy="200" r="26" fill="url(#gAtom)"/>
+              <circle cx="316" cy="200" r="26" fill="url(#gAtom)"/>
+              <circle cx="296" cy="112" r="22" fill="url(#gAtom)"/>
+              <circle cx="104" cy="288" r="22" fill="url(#gAtom)"/>
+              <circle cx="200" cy="200" r="40" fill="url(#gCore)"/>
+            </g>
+          </svg>
+        </div>
+        <div class="hero__floor" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- ============ STATEMENT ============ -->
+    <section class="statement">
+      <p class="statement__text" data-reveal>
+        A community of students who turn big questions into medals — on the bench, at the study table, and on the podium as <span>Wolverines.</span>
+      </p>
+    </section>
+
+    <!-- ============ BENTO ============ -->
+    <section class="section bento-wrap" id="about">
+      <div class="container">
+        <header class="head" data-reveal>
+          <p class="eyebrow">About the team</p>
+          <h2 class="head__title">More than a club.</h2>
+        </header>
+        <div class="bento">
+          <article class="tile tile--lg" data-reveal>
+            <h3>A training ground for scientists.</h3>
+            <p>Science Olympiad is a national STEM competition — teams go head-to-head across biology, chemistry, earth science, engineering, and lab inquiry. We help every member find their event and push their limits.</p>
+            <span class="tile__tag">Est. excellence · Wolverines</span>
+          </article>
+          <article class="tile tile--dark" data-reveal>
+            <span class="tile__num" data-count="100" data-suffix="+">0</span>
+            <p>Active members across all four grades.</p>
+          </article>
+          <article class="tile" data-reveal>
+            <span class="tile__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10M7 4v6a5 5 0 0 0 10 0V4"/></svg></span>
+            <h4>Compete to win</h4>
+            <p>Serious prep for every invitational and the Regional.</p>
+          </article>
+          <article class="tile" data-reveal>
+            <span class="tile__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
+            <h4>Learn beyond class</h4>
+            <p>Dissections, circuits, ciphers, orbital mechanics.</p>
+          </article>
+          <article class="tile tile--gold tile--wide" data-reveal>
+            <h3>23 events. 5 disciplines. 1 team.</h3>
+            <a href="#events" class="btn btn--ink">See the events</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EVENTS (horizontal pin) ============ -->
+    <section class="events" id="events">
+      <div class="events__head container">
+        <div data-reveal>
+          <p class="eyebrow">The 2026 season</p>
+          <h2 class="head__title">Twenty-three events.<br>Find&nbsp;yours.</h2>
+        </div>
+        <div class="events__nav" data-reveal>
+          <span class="events__hint">Drag or swipe</span>
+          <button class="enav" id="ePrev" data-dir="-1" aria-label="Previous events"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <button class="enav" id="eNext" data-dir="1" aria-label="Next events"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+      <div class="hscroll" id="hscroll">
+        <div class="hscroll__track" id="htrack">
+          <article class="ecard" data-cat="Life"><span class="ecard__n">01</span><h3>Anatomy &amp; Physiology</h3><span class="ecard__tag">Life &amp; Social</span></article>
+          <article class="ecard" data-cat="Life"><span class="ecard__n">02</span><h3>Designer Genes</h3><span class="ecard__tag">Life &amp; Social</span></article>
+          <article class="ecard" data-cat="Life"><span class="ecard__n">03</span><h3>Disease Detectives</h3><span class="ecard__tag">Life &amp; Social</span></article>
+          <article class="ecard" data-cat="Life"><span class="ecard__n">04</span><h3>Entomology</h3><span class="ecard__tag">Life &amp; Social</span></article>
+          <article class="ecard" data-cat="Life"><span class="ecard__n">05</span><h3>Water Quality</h3><span class="ecard__tag">Life &amp; Social</span></article>
+          <article class="ecard" data-cat="Earth"><span class="ecard__n">06</span><h3>Astronomy</h3><span class="ecard__tag">Earth &amp; Space</span></article>
+          <article class="ecard" data-cat="Earth"><span class="ecard__n">07</span><h3>Dynamic Planet</h3><span class="ecard__tag">Earth &amp; Space</span></article>
+          <article class="ecard" data-cat="Earth"><span class="ecard__n">08</span><h3>Remote Sensing</h3><span class="ecard__tag">Earth &amp; Space</span></article>
+          <article class="ecard" data-cat="Earth"><span class="ecard__n">09</span><h3>Rocks &amp; Minerals</h3><span class="ecard__tag">Earth &amp; Space</span></article>
+          <article class="ecard" data-cat="Physical"><span class="ecard__n">10</span><h3>Chemistry Lab</h3><span class="ecard__tag">Physical &amp; Chem</span></article>
+          <article class="ecard" data-cat="Physical"><span class="ecard__n">11</span><h3>Circuit Lab</h3><span class="ecard__tag">Physical &amp; Chem</span></article>
+          <article class="ecard" data-cat="Physical"><span class="ecard__n">12</span><h3>Forensics</h3><span class="ecard__tag">Physical &amp; Chem</span></article>
+          <article class="ecard" data-cat="Physical"><span class="ecard__n">13</span><h3>Hovercraft</h3><span class="ecard__tag">Physical &amp; Chem</span></article>
+          <article class="ecard" data-cat="Physical"><span class="ecard__n">14</span><h3>Machines</h3><span class="ecard__tag">Physical &amp; Chem</span></article>
+          <article class="ecard" data-cat="Physical"><span class="ecard__n">15</span><h3>Materials Science</h3><span class="ecard__tag">Physical &amp; Chem</span></article>
+          <article class="ecard" data-cat="Eng"><span class="ecard__n">16</span><h3>Boomilever</h3><span class="ecard__tag">Engineering</span></article>
+          <article class="ecard" data-cat="Eng"><span class="ecard__n">17</span><h3>Electric Vehicle</h3><span class="ecard__tag">Engineering</span></article>
+          <article class="ecard" data-cat="Eng"><span class="ecard__n">18</span><h3>Helicopter</h3><span class="ecard__tag">Engineering</span></article>
+          <article class="ecard" data-cat="Eng"><span class="ecard__n">19</span><h3>Robot Tour</h3><span class="ecard__tag">Engineering</span></article>
+          <article class="ecard" data-cat="Inquiry"><span class="ecard__n">20</span><h3>Bungee Drop</h3><span class="ecard__tag">Inquiry</span></article>
+          <article class="ecard" data-cat="Inquiry"><span class="ecard__n">21</span><h3>Codebusters</h3><span class="ecard__tag">Inquiry</span></article>
+          <article class="ecard" data-cat="Inquiry"><span class="ecard__n">22</span><h3>Engineering CAD</h3><span class="ecard__tag">Inquiry</span></article>
+          <article class="ecard" data-cat="Inquiry"><span class="ecard__n">23</span><h3>Experimental Design</h3><span class="ecard__tag">Inquiry</span></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RESULTS / STATS ============ -->
+    <section class="section results" id="results">
+      <div class="container">
+        <header class="head" data-reveal>
+          <p class="eyebrow">By the numbers</p>
+          <h2 class="head__title">A season of Wolverine science.</h2>
+        </header>
+        <div class="stats">
+          <div class="stat" data-reveal><span class="stat__n" data-count="23">0</span><span class="stat__l">Division C events</span></div>
+          <div class="stat" data-reveal><span class="stat__n" data-count="100" data-suffix="+">0</span><span class="stat__l">Active members</span></div>
+          <div class="stat" data-reveal><span class="stat__n" data-count="5">0</span><span class="stat__l">STEM disciplines</span></div>
+          <div class="stat" data-reveal><span class="stat__n" data-count="12">0</span><span class="stat__l">Medals this season*</span></div>
+        </div>
+        <p class="results__foot" data-reveal>*Placeholder figures — swap in your team's real results in <code>index.html</code>.</p>
+      </div>
+    </section>
+
+    <!-- ============ ACHIEVEMENT (dark) ============ -->
+    <section class="showcase">
+      <div class="container showcase__inner">
+        <p class="eyebrow eyebrow--light" data-reveal>The trophy case</p>
+        <h2 class="showcase__big" data-reveal><span class="showcase__rank" data-count="5" data-prefix="Top ">Top 0</span></h2>
+        <p class="showcase__desc" data-reveal>San Diego Regional finish, Division C — and a ticket to the California state tournament. <em>Make this line yours.</em></p>
+        <ul class="showcase__list">
+          <li data-reveal><b>State qualifier</b><span>Advancing to the state tournament</span></li>
+          <li data-reveal><b>12 event medals</b><span>Across study &amp; build events</span></li>
+          <li data-reveal><b>3 invitationals</b><span>Fall &amp; winter season</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ TEAM ============ -->
+    <section class="section team" id="team">
+      <div class="container">
+        <header class="head" data-reveal>
+          <p class="eyebrow">Leadership &amp; coaches</p>
+          <h2 class="head__title">The people who keep us running.</h2>
+        </header>
+
+        <p class="team__label" data-reveal>Coaches</p>
+        <div class="team__grid team__grid--3">
+          <article class="member" data-reveal><span class="member__av" data-i="HC"></span><h4>Head Coach</h4><p>Faculty Advisor</p></article>
+          <article class="member" data-reveal><span class="member__av" data-i="AC"></span><h4>Assistant Coach</h4><p>Build Events</p></article>
+          <article class="member" data-reveal><span class="member__av" data-i="AC"></span><h4>Assistant Coach</h4><p>Study Events</p></article>
+        </div>
+
+        <p class="team__label" data-reveal>Executive board</p>
+        <div class="team__grid team__grid--4">
+          <article class="member" data-reveal><span class="member__av" data-i="P"></span><h4>President</h4><p>Team Lead</p></article>
+          <article class="member" data-reveal><span class="member__av" data-i="VP"></span><h4>Vice President</h4><p>Operations</p></article>
+          <article class="member" data-reveal><span class="member__av" data-i="S"></span><h4>Secretary</h4><p>Communications</p></article>
+          <article class="member" data-reveal><span class="member__av" data-i="T"></span><h4>Treasurer</h4><p>Finance</p></article>
+        </div>
+
+        <p class="team__label" data-reveal>Event captains</p>
+        <div class="team__grid team__grid--4">
+          <article class="member" data-reveal><span class="member__av" data-i="LC"></span><h4>Life Science</h4><p>Bio &amp; Health</p></article>
+          <article class="member" data-reveal><span class="member__av" data-i="EC"></span><h4>Earth &amp; Space</h4><p>Geology &amp; Astro</p></article>
+          <article class="member" data-reveal><span class="member__av" data-i="PC"></span><h4>Physical Science</h4><p>Chem &amp; Lab</p></article>
+          <article class="member" data-reveal><span class="member__av" data-i="BC"></span><h4>Build Captain</h4><p>Engineering</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ JOIN (CTA) ============ -->
+    <section class="cta" id="join">
+      <div class="container cta__inner">
+        <h2 class="cta__title" data-reveal>Ready to compete?</h2>
+        <p class="cta__sub" data-reveal>No experience required — just curiosity and commitment. We recruit at the start of each school year and welcome new members at weekly meetings.</p>
+        <div class="cta__btns" data-reveal>
+          <a href="mailto:westviewso@gmail.com" class="btn btn--dark btn--lg">Email the team</a>
+          <a href="https://www.instagram.com/westviewscioly/" target="_blank" rel="noopener" class="btn btn--text">@westviewscioly <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></a>
+        </div>
+        <ol class="cta__steps">
+          <li data-reveal><b>01</b><span>Come to a weekly meeting (find it on Instagram)</span></li>
+          <li data-reveal><b>02</b><span>Pick your events with help from captains</span></li>
+          <li data-reveal><b>03</b><span>Train with your 1–2 partners</span></li>
+          <li data-reveal><b>04</b><span>Compete as a Wolverine</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="section faq" id="faq">
+      <div class="container container--narrow">
+        <header class="head" data-reveal>
+          <p class="eyebrow">Questions, answered</p>
+          <h2 class="head__title">Frequently asked.</h2>
+        </header>
+        <div class="faq__list">
+          <details class="faq__item" data-reveal><summary>Do I need experience to join?<i></i></summary><div class="faq__b"><p>Not at all. Many of our strongest competitors started knowing nothing about their event. Captains and coaches help you learn from the ground up.</p></div></details>
+          <details class="faq__item" data-reveal><summary>How much of a time commitment is it?<i></i></summary><div class="faq__b"><p>It scales with you — a weekly meeting plus independent study or build time with your partner. More as a tournament approaches, but you control the pace.</p></div></details>
+          <details class="faq__item" data-reveal><summary>What's the difference between build and study events?<i></i></summary><div class="faq__b"><p>Build events (Boomilever, Helicopter) mean designing and constructing a device. Study events (Astronomy, Forensics) are knowledge- and lab-based. Most members do a mix.</p></div></details>
+          <details class="faq__item" data-reveal><summary>How many events can I do?<i></i></summary><div class="faq__b"><p>Typically 3–4 events per competitor, each with 1–2 partners. We help you balance your schedule so events don't conflict at tournaments.</p></div></details>
+          <details class="faq__item" data-reveal><summary>When can I join?<i></i></summary><div class="faq__b"><p>We recruit heavily at the start of the school year, but reach out any time — email <a href="mailto:westviewso@gmail.com">westviewso@gmail.com</a>.</p></div></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="#top" class="brand"><span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="3.4" fill="currentColor"/><g stroke="currentColor" stroke-width="1.4"><ellipse cx="20" cy="20" rx="17.5" ry="6.6"/><ellipse cx="20" cy="20" rx="17.5" ry="6.6" transform="rotate(60 20 20)"/><ellipse cx="20" cy="20" rx="17.5" ry="6.6" transform="rotate(120 20 20)"/></g></svg></span><span class="brand__name">Westview Science Olympiad</span></a>
+          <p class="footer__tag">Westview High School · Poway Unified School District · San Diego, CA</p>
+        </div>
+        <div class="footer__cols">
+          <div><h5>Explore</h5><a href="#about">About</a><a href="#events">Events</a><a href="#results">Results</a><a href="#team">Team</a></div>
+          <div><h5>Get involved</h5><a href="#join">Join</a><a href="#faq">FAQ</a><a href="mailto:westviewso@gmail.com">Contact</a></div>
+          <div><h5>Connect</h5><a href="https://www.instagram.com/westviewscioly/" target="_blank" rel="noopener">Instagram</a><a href="https://scilympiad.com/westview-so" target="_blank" rel="noopener">Scilympiad</a><a href="https://www.soinc.org/" target="_blank" rel="noopener">Science Olympiad</a></div>
+        </div>
+      </div>
+      <div class="footer__bar">
+        <p>© <span id="year"></span> Westview Science Olympiad. Go Wolverines.</p>
+        <p>Built for the love of the podium.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+  </script>
+  <script type="module" src="three-hero.js"></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
