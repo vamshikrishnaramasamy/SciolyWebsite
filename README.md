@@ -5,8 +5,7 @@ A fast, hand-crafted static site for Westview High School Science Olympiad (Powa
 ```
 index.html      → all markup (single-page site)
 styles.css      → all styles (dark/gold design system, CSS variables)
-three-hero.js   → WebGL hero: glowing DNA double-helix + particle field (Three.js, ES module)
-script.js       → preloader, smooth scroll, cursor, magnetics, 3D tilt, scroll-fill, counters, filter, nav
+script.js       → smooth scroll, reveals, counters, horizontal events, nav
 assets/         → favicon.svg
 deploy/         → nginx config for the Oracle VPS
 ```
@@ -15,7 +14,6 @@ deploy/         → nginx config for the Oracle VPS
 
 No build step. The browser pulls these in — nothing to install on the server:
 
-- **Three.js 0.160** (via importmap) — the 3D molecule hero
 - **GSAP 3.12 + ScrollTrigger** — reveals, count-ups, pinned horizontal events
 - **Lenis 1.0** — smooth scrolling
 - **Font**: Satoshi (Fontshare) — falls back to SF Pro / system on Apple devices
@@ -23,7 +21,6 @@ No build step. The browser pulls these in — nothing to install on the server:
 These need internet access from the *visitor's* browser (always true). For a fully self-hosted / offline build, download the files into `assets/vendor/` and repoint the `<script>`/`<link>` tags in `index.html`.
 
 Everything degrades gracefully:
-- **No WebGL** → the hero shows a hand-drawn **static SVG molecule** (in `index.html`, `.hero__fallback`) instead of the 3D one. It never looks empty.
 - **`prefers-reduced-motion`** → animations off, counters jump to final values, the pinned horizontal events become a normal swipeable row, everything stays visible.
 
 ## Preview locally
