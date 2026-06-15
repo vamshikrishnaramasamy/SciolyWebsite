@@ -158,10 +158,11 @@ body.ready .hero__cta { transition-delay: .24s }
 .enav svg { width:20px; height:20px; }
 .enav:hover { background: var(--ink); color:#fff; border-color: var(--ink); transform: translateY(-2px); }
 .enav:disabled { opacity:.35; cursor:not-allowed; transform:none; background:var(--white); color:var(--ink); border-color:var(--line); }
-.hscroll { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-inline: max(28px, calc((100vw - var(--maxw))/2 + 28px)); cursor: grab; scroll-snap-type: x proximity; scroll-behavior: smooth; }
+.hscroll { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-inline: max(28px, calc((100vw - var(--maxw))/2 + 28px)); cursor: grab; scroll-snap-type: x proximity; scroll-padding-inline: max(28px, calc((100vw - var(--maxw))/2 + 28px)); scroll-behavior: smooth; overscroll-behavior-x: contain; touch-action: pan-y; }
 .hscroll.grabbing { cursor: grabbing; scroll-behavior: auto; }
 .hscroll::-webkit-scrollbar { display:none; }
 .hscroll__track { display:flex; gap: 16px; width: max-content; user-select: none; -webkit-user-select: none; }
+.hscroll.grabbing .ecard { pointer-events: none; }
 .ecard { scroll-snap-align: start; }
 @media (prefers-reduced-motion: reduce){ .hscroll{ scroll-behavior:auto } }
 .ecard { flex: 0 0 auto; width: clamp(220px, 24vw, 300px); aspect-ratio: 4/5; background: var(--white); border:1px solid var(--line); border-radius: var(--r); padding: 1.8rem; display:flex; flex-direction:column; justify-content:space-between; position:relative; overflow:hidden; transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s; --cat: var(--gold); --cat-soft: var(--gold-tint); }
@@ -172,7 +173,8 @@ body.ready .hero__cta { transition-delay: .24s }
 .ecard[data-cat="Inquiry"]  { --cat:#B98A23; --cat-soft:#faf4e4; }
 .ecard::before { content:""; position:absolute; top:0; left:0; right:0; height:3px; background: var(--cat); opacity:0; transition: opacity .35s var(--ease); }
 .ecard:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -34px rgba(0,0,0,.3); border-color: #d8d8dc; }
-.ecard:hover::before { opacity:1; }
+.ecard:hover::before, .ecard.is-active::before { opacity:1; }
+.ecard.is-active { border-color: color-mix(in srgb, var(--cat) 36%, var(--line)); }
 .ecard__n { font-size:.85rem; font-weight:700; color: var(--cat); }
 .ecard h3 { font-size: 1.55rem; font-weight: 700; letter-spacing:-.025em; line-height:1.08; }
 .ecard__tag { align-self:flex-start; font-size:.8rem; font-weight:600; color: var(--cat); background: var(--cat-soft); padding:.32rem .75rem; border-radius:100px; }
@@ -273,6 +275,9 @@ body.ready .hero__cta { transition-delay: .24s }
 @media (max-width: 560px) {
   .container, .nav__inner, .hero__copy { padding-inline: 20px; }
   body { font-size: 16px; }
+  .events__head { flex-direction: column; align-items: flex-start; gap: 1.6rem; }
+  .events__nav { width: 100%; justify-content: flex-start; }
+  .events__hint { margin-right: auto; }
   .bento { grid-template-columns: 1fr; }
   .tile--lg, .tile--dark, .tile--gold, .tile--wide { grid-column: span 1; }
   .stats { grid-template-columns: 1fr 1fr; }
