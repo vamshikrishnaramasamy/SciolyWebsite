@@ -100,6 +100,7 @@
     const cards = Array.from(hscroll.querySelectorAll(".ecard"));
     const reduceMotion = reduce;
     let drag = null;
+    let momentum = 0;
     let suppressClick = false;
 
     const maxScroll = () => Math.max(hscroll.scrollWidth - hscroll.clientWidth, 0);
@@ -134,22 +135,56 @@
     const scrollToX = (left) => {
       hscroll.scrollTo({ left: Math.max(0, Math.min(left, maxScroll())), behavior: reduceMotion ? "auto" : "smooth" });
     };
+    const stopMomentum = () => {
+      if (momentum) cancelAnimationFrame(momentum);
+      momentum = 0;
+    };
+    const glide = (velocity) => {
+      if (reduceMotion || Math.abs(velocity) < 0.05) return;
+      let v = Math.max(-2.4, Math.min(2.4, velocity));
+      let last = performance.now();
+
+      const tick = (now) => {
+        const dt = Math.min(now - last, 32);
+        last = now;
+        hscroll.scrollLeft -= v * dt;
+
+        const atStart = hscroll.scrollLeft <= 0;
+        const atEnd = hscroll.scrollLeft >= maxScroll();
+        if ((atStart && v > 0) || (atEnd && v < 0)) v = 0;
+
+        v *= 0.92;
+        if (Math.abs(v) > 0.03) momentum = requestAnimationFrame(tick);
+        else momentum = 0;
+      };
+
+      momentum = requestAnimationFrame(tick);
+    };
     const release = () => {
       if (!drag) return;
       const moved = drag.moved;
+      const elapsed = Math.max(performance.now() - drag.startTime, 16);
+      const averageVelocity = (drag.lastX - drag.startX) / elapsed;
+      const velocity = Math.abs(drag.velocity) > Math.abs(averageVelocity) ? drag.velocity : averageVelocity;
       suppressClick = moved;
       try { hscroll.releasePointerCapture(drag.pointerId); } catch (_) {}
       drag = null;
       hscroll.classList.remove("grabbing");
       hscroll.style.scrollSnapType = "";
+      if (moved) glide(velocity);
     };
 
     hscroll.addEventListener("pointerdown", (e) => {
       if (e.button !== 0) return;
+      stopMomentum();
       drag = {
         pointerId: e.pointerId,
         startX: e.clientX,
         startLeft: hscroll.scrollLeft,
+        lastX: e.clientX,
+        startTime: performance.now(),
+        lastTime: performance.now(),
+        velocity: 0,
         moved: false
       };
       hscroll.classList.add("grabbing");
@@ -159,11 +194,17 @@
 
     hscroll.addEventListener("pointermove", (e) => {
       if (!drag) return;
+      const now = performance.now();
       const dx = e.clientX - drag.startX;
+      const frameDx = e.clientX - drag.lastX;
+      const dt = Math.max(now - drag.lastTime, 16);
 
       if (Math.abs(dx) > 5) drag.moved = true;
       if (!drag.moved) return;
       e.preventDefault();
+      drag.velocity = frameDx / dt;
+      drag.lastX = e.clientX;
+      drag.lastTime = now;
       hscroll.scrollLeft = drag.startLeft - dx;
     });
 
@@ -178,8 +219,8 @@
       }
     }, true);
 
-    if (prev) prev.addEventListener("click", () => scrollToX(hscroll.scrollLeft - step() * 2));
-    if (next) next.addEventListener("click", () => scrollToX(hscroll.scrollLeft + step() * 2));
+    if (prev) prev.addEventListener("click", () => { stopMomentum(); scrollToX(hscroll.scrollLeft - step() * 2); });
+    if (next) next.addEventListener("click", () => { stopMomentum(); scrollToX(hscroll.scrollLeft + step() * 2); });
     hscroll.addEventListener("scroll", () => {
       updateArrows();
       setActiveCard();
