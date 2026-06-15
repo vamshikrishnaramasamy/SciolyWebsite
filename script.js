@@ -122,10 +122,6 @@
       });
       return best;
     };
-    const nearestSnap = () => {
-      const positions = cardPositions();
-      return Math.min(positions[nearestCardIndex()] || 0, maxScroll());
-    };
     const updateArrows = () => {
       const max = maxScroll() - 1;
       if (prev) prev.disabled = hscroll.scrollLeft <= 1;
@@ -146,9 +142,6 @@
       drag = null;
       hscroll.classList.remove("grabbing");
       hscroll.style.scrollSnapType = "";
-
-      if (!moved) return;
-      scrollToX(nearestSnap());
     };
 
     hscroll.addEventListener("pointerdown", (e) => {

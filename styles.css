@@ -158,12 +158,12 @@ body.ready .hero__cta { transition-delay: .24s }
 .enav svg { width:20px; height:20px; }
 .enav:hover { background: var(--ink); color:#fff; border-color: var(--ink); transform: translateY(-2px); }
 .enav:disabled { opacity:.35; cursor:not-allowed; transform:none; background:var(--white); color:var(--ink); border-color:var(--line); }
-.hscroll { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-inline: max(28px, calc((100vw - var(--maxw))/2 + 28px)); cursor: grab; scroll-snap-type: x proximity; scroll-padding-inline: max(28px, calc((100vw - var(--maxw))/2 + 28px)); scroll-behavior: smooth; overscroll-behavior-x: contain; touch-action: pan-y; }
+.hscroll { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-inline: max(28px, calc((100vw - var(--maxw))/2 + 28px)); cursor: grab; scroll-padding-inline: max(28px, calc((100vw - var(--maxw))/2 + 28px)); scroll-behavior: smooth; overscroll-behavior-x: contain; touch-action: pan-y; }
 .hscroll.grabbing { cursor: grabbing; scroll-behavior: auto; }
 .hscroll::-webkit-scrollbar { display:none; }
 .hscroll__track { display:flex; gap: 16px; width: max-content; user-select: none; -webkit-user-select: none; }
 .hscroll.grabbing .ecard { pointer-events: none; }
-.ecard { scroll-snap-align: start; }
+.ecard { scroll-snap-align: none; }
 @media (prefers-reduced-motion: reduce){ .hscroll{ scroll-behavior:auto } }
 .ecard { flex: 0 0 auto; width: clamp(220px, 24vw, 300px); aspect-ratio: 4/5; background: var(--white); border:1px solid var(--line); border-radius: var(--r); padding: 1.8rem; display:flex; flex-direction:column; justify-content:space-between; position:relative; overflow:hidden; transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s; --cat: var(--gold); --cat-soft: var(--gold-tint); }
 .ecard[data-cat="Life"]     { --cat:#3c7d50; --cat-soft:#ecf5ee; }
