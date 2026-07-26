@@ -158,7 +158,7 @@ body.ready .hero__cta { transition-delay: .24s }
 .enav svg { width:20px; height:20px; }
 .enav:hover { background: var(--ink); color:#fff; border-color: var(--ink); transform: translateY(-2px); }
 .enav:disabled { opacity:.35; cursor:not-allowed; transform:none; background:var(--white); color:var(--ink); border-color:var(--line); }
-.hscroll { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-inline: max(28px, calc((100vw - var(--maxw))/2 + 28px)); cursor: grab; scroll-padding-inline: max(28px, calc((100vw - var(--maxw))/2 + 28px)); scroll-behavior: smooth; overscroll-behavior-x: contain; touch-action: pan-y; }
+.hscroll { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-inline: max(28px, calc((100vw - var(--maxw))/2 + 28px)); cursor: grab; scroll-padding-inline: max(28px, calc((100vw - var(--maxw))/2 + 28px)); scroll-behavior: smooth; overscroll-behavior-x: contain; touch-action: pan-x pan-y; }
 .hscroll.grabbing { cursor: grabbing; scroll-behavior: auto; }
 .hscroll::-webkit-scrollbar { display:none; }
 .hscroll__track { display:flex; gap: 16px; width: max-content; user-select: none; -webkit-user-select: none; }
@@ -278,6 +278,9 @@ body.ready .hero__cta { transition-delay: .24s }
   .events__head { flex-direction: column; align-items: flex-start; gap: 1.6rem; }
   .events__nav { width: 100%; justify-content: flex-start; }
   .events__hint { margin-right: auto; }
+  .hscroll { padding-inline: 20px; scroll-padding-inline: 20px; scroll-snap-type: x mandatory; cursor: auto; }
+  .hscroll__track { gap: 12px; }
+  .ecard { width: min(78vw, 300px); scroll-snap-align: start; scroll-snap-stop: always; }
   .bento { grid-template-columns: 1fr; }
   .tile--lg, .tile--dark, .tile--gold, .tile--wide { grid-column: span 1; }
   .stats { grid-template-columns: 1fr 1fr; }

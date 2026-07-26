@@ -109,6 +109,7 @@
       const card = cards[0];
       return card ? card.offsetWidth + gap() : 320;
     };
+    const arrowStep = () => step() * (window.matchMedia("(max-width: 560px)").matches ? 1 : 2);
     const cardPositions = () => cards.map((_, i) => i * step());
     const nearestCardIndex = () => {
       const positions = cardPositions();
@@ -175,7 +176,7 @@
     };
 
     hscroll.addEventListener("pointerdown", (e) => {
-      if (e.button !== 0) return;
+      if (e.pointerType !== "mouse" || e.button !== 0) return;
       stopMomentum();
       drag = {
         pointerId: e.pointerId,
@@ -219,8 +220,8 @@
       }
     }, true);
 
-    if (prev) prev.addEventListener("click", () => { stopMomentum(); scrollToX(hscroll.scrollLeft - step() * 2); });
-    if (next) next.addEventListener("click", () => { stopMomentum(); scrollToX(hscroll.scrollLeft + step() * 2); });
+    if (prev) prev.addEventListener("click", () => { stopMomentum(); scrollToX(hscroll.scrollLeft - arrowStep()); });
+    if (next) next.addEventListener("click", () => { stopMomentum(); scrollToX(hscroll.scrollLeft + arrowStep()); });
     hscroll.addEventListener("scroll", () => {
       updateArrows();
       setActiveCard();
