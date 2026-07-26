@@ -2,12 +2,13 @@
 (function () {
   "use strict";
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const touchFirst = window.matchMedia("(hover: none), (pointer: coarse)").matches;
   const hasGSAP = typeof window.gsap !== "undefined";
   if (hasGSAP && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 
   /* ---- Lenis smooth scroll ---- */
   let lenis = null;
-  if (!reduce && typeof Lenis !== "undefined") {
+  if (!reduce && !touchFirst && typeof Lenis !== "undefined") {
     lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
     if (hasGSAP) {
       lenis.on("scroll", ScrollTrigger.update);
