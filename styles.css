@@ -198,6 +198,7 @@ body.ready .hero__photo { transition-delay:.32s; }
 .stat__l { display:block; margin-top:.8rem; color: var(--gray); font-size:.95rem; font-weight:500; }
 .results__foot { margin-top: 1.4rem; color: var(--gray-2); font-size:.86rem; }
 .results__foot code { font-family: ui-monospace, monospace; color: var(--gold); }
+.results__foot a { color:var(--gold); font-weight:700; border-bottom:1px solid currentColor; }
 
 /* ============================ SHOWCASE (dark) ======================== */
 .showcase { background: var(--black); color:#fff; padding: clamp(90px, 14vw, 170px) 0; }

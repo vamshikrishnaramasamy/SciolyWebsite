@@ -19,7 +19,12 @@
       requestAnimationFrame(raf);
     }
   }
-  const scrollTo = (el) => lenis ? lenis.scrollTo(el, { duration: 1.1 }) : el.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+  const scrollTo = (el) => {
+    const offset = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    return lenis
+      ? lenis.scrollTo(el, { duration: 1.1, offset: -offset })
+      : el.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+  };
 
   /* ---- hero entrance ---- */
   requestAnimationFrame(() => document.body.classList.add("ready"));
