@@ -254,6 +254,32 @@ body.ready .hero__photo { transition-delay:.32s; }
 .cta__photo { margin-top:3.5rem; overflow:hidden; background:var(--bg-2); }
 .cta__photo img { width:100%; height:min(42vw, 460px); object-fit:cover; object-position:center 48%; display:block; }
 
+@media (hover: hover) and (pointer: fine) {
+  .hero__photo img,
+  .team-work img,
+  .showcase__photo img,
+  .cta__photo img {
+    transition:transform 180ms ease;
+    will-change:transform;
+  }
+
+  .hero__photo:hover img,
+  .team-work figure:hover img,
+  .showcase__photo:hover img,
+  .cta__photo:hover img {
+    transform:scale(1.035);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__photo img,
+  .team-work img,
+  .showcase__photo img,
+  .cta__photo img {
+    transition:none;
+  }
+}
+
 /* =============================== FAQ ================================= */
 .faq__list { border-top:1px solid var(--line); }
 .faq__item { border-bottom: 1px solid var(--line); }
