@@ -13,7 +13,7 @@
 
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=5" />
+  <link rel="stylesheet" href="styles.css?v=6" />
 </head>
 <body>
   <div class="progress" id="progress" aria-hidden="true"></div>
@@ -34,13 +34,14 @@
         <a href="#results">Results</a>
         <a href="awards.html">Awards</a>
         <a href="#team">Team</a>
+        <a href="#join">Join</a>
         <a href="#faq">FAQ</a>
       </nav>
       <a href="https://scilympiad.com/westview-so/Account/Register" class="nav__cta">Register</a>
       <button class="nav__toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span></button>
     </div>
     <div class="mobile-menu" id="mobileMenu" hidden>
-      <a href="#about">About</a><a href="#events">Events</a><a href="#results">Results</a><a href="awards.html">Awards</a><a href="#team">Team</a><a href="#faq">FAQ</a>
+      <a href="#about">About</a><a href="#events">Events</a><a href="#results">Results</a><a href="awards.html">Awards</a><a href="#team">Team</a><a href="#join">Join</a><a href="#faq">FAQ</a>
       <a href="https://scilympiad.com/westview-so/Account/Register" class="btn btn--dark">Register</a>
     </div>
   </header>
@@ -63,6 +64,14 @@
         <img src="assets/photos/team-portrait.webp" width="1800" height="1350" alt="Westview Science Olympiad students and coaches together after competition" fetchpriority="high" />
         <figcaption>Westview Science Olympiad · 2026</figcaption>
       </figure>
+    </section>
+
+    <section class="season-strip" aria-label="2025-26 season snapshot">
+      <div class="container season-strip__inner">
+        <p><strong>2025-26 season</strong><span>70 placements across 7 tournaments</span></p>
+        <p><strong>Division C</strong><span>San Diego Region</span></p>
+        <a href="awards.html">Complete awards archive <span aria-hidden="true">→</span></a>
+      </div>
     </section>
 
     <!-- ============ STATEMENT ============ -->
@@ -104,18 +113,22 @@
             <a href="#events" class="btn btn--ink">See the events</a>
           </article>
         </div>
+        <div class="team-work__intro" data-reveal>
+          <h3>What club life looks like.</h3>
+          <p>Partners prepare, prototype, test, and compete together all season.</p>
+        </div>
         <div class="team-work">
           <figure class="team-work__study" data-reveal>
             <img src="assets/photos/study-session.webp" width="1200" height="1600" alt="Two Westview Science Olympiad students preparing together on laptops" loading="lazy" />
-            <figcaption>Study events</figcaption>
+            <figcaption><strong>Study together.</strong><span>Turn dense event rules into shared notes, practice tests, and confident competition-day decisions.</span></figcaption>
           </figure>
           <figure class="team-work__build" data-reveal>
             <img src="assets/photos/engineering-build.webp" width="900" height="1599" alt="Westview students holding their completed boomilever structure" loading="lazy" />
-            <figcaption>Build events</figcaption>
+            <figcaption><strong>Build and iterate.</strong><span>Design, test, break, and rebuild devices until every gram and second counts.</span></figcaption>
           </figure>
           <figure class="team-work__lab" data-reveal>
             <img src="assets/photos/lab-team.webp" width="1400" height="1050" alt="Westview Science Olympiad students ready for lab events in white coats" loading="lazy" />
-            <figcaption>Lab events</figcaption>
+            <figcaption><strong>Compete as a team.</strong><span>Bring event-specific expertise together under one Westview score.</span></figcaption>
           </figure>
         </div>
       </div>
@@ -208,32 +221,15 @@
     <section class="section team" id="team">
       <div class="container">
         <header class="head" data-reveal>
-          <p class="eyebrow">Leadership &amp; coaches</p>
-          <h2 class="head__title">The people who keep us running.</h2>
+          <p class="eyebrow">How the team runs</p>
+          <h2 class="head__title">Student-led. Coach-backed.</h2>
         </header>
-
-        <p class="team__label" data-reveal>Coaches</p>
-        <div class="team__grid team__grid--3">
-          <article class="member" data-reveal><span class="member__av" data-i="HC"></span><h4>Head Coach</h4><p>Faculty Advisor</p></article>
-          <article class="member" data-reveal><span class="member__av" data-i="AC"></span><h4>Assistant Coach</h4><p>Build Events</p></article>
-          <article class="member" data-reveal><span class="member__av" data-i="AC"></span><h4>Assistant Coach</h4><p>Study Events</p></article>
+        <div class="team-structure">
+          <article data-reveal><span>01</span><div><h3>Executive board</h3><p>Students coordinate the season, communication, tournament logistics, and the culture that connects more than 100 members.</p></div></article>
+          <article data-reveal><span>02</span><div><h3>Event captains</h3><p>Experienced competitors organize resources, run practice, and help partners make progress across all 23 events.</p></div></article>
+          <article data-reveal><span>03</span><div><h3>Coaches</h3><p>Faculty and volunteer coaches provide continuity, technical guidance, safety oversight, and competition-day support.</p></div></article>
         </div>
-
-        <p class="team__label" data-reveal>Executive board</p>
-        <div class="team__grid team__grid--4">
-          <article class="member" data-reveal><span class="member__av" data-i="P"></span><h4>President</h4><p>Team Lead</p></article>
-          <article class="member" data-reveal><span class="member__av" data-i="VP"></span><h4>Vice President</h4><p>Operations</p></article>
-          <article class="member" data-reveal><span class="member__av" data-i="S"></span><h4>Secretary</h4><p>Communications</p></article>
-          <article class="member" data-reveal><span class="member__av" data-i="T"></span><h4>Treasurer</h4><p>Finance</p></article>
-        </div>
-
-        <p class="team__label" data-reveal>Event captains</p>
-        <div class="team__grid team__grid--4">
-          <article class="member" data-reveal><span class="member__av" data-i="LC"></span><h4>Life Science</h4><p>Bio &amp; Health</p></article>
-          <article class="member" data-reveal><span class="member__av" data-i="EC"></span><h4>Earth &amp; Space</h4><p>Geology &amp; Astro</p></article>
-          <article class="member" data-reveal><span class="member__av" data-i="PC"></span><h4>Physical Science</h4><p>Chem &amp; Lab</p></article>
-          <article class="member" data-reveal><span class="member__av" data-i="BC"></span><h4>Build Captain</h4><p>Engineering</p></article>
-        </div>
+        <p class="team-structure__contact" data-reveal>Want to meet the current leadership? <a href="https://www.instagram.com/westviewscioly/" target="_blank" rel="noopener">Follow team updates</a> or <a href="mailto:westviewso@gmail.com">email us</a>.</p>
       </div>
     </section>
 
