@@ -13,7 +13,7 @@
 
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=9" />
+  <link rel="stylesheet" href="styles.css?v=10" />
 </head>
 <body>
   <div class="progress" id="progress" aria-hidden="true"></div>
@@ -293,9 +293,19 @@
     </div>
   </footer>
 
+  <dialog class="photo-viewer" id="photoViewer" aria-label="Photo viewer">
+    <button class="photo-viewer__close" id="photoViewerClose" type="button" aria-label="Close photo viewer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+    <figure class="photo-viewer__stage" id="photoViewerStage">
+      <img id="photoViewerImage" src="" alt="" />
+      <figcaption id="photoViewerCaption"></figcaption>
+    </figure>
+  </dialog>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-  <script src="script.js?v=13" defer></script>
+  <script src="script.js?v=14" defer></script>
 </body>
 </html>

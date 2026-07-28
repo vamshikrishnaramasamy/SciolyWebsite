@@ -240,6 +240,51 @@
     setActiveCard();
   }
 
+  /* ---- selected photo viewer ---- */
+  const photoViewer = document.getElementById("photoViewer");
+  if (photoViewer && typeof photoViewer.showModal === "function") {
+    const photoFigures = document.querySelectorAll(
+      ".hero__photo, .team-work figure, .showcase__photo, .cta__photo"
+    );
+    const viewerImage = document.getElementById("photoViewerImage");
+    const viewerCaption = document.getElementById("photoViewerCaption");
+    const viewerStage = document.getElementById("photoViewerStage");
+    const viewerClose = document.getElementById("photoViewerClose");
+
+    const openPhoto = (figure) => {
+      const image = figure.querySelector("img");
+      const conciseCaption = figure.querySelector("figcaption strong");
+      const caption = conciseCaption || figure.querySelector("figcaption");
+      viewerImage.src = image.currentSrc || image.src;
+      viewerImage.alt = image.alt;
+      viewerCaption.textContent = caption ? caption.textContent.trim() : image.alt;
+      photoViewer.showModal();
+      if (lenis && typeof lenis.stop === "function") lenis.stop();
+    };
+
+    photoFigures.forEach((figure) => {
+      const image = figure.querySelector("img");
+      figure.tabIndex = 0;
+      figure.setAttribute("role", "button");
+      figure.setAttribute("aria-label", "Open photo: " + image.alt);
+      figure.addEventListener("click", () => openPhoto(figure));
+      figure.addEventListener("keydown", (e) => {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        e.preventDefault();
+        openPhoto(figure);
+      });
+    });
+
+    viewerClose.addEventListener("click", () => photoViewer.close());
+    viewerStage.addEventListener("click", (e) => {
+      if (e.target === viewerStage) photoViewer.close();
+    });
+    photoViewer.addEventListener("close", () => {
+      viewerImage.removeAttribute("src");
+      if (lenis && typeof lenis.start === "function") lenis.start();
+    });
+  }
+
   /* ---- footer year ---- */
   const yr = document.getElementById("year");
   if (yr) yr.textContent = new Date().getFullYear();
