@@ -1,7 +1,14 @@
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const escapeHtml = (value = "") => String(value).replace(/[&<>"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[char]);
-const formatDate = (value) => value ? new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(new Date(`${value.replace(" ", "T")}Z`)) : "Never";
+const formatDate = (value) => {
+  if (!value) return "Never";
+  const normalized = value.includes("T") ? value : `${value.replace(" ", "T")}Z`;
+  const date = new Date(normalized);
+  return Number.isNaN(date.getTime())
+    ? "Unknown"
+    : new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(date);
+};
 
 const state = {
   me: null,
@@ -216,7 +223,8 @@ async function renderRoute() {
       renderCatalog();
     }
   } catch (error) {
-    detailView.innerHTML = `<button class="back" data-route="/">← Back to catalog</button><div class="empty"><strong>Could not open record</strong>${escapeHtml(error.message)}</div>`;
+    const errorView = usersView.hidden ? detailView : usersView;
+    errorView.innerHTML = `<button class="back" data-route="/">← Back to catalog</button><div class="empty"><strong>Could not load this page</strong>${escapeHtml(error.message)}</div>`;
   }
   $("#workspace").focus({ preventScroll: true });
   scrollTo({ top: 0, behavior: "instant" });
