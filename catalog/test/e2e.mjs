@@ -94,10 +94,30 @@ try {
   const users = (await admin.request("/api/users")).payload.users;
   const memberUser = users.find((user) => user.email === "member@example.com");
 
+  const imported = (await admin.request("/api/users/import", {
+    method: "POST",
+    body: { users: [
+      { row: 2, name: "Generated Password", email: "generated@example.com", password: "", role: "member" },
+      { row: 3, name: "Imported Admin", email: "imported-admin@example.com", password: "imported-password-123", role: "admin" },
+      { row: 4, name: "Existing Member", email: "member@example.com", password: "another-password-123", role: "member" },
+      { row: 5, name: "Bad Address", email: "not-an-email", password: "", role: "member" }
+    ] }
+  })).payload;
+  assert.equal(imported.created, 2);
+  assert.equal(imported.skipped, 1);
+  assert.equal(imported.errors.length, 1);
+  const generatedCredential = imported.credentials.find((user) => user.email === "generated@example.com");
+  assert.ok(generatedCredential.password.length >= 12);
+
+  const generatedUser = client();
+  await generatedUser.request("/api/login", { method: "POST", body: { email: "generated@example.com", password: generatedCredential.password } });
+  assert.equal((await generatedUser.request("/api/me")).payload.user.role, "member");
+
   const member = client();
   await member.request("/api/login", { method: "POST", body: { email: "member@example.com", password: "another-secure-password" } });
   const memberMe = (await member.request("/api/me")).payload;
   member.setCsrf(memberMe.csrf);
+  await assert.rejects(member.request("/api/users/import", { method: "POST", body: { users: [{ name: "Nope", email: "nope@example.com" }] } }), /403/);
   await member.request("/api/move", { method: "POST", body: { entity_type: "item", id: itemId, action: "relocated", location: "A101 · demo table", notes: "Used for identification demo" } });
 
   await admin.request(`/api/users/${memberUser.id}`, { method: "DELETE" });

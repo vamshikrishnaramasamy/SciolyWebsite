@@ -173,8 +173,10 @@ const SESSION_COOKIE = "scioly_catalog_session";
 const SESSION_DAYS = 14;
 const nowIso = () => new Date().toISOString();
 const clean = (value, max = 500) => String(value ?? "").trim().slice(0, max);
+const validEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 const tokenHash = (token) => createHash("sha256").update(token).digest("hex");
 const publicId = (prefix) => `${prefix}_${randomBytes(8).toString("base64url")}`;
+const temporaryPassword = () => randomBytes(12).toString("base64url");
 const safeEqual = (a, b) => {
   const left = Buffer.from(String(a));
   const right = Buffer.from(String(b));
@@ -525,6 +527,69 @@ app.post("/api/users", async (request, reply) => {
     if (String(error).includes("UNIQUE")) return reply.code(409).send({ error: "A user with that email already exists" });
     throw error;
   }
+});
+
+app.post("/api/users/import", async (request, reply) => {
+  const session = requireUser(request, reply, { csrf: true, admin: true });
+  if (!session) return;
+  const rows = request.body?.users;
+  if (!Array.isArray(rows) || rows.length === 0) {
+    return reply.code(400).send({ error: "Choose a CSV containing at least one user" });
+  }
+  if (rows.length > 50) {
+    return reply.code(400).send({ error: "Import up to 50 users at a time" });
+  }
+
+  const result = { created: 0, reactivated: 0, skipped: 0, errors: [], credentials: [] };
+  const seen = new Set();
+  for (let index = 0; index < rows.length; index += 1) {
+    const source = rows[index] || {};
+    const rowNumber = Number(source.row) || index + 2;
+    const name = clean(source.name, 120);
+    const email = clean(source.email, 254).toLowerCase();
+    const suppliedPassword = String(source.password || "");
+    const roleValue = clean(source.role || "member", 20).toLowerCase();
+    if (!name) {
+      result.errors.push({ row: rowNumber, email, error: "Name is required" });
+      continue;
+    }
+    if (!validEmail(email)) {
+      result.errors.push({ row: rowNumber, email, error: "Valid email is required" });
+      continue;
+    }
+    if (seen.has(email)) {
+      result.errors.push({ row: rowNumber, email, error: "Duplicate email in this CSV" });
+      continue;
+    }
+    seen.add(email);
+    if (!['member', 'admin'].includes(roleValue)) {
+      result.errors.push({ row: rowNumber, email, error: "Role must be member or admin" });
+      continue;
+    }
+    if (suppliedPassword && suppliedPassword.length < 12) {
+      result.errors.push({ row: rowNumber, email, error: "Password must be at least 12 characters" });
+      continue;
+    }
+
+    const existing = db.prepare("SELECT id,disabled_at FROM users WHERE email = ?").get(email);
+    if (existing && !existing.disabled_at) {
+      result.skipped += 1;
+      continue;
+    }
+    const password = suppliedPassword || temporaryPassword();
+    const hash = await bcrypt.hash(password, 12);
+    if (existing?.disabled_at) {
+      db.prepare("UPDATE users SET name=?,password_hash=?,role=?,disabled_at=NULL,last_login_at=NULL WHERE id=?")
+        .run(name, hash, roleValue, existing.id);
+      result.reactivated += 1;
+    } else {
+      db.prepare("INSERT INTO users (email,name,password_hash,role) VALUES (?,?,?,?)")
+        .run(email, name, hash, roleValue);
+      result.created += 1;
+    }
+    result.credentials.push({ name, email, password, role: roleValue });
+  }
+  return result;
 });
 
 app.delete("/api/users/:id", async (request, reply) => {

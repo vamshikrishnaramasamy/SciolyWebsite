@@ -143,11 +143,25 @@
     </form>
   </dialog>
 
+  <dialog id="importUsersDialog" class="dialog">
+    <form id="importUsersForm" method="dialog">
+      <header><div><h2>Import people</h2><p>Add up to 50 catalog accounts from a CSV file.</p></div><button class="icon-button" type="button" data-close-dialog aria-label="Close">×</button></header>
+      <div class="import-body">
+        <label class="file-field">CSV file<input id="userCsvFile" name="csv" type="file" accept=".csv,text/csv" required /></label>
+        <div class="import-format"><p><strong>Required columns:</strong> name, email</p><p><strong>Optional columns:</strong> password, role</p><p>Role defaults to member. Missing passwords are generated and shown once after import.</p><button class="text-button" id="downloadUserTemplate" type="button">Download CSV template</button></div>
+        <div class="import-preview" id="importPreview" hidden></div>
+        <div class="import-results" id="importResults" hidden></div>
+        <p class="form-error" id="importUsersError" role="alert"></p>
+      </div>
+      <footer><button class="button button--quiet" id="importUsersClose" type="button" data-close-dialog>Cancel</button><button class="button button--primary" id="importUsersSubmit" value="default" disabled>Import people</button></footer>
+    </form>
+  </dialog>
+
   <dialog id="confirmDialog" class="dialog dialog--small">
     <form method="dialog"><header><div><h2>Delete this record?</h2><p id="confirmCopy">History stays preserved, but the record leaves the catalog.</p></div></header><footer><button class="button button--quiet" value="cancel">Cancel</button><button class="button button--danger" value="confirm">Delete</button></footer></form>
   </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="/catalog.js?v=2"></script>
+  <script type="module" src="/catalog.js?v=3"></script>
 </body>
 </html>

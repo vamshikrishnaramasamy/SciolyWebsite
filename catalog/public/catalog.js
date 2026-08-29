@@ -11,6 +11,8 @@ const state = {
   query: "",
   filter: "all",
   detail: null,
+  importUsers: [],
+  importResult: null,
   toastTimer: null
 };
 
@@ -24,6 +26,7 @@ const entityForm = $("#entityForm");
 const moveDialog = $("#moveDialog");
 const moveForm = $("#moveForm");
 const userDialog = $("#userDialog");
+const importUsersDialog = $("#importUsersDialog");
 const confirmDialog = $("#confirmDialog");
 
 function readSetupToken() {
@@ -54,6 +57,94 @@ function toast(message) {
   el.classList.add("is-visible");
   clearTimeout(state.toastTimer);
   state.toastTimer = setTimeout(() => el.classList.remove("is-visible"), 2600);
+}
+
+function csvValue(value) {
+  const text = String(value ?? "");
+  return /[",\n\r]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
+}
+
+function downloadCsv(filename, rows) {
+  const csv = rows.map((row) => row.map(csvValue).join(",")).join("\r\n");
+  const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+}
+
+function parseUserCsv(text) {
+  if (text.length > 256_000) throw new Error("CSV must be smaller than 256 KB");
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let quoted = false;
+  for (let index = 0; index < text.length; index += 1) {
+    const char = text[index];
+    if (quoted) {
+      if (char === '"' && text[index + 1] === '"') { cell += '"'; index += 1; }
+      else if (char === '"') quoted = false;
+      else cell += char;
+    } else if (char === '"' && cell === "") quoted = true;
+    else if (char === ",") { row.push(cell.trim()); cell = ""; }
+    else if (char === "\n") { row.push(cell.trim()); rows.push(row); row = []; cell = ""; }
+    else if (char !== "\r") cell += char;
+  }
+  if (quoted) throw new Error("CSV has an unclosed quoted value");
+  if (cell || row.length) { row.push(cell.trim()); rows.push(row); }
+  const populated = rows.filter((values) => values.some(Boolean));
+  if (populated.length < 2) throw new Error("CSV needs a header and at least one user");
+
+  const aliases = { "full name": "name", fullname: "name", "email address": "email", "temporary password": "password", "temp password": "password" };
+  const headers = populated[0].map((value, index) => {
+    const normalized = value.replace(/^\uFEFF/, "").trim().toLowerCase().replaceAll("_", " ");
+    return aliases[normalized] || normalized || `column-${index + 1}`;
+  });
+  if (!headers.includes("name") || !headers.includes("email")) throw new Error("CSV must include name and email columns");
+  const users = populated.slice(1).map((values, index) => Object.fromEntries([
+    ["row", index + 2],
+    ...headers.map((header, column) => [header, values[column] || ""])
+  ])).map(({ row: rowNumber, name, email, password = "", role = "member" }) => ({ row: rowNumber, name, email, password, role }));
+  if (users.length > 50) throw new Error("Import up to 50 users at a time");
+  return users;
+}
+
+function renderImportPreview() {
+  const preview = $("#importPreview");
+  const users = state.importUsers;
+  const generated = users.filter((user) => !user.password).length;
+  preview.hidden = false;
+  preview.innerHTML = `<p class="import-summary"><strong>${users.length} ${users.length === 1 ? "person" : "people"}</strong> ready to import · ${generated} temporary ${generated === 1 ? "password" : "passwords"} will be generated</p><div class="import-rows">${users.slice(0, 5).map((user) => `<div class="import-row"><span>${escapeHtml(user.name || "Missing name")}</span><span>${escapeHtml(user.email || "Missing email")}</span><span>${escapeHtml(user.role || "member")}</span></div>`).join("")}</div>${users.length > 5 ? `<p class="import-summary">Previewing 5 of ${users.length} rows.</p>` : ""}`;
+}
+
+function renderImportResult(result) {
+  const results = $("#importResults");
+  results.hidden = false;
+  $("#importPreview").hidden = true;
+  const changed = result.created + result.reactivated;
+  const credentials = result.credentials.length ? `<p class="credentials-note">Temporary passwords are shown only in this result. Download them before closing.</p><div class="import-rows">${result.credentials.map((user) => `<div class="import-row"><span>${escapeHtml(user.name)}</span><span>${escapeHtml(user.email)}<br><strong>${escapeHtml(user.password)}</strong></span><span>${escapeHtml(user.role)}</span></div>`).join("")}</div><button class="button button--secondary" id="downloadImportedCredentials" type="button">Download credentials CSV</button>` : "";
+  const errors = result.errors.length ? `<div class="import-rows">${result.errors.map((error) => `<div class="import-row import-row--error"><span>Row ${error.row}</span><span>${escapeHtml(error.email || "—")}</span><span>${escapeHtml(error.error)}</span></div>`).join("")}</div>` : "";
+  results.innerHTML = `<p class="import-summary"><strong>${changed} imported</strong> · ${result.skipped} existing ${result.skipped === 1 ? "account" : "accounts"} skipped · ${result.errors.length} ${result.errors.length === 1 ? "row needs" : "rows need"} attention</p>${credentials}${errors}`;
+  $(".file-field", importUsersDialog).hidden = true;
+  $(".import-format", importUsersDialog).hidden = true;
+  $("#importUsersClose").textContent = "Done";
+  importUsersDialog.scrollTop = 0;
+}
+
+function openUserImport() {
+  $("#importUsersForm").reset();
+  $("#importUsersError").textContent = "";
+  $("#importPreview").hidden = true;
+  $("#importResults").hidden = true;
+  $("#importUsersSubmit").disabled = true;
+  $("#importUsersSubmit").textContent = "Import people";
+  $("#importUsersClose").textContent = "Cancel";
+  $(".file-field", importUsersDialog).hidden = false;
+  $(".import-format", importUsersDialog).hidden = false;
+  state.importUsers = [];
+  state.importResult = null;
+  importUsersDialog.showModal();
 }
 
 function showAuth(setupRequired) {
@@ -330,7 +421,7 @@ async function confirmDelete(type, id, name) {
 
 async function renderUsers() {
   const { users } = await api("/api/users");
-  usersView.innerHTML = `<header class="page-head"><div><h1>People</h1><p>Accounts with access to the equipment catalog.</p></div><button class="button button--primary" id="addUserButton">Add person</button></header><div class="people">${users.map((user) => `<div class="person"><div><strong>${escapeHtml(user.name)}</strong><small>${escapeHtml(user.email)}</small></div><div><small>Last login</small>${escapeHtml(formatDate(user.last_login_at))}</div><span class="person__role">${escapeHtml(user.role)}</span>${user.id === state.me.id ? `<span></span>` : `<button class="icon-button" data-delete-type="user" data-id="${user.id}" data-name="${escapeHtml(user.name)}" aria-label="Delete ${escapeHtml(user.name)}">×</button>`}</div>`).join("")}</div>`;
+  usersView.innerHTML = `<header class="page-head"><div><h1>People</h1><p>Accounts with access to the equipment catalog.</p></div><div class="people-actions"><button class="button button--secondary" id="importUsersButton">Import CSV</button><button class="button button--primary" id="addUserButton">Add person</button></div></header><div class="people">${users.map((user) => `<div class="person"><div><strong>${escapeHtml(user.name)}</strong><small>${escapeHtml(user.email)}</small></div><div><small>Last login</small>${escapeHtml(formatDate(user.last_login_at))}</div><span class="person__role">${escapeHtml(user.role)}</span>${user.id === state.me.id ? `<span></span>` : `<button class="icon-button" data-delete-type="user" data-id="${user.id}" data-name="${escapeHtml(user.name)}" aria-label="Delete ${escapeHtml(user.name)}">×</button>`}</div>`).join("")}</div>`;
 }
 
 document.addEventListener("click", async (event) => {
@@ -360,6 +451,9 @@ document.addEventListener("click", async (event) => {
     return;
   }
   if (event.target.closest("#addUserButton")) { $("#userForm").reset(); $("#userError").textContent = ""; userDialog.showModal(); }
+  if (event.target.closest("#importUsersButton")) openUserImport();
+  if (event.target.closest("#downloadUserTemplate")) downloadCsv("catalog-users-template.csv", [["name", "email", "password", "role"], ["Alex Rivera", "alex@example.com", "", "member"]]);
+  if (event.target.closest("#downloadImportedCredentials") && state.importResult) downloadCsv("catalog-user-credentials.csv", [["name", "email", "temporary_password", "role"], ...state.importResult.credentials.map((user) => [user.name, user.email, user.password, user.role])]);
 });
 
 $("#catalogSearch").addEventListener("input", (event) => { state.query = event.target.value; renderCatalog(); });
@@ -406,6 +500,47 @@ $("#userForm").addEventListener("submit", async (event) => {
     await api("/api/users", { method: "POST", body: Object.fromEntries(new FormData(event.currentTarget)) });
     userDialog.close(); await renderUsers(); toast("Login created");
   } catch (error) { $("#userError").textContent = error.message; }
+});
+
+$("#userCsvFile").addEventListener("change", async (event) => {
+  $("#importUsersError").textContent = "";
+  $("#importPreview").hidden = true;
+  $("#importResults").hidden = true;
+  $("#importUsersSubmit").disabled = true;
+  state.importUsers = [];
+  const file = event.target.files?.[0];
+  if (!file) return;
+  try {
+    state.importUsers = parseUserCsv(await file.text());
+    renderImportPreview();
+    $("#importUsersSubmit").disabled = false;
+  } catch (error) { $("#importUsersError").textContent = error.message; }
+});
+
+$("#importUsersForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  if (!state.importUsers.length) return;
+  const submit = $("#importUsersSubmit");
+  submit.disabled = true;
+  submit.textContent = "Importing…";
+  $("#importUsersError").textContent = "";
+  try {
+    state.importResult = await api("/api/users/import", { method: "POST", body: { users: state.importUsers } });
+    renderImportResult(state.importResult);
+    await renderUsers();
+    toast(`${state.importResult.created + state.importResult.reactivated} people imported`);
+    submit.textContent = "Import complete";
+  } catch (error) {
+    $("#importUsersError").textContent = error.message;
+    submit.disabled = false;
+    submit.textContent = "Import people";
+  }
+});
+
+importUsersDialog.addEventListener("close", () => {
+  $("#importResults").replaceChildren();
+  state.importUsers = [];
+  state.importResult = null;
 });
 
 readSetupToken();

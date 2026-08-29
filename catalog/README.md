@@ -10,6 +10,7 @@ Private catalog for boxes and equipment stored in A101.
 - Check-out, return, relocation, and preserved movement history
 - Soft deletion for catalog records
 - Administrator-managed member accounts
+- CSV account imports with generated temporary passwords and duplicate handling
 
 ## Local development
 
