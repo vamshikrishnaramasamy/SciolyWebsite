@@ -90,14 +90,16 @@ try {
   assert.match((await admin.request(`/api/qr/box/${box.public_id}.svg`)).payload, /<svg/);
 
   await admin.request("/api/move", { method: "POST", body: { entity_type: "box", id: boxId, action: "returned", location: "" } });
-  await admin.request("/api/users", { method: "POST", body: { email: "member@example.com", name: "Member", password: "another-secure-password", role: "member" } });
+  const createdMember = (await admin.request("/api/users", { method: "POST", body: { email: "member@example.com", name: "Member", password: "admin-cannot-choose-this", role: "member" } })).payload;
+  const memberPassword = createdMember.credentials[0].password;
+  assert.notEqual(memberPassword, "admin-cannot-choose-this");
   const users = (await admin.request("/api/users")).payload.users;
   const memberUser = users.find((user) => user.email === "member@example.com");
 
   const imported = (await admin.request("/api/users/import", {
     method: "POST",
     body: { users: [
-      { row: 2, name: "Generated Password", email: "generated@example.com", password: "", role: "member" },
+      { row: 2, name: "Generated Password", email: "generated@example.com", role: "member" },
       { row: 3, name: "Imported Admin", email: "imported-admin@example.com", password: "imported-password-123", role: "admin" },
       { row: 4, name: "Existing Member", email: "member@example.com", password: "another-password-123", role: "member" },
       { row: 5, name: "Bad Address", email: "not-an-email", password: "", role: "member" }
@@ -108,13 +110,14 @@ try {
   assert.equal(imported.errors.length, 1);
   const generatedCredential = imported.credentials.find((user) => user.email === "generated@example.com");
   assert.ok(generatedCredential.password.length >= 12);
+  assert.notEqual(imported.credentials.find((user) => user.email === "imported-admin@example.com").password, "imported-password-123");
 
   const generatedUser = client();
   await generatedUser.request("/api/login", { method: "POST", body: { email: "generated@example.com", password: generatedCredential.password } });
   assert.equal((await generatedUser.request("/api/me")).payload.user.role, "member");
 
   const member = client();
-  await member.request("/api/login", { method: "POST", body: { email: "member@example.com", password: "another-secure-password" } });
+  await member.request("/api/login", { method: "POST", body: { email: "member@example.com", password: memberPassword } });
   const memberMe = (await member.request("/api/me")).payload;
   member.setCsrf(memberMe.csrf);
   await assert.rejects(member.request("/api/users/import", { method: "POST", body: { users: [{ name: "Nope", email: "nope@example.com" }] } }), /403/);

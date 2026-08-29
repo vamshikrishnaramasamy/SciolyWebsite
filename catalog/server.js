@@ -508,21 +508,22 @@ app.post("/api/users", async (request, reply) => {
   if (!session) return;
   const email = clean(request.body?.email, 254).toLowerCase();
   const name = clean(request.body?.name, 120);
-  const password = String(request.body?.password || "");
+  const password = temporaryPassword();
   const role = request.body?.role === "admin" ? "admin" : "member";
-  if (!email.includes("@") || !name || password.length < 12) {
-    return reply.code(400).send({ error: "Name, valid email, and password of at least 12 characters required" });
+  if (!validEmail(email) || !name) {
+    return reply.code(400).send({ error: "Name and valid email required" });
   }
   try {
     const hash = await bcrypt.hash(password, 12);
     const existing = db.prepare("SELECT id,disabled_at FROM users WHERE email = ?").get(email);
+    const reactivated = Boolean(existing?.disabled_at);
     if (existing?.disabled_at) {
       db.prepare("UPDATE users SET name=?,password_hash=?,role=?,disabled_at=NULL,last_login_at=NULL WHERE id=?")
         .run(name, hash, role, existing.id);
     } else {
       db.prepare("INSERT INTO users (email,name,password_hash,role) VALUES (?,?,?,?)").run(email, name, hash, role);
     }
-    return reply.code(201).send({ ok: true });
+    return reply.code(201).send({ created: reactivated ? 0 : 1, reactivated: reactivated ? 1 : 0, skipped: 0, errors: [], credentials: [{ name, email, password, role }] });
   } catch (error) {
     if (String(error).includes("UNIQUE")) return reply.code(409).send({ error: "A user with that email already exists" });
     throw error;
@@ -547,7 +548,6 @@ app.post("/api/users/import", async (request, reply) => {
     const rowNumber = Number(source.row) || index + 2;
     const name = clean(source.name, 120);
     const email = clean(source.email, 254).toLowerCase();
-    const suppliedPassword = String(source.password || "");
     const roleValue = clean(source.role || "member", 20).toLowerCase();
     if (!name) {
       result.errors.push({ row: rowNumber, email, error: "Name is required" });
@@ -566,17 +566,12 @@ app.post("/api/users/import", async (request, reply) => {
       result.errors.push({ row: rowNumber, email, error: "Role must be member or admin" });
       continue;
     }
-    if (suppliedPassword && suppliedPassword.length < 12) {
-      result.errors.push({ row: rowNumber, email, error: "Password must be at least 12 characters" });
-      continue;
-    }
-
     const existing = db.prepare("SELECT id,disabled_at FROM users WHERE email = ?").get(email);
     if (existing && !existing.disabled_at) {
       result.skipped += 1;
       continue;
     }
-    const password = suppliedPassword || temporaryPassword();
+    const password = temporaryPassword();
     const hash = await bcrypt.hash(password, 12);
     if (existing?.disabled_at) {
       db.prepare("UPDATE users SET name=?,password_hash=?,role=?,disabled_at=NULL,last_login_at=NULL WHERE id=?")
