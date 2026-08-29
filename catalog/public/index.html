@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f7f7f4" />
+  <title>Westview Science Olympiad Catalog</title>
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700,900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/catalog.css?v=2" />
+</head>
+<body>
+  <!--
+    THESIS: Every object has a known home and a scannable identity; refuse dashboard theater.
+    OWN-WORLD: Westview black, warm white, restrained gold, hard working lines, compact controls.
+    STORY: Sign in, find equipment, understand its identity and location, then record movement.
+    FIRST VIEWPORT: Search and inventory table lead; add actions stay visible without becoming a hero.
+    FORM: Operate-mode lab ledger, incumbent Westview language, seed scioly-catalog-a101.
+    FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+  -->
+  <section class="auth" id="auth" hidden>
+    <div class="auth__mark" aria-hidden="true">
+      <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="3.4" fill="currentColor"/><g stroke="currentColor" stroke-width="1.4"><ellipse cx="20" cy="20" rx="17.5" ry="6.6"/><ellipse cx="20" cy="20" rx="17.5" ry="6.6" transform="rotate(60 20 20)"/><ellipse cx="20" cy="20" rx="17.5" ry="6.6" transform="rotate(120 20 20)"/></g></svg>
+    </div>
+    <div class="auth__panel">
+      <div>
+        <p class="auth__brand">Westview Science Olympiad</p>
+        <h1 id="authTitle">Equipment catalog</h1>
+        <p id="authCopy">Sign in to locate, identify, and move equipment in A101.</p>
+      </div>
+      <form id="loginForm" class="form-stack">
+        <label>Email<input name="email" type="email" autocomplete="username" required /></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" required /></label>
+        <p class="form-error" id="loginError" role="alert"></p>
+        <button class="button button--primary" type="submit">Sign in</button>
+      </form>
+      <form id="setupForm" class="form-stack" hidden>
+        <label>Your name<input name="name" autocomplete="name" required /></label>
+        <label>Email<input name="email" type="email" autocomplete="username" required /></label>
+        <label>Password<input name="password" type="password" minlength="12" autocomplete="new-password" required /></label>
+        <p class="form-hint">Use at least 12 characters. This becomes the first administrator account.</p>
+        <p class="form-error" id="setupError" role="alert"></p>
+        <button class="button button--primary" type="submit">Create catalog administrator</button>
+      </form>
+    </div>
+  </section>
+
+  <div class="app" id="app" hidden>
+    <header class="topbar">
+      <button class="wordmark" data-route="/" aria-label="Open catalog">
+        <span class="wordmark__atom" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="3.4" fill="currentColor"/><g stroke="currentColor" stroke-width="1.4"><ellipse cx="20" cy="20" rx="17.5" ry="6.6"/><ellipse cx="20" cy="20" rx="17.5" ry="6.6" transform="rotate(60 20 20)"/><ellipse cx="20" cy="20" rx="17.5" ry="6.6" transform="rotate(120 20 20)"/></g></svg>
+        </span>
+        <span><strong>Westview SO</strong><small>Equipment catalog</small></span>
+      </button>
+      <nav class="topbar__nav" aria-label="Catalog navigation">
+        <button data-route="/">Catalog</button>
+        <button data-filter-route="checked_out">Checked out</button>
+        <button data-route="/users" id="usersNav" hidden>People</button>
+      </nav>
+      <div class="topbar__account">
+        <span id="accountName"></span>
+        <button class="button button--quiet" id="logoutButton">Sign out</button>
+      </div>
+    </header>
+
+    <main class="workspace" id="workspace" tabindex="-1">
+      <section id="catalogView">
+        <header class="page-head">
+          <div><h1>Catalog</h1><p id="catalogSummary">Loading inventory…</p></div>
+          <div class="page-head__actions">
+            <button class="button button--secondary" data-add="box">Add box</button>
+            <button class="button button--primary" data-add="item">Add item</button>
+          </div>
+        </header>
+        <div class="catalog-tools">
+          <label class="search">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+            <span class="sr-only">Search catalog</span>
+            <input id="catalogSearch" type="search" placeholder="Search boxes, tools, tags, or locations" autocomplete="off" />
+          </label>
+          <div class="filters" aria-label="Inventory filter">
+            <button data-filter="all" class="is-active">All</button>
+            <button data-filter="boxes">Boxes</button>
+            <button data-filter="items">Items</button>
+            <button data-filter="checked_out">Checked out</button>
+          </div>
+        </div>
+        <div class="inventory" id="inventory" aria-live="polite"></div>
+      </section>
+
+      <section id="detailView" hidden></section>
+      <section id="usersView" hidden></section>
+    </main>
+  </div>
+
+  <dialog id="entityDialog" class="dialog">
+    <form id="entityForm" method="dialog">
+      <header><div><h2 id="entityDialogTitle">Add item</h2><p id="entityDialogCopy"></p></div><button class="icon-button" type="button" data-close-dialog aria-label="Close">×</button></header>
+      <input type="hidden" name="entity_type" /><input type="hidden" name="id" />
+      <div id="boxFields" class="form-stack" hidden>
+        <div class="form-row"><label>Box code<input name="code" placeholder="B" /></label><label>Name<input name="box_name" placeholder="Build tools" /></label></div>
+        <label>Where in A101?<input name="box_room_location" placeholder="North wall · shelf 2" /></label>
+        <label>Description<textarea name="box_description" rows="3" placeholder="What this box is for"></textarea></label>
+      </div>
+      <div id="itemFields" class="form-stack" hidden>
+        <div class="form-row"><label>Name<input name="item_name" placeholder="Locking pliers" /></label><label>Quantity<input name="quantity" type="number" min="1" value="1" /></label></div>
+        <div class="form-row"><label>Asset tag (optional)<input name="asset_tag" placeholder="TOOL-014" /></label><label>Box<select name="box_id"><option value="">No box</option></select></label></div>
+        <label>Home location<input name="item_room_location" placeholder="Inside Box B or cabinet 3" /></label>
+        <label>What is it?<textarea name="item_description" rows="3" placeholder="Proper name, purpose, and how it is used"></textarea></label>
+        <label>Identifying details<textarea name="identifying_notes" rows="2" placeholder="Color, size, markings, or anything visually distinctive"></textarea></label>
+      </div>
+      <p class="form-error" id="entityError" role="alert"></p>
+      <footer><button class="button button--quiet" type="button" data-close-dialog>Cancel</button><button class="button button--primary" id="entitySubmit" value="default">Save</button></footer>
+    </form>
+  </dialog>
+
+  <dialog id="moveDialog" class="dialog dialog--small">
+    <form id="moveForm" method="dialog">
+      <header><div><h2 id="moveDialogTitle">Move equipment</h2><p id="moveDialogCopy"></p></div><button class="icon-button" type="button" data-close-dialog aria-label="Close">×</button></header>
+      <input type="hidden" name="entity_type" /><input type="hidden" name="id" /><input type="hidden" name="action" />
+      <div class="form-stack">
+        <label id="holderField">Who has it?<input name="holder" placeholder="Student or coach name" /></label>
+        <label id="locationField">Where is it going?<input name="location" placeholder="Event room, tournament, or A101 shelf" /></label>
+        <label>Note (optional)<textarea name="notes" rows="2" placeholder="Reason, event, or return detail"></textarea></label>
+      </div>
+      <p class="form-error" id="moveError" role="alert"></p>
+      <footer><button class="button button--quiet" type="button" data-close-dialog>Cancel</button><button class="button button--primary" value="default">Record movement</button></footer>
+    </form>
+  </dialog>
+
+  <dialog id="userDialog" class="dialog dialog--small">
+    <form id="userForm" method="dialog">
+      <header><div><h2>Add person</h2><p>Create a login for a team member.</p></div><button class="icon-button" type="button" data-close-dialog aria-label="Close">×</button></header>
+      <div class="form-stack">
+        <label>Name<input name="name" required /></label>
+        <label>Email<input name="email" type="email" required /></label>
+        <label>Temporary password<input name="password" type="password" minlength="12" required /></label>
+        <label>Role<select name="role"><option value="member">Member</option><option value="admin">Administrator</option></select></label>
+      </div>
+      <p class="form-error" id="userError" role="alert"></p>
+      <footer><button class="button button--quiet" type="button" data-close-dialog>Cancel</button><button class="button button--primary" value="default">Create login</button></footer>
+    </form>
+  </dialog>
+
+  <dialog id="confirmDialog" class="dialog dialog--small">
+    <form method="dialog"><header><div><h2>Delete this record?</h2><p id="confirmCopy">History stays preserved, but the record leaves the catalog.</p></div></header><footer><button class="button button--quiet" value="cancel">Cancel</button><button class="button button--danger" value="confirm">Delete</button></footer></form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/catalog.js?v=2"></script>
+</body>
+</html>

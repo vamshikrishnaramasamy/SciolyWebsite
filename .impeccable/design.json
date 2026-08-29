@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-29T17:13:23Z",
+  "title": "Design System: Westview Science Olympiad",
+  "extensions": {
+    "colorMeta": {
+      "canvas": { "role": "neutral", "displayName": "Editorial Canvas", "canonical": "#fbfbfd", "tonalRamp": ["oklch(15% 0.004 285)", "oklch(27% 0.004 285)", "oklch(39% 0.004 285)", "oklch(51% 0.004 285)", "oklch(63% 0.004 285)", "oklch(75% 0.004 285)", "oklch(87% 0.004 285)", "oklch(95% 0.004 285)"] },
+      "surface": { "role": "neutral", "displayName": "Pure Surface", "canonical": "#ffffff", "tonalRamp": ["oklch(15% 0 0)", "oklch(27% 0 0)", "oklch(39% 0 0)", "oklch(51% 0 0)", "oklch(63% 0 0)", "oklch(75% 0 0)", "oklch(87% 0 0)", "oklch(95% 0 0)"] },
+      "soft-surface": { "role": "neutral", "displayName": "Soft Surface", "canonical": "#f4f4f6", "tonalRamp": ["oklch(15% 0.004 285)", "oklch(27% 0.004 285)", "oklch(39% 0.004 285)", "oklch(51% 0.004 285)", "oklch(63% 0.004 285)", "oklch(75% 0.004 285)", "oklch(87% 0.004 285)", "oklch(95% 0.004 285)"] },
+      "ink": { "role": "neutral", "displayName": "Westview Ink", "canonical": "#1d1d1f", "tonalRamp": ["oklch(15% 0.004 285)", "oklch(27% 0.004 285)", "oklch(39% 0.004 285)", "oklch(51% 0.004 285)", "oklch(63% 0.004 285)", "oklch(75% 0.004 285)", "oklch(87% 0.004 285)", "oklch(95% 0.004 285)"] },
+      "secondary-text": { "role": "neutral", "displayName": "Editorial Gray", "canonical": "#6e6e73", "tonalRamp": ["oklch(15% 0.006 285)", "oklch(27% 0.006 285)", "oklch(39% 0.006 285)", "oklch(51% 0.006 285)", "oklch(63% 0.006 285)", "oklch(75% 0.006 285)", "oklch(87% 0.006 285)", "oklch(95% 0.006 285)"] },
+      "tertiary-text": { "role": "neutral", "displayName": "Quiet Editorial Gray", "canonical": "#86868b", "tonalRamp": ["oklch(15% 0.006 285)", "oklch(27% 0.006 285)", "oklch(39% 0.006 285)", "oklch(51% 0.006 285)", "oklch(63% 0.006 285)", "oklch(75% 0.006 285)", "oklch(87% 0.006 285)", "oklch(95% 0.006 285)"] },
+      "rule": { "role": "neutral", "displayName": "Editorial Rule", "canonical": "#e3e3e6", "tonalRamp": ["oklch(15% 0.004 285)", "oklch(27% 0.004 285)", "oklch(39% 0.004 285)", "oklch(51% 0.004 285)", "oklch(63% 0.004 285)", "oklch(75% 0.004 285)", "oklch(87% 0.004 285)", "oklch(95% 0.004 285)"] },
+      "black": { "role": "neutral", "displayName": "Dramatic Black", "canonical": "#0a0a0b", "tonalRamp": ["oklch(15% 0.002 285)", "oklch(27% 0.002 285)", "oklch(39% 0.002 285)", "oklch(51% 0.002 285)", "oklch(63% 0.002 285)", "oklch(75% 0.002 285)", "oklch(87% 0.002 285)", "oklch(95% 0.002 285)"] },
+      "westview-gold": { "role": "primary", "displayName": "Westview Gold", "canonical": "#B98A23", "tonalRamp": ["oklch(15% 0.07 82)", "oklch(27% 0.10 82)", "oklch(39% 0.12 82)", "oklch(51% 0.13 82)", "oklch(63% 0.13 82)", "oklch(75% 0.11 82)", "oklch(87% 0.07 82)", "oklch(95% 0.03 82)"] },
+      "gold-on-dark": { "role": "secondary", "displayName": "Luminous Gold", "canonical": "#E8B73A", "tonalRamp": ["oklch(15% 0.08 86)", "oklch(27% 0.11 86)", "oklch(39% 0.14 86)", "oklch(51% 0.16 86)", "oklch(63% 0.16 86)", "oklch(75% 0.13 86)", "oklch(87% 0.08 86)", "oklch(95% 0.03 86)"] },
+      "gold-tint": { "role": "secondary", "displayName": "Gold Tint", "canonical": "#faf4e4", "tonalRamp": ["oklch(15% 0.03 86)", "oklch(27% 0.04 86)", "oklch(39% 0.05 86)", "oklch(51% 0.05 86)", "oklch(63% 0.05 86)", "oklch(75% 0.04 86)", "oklch(87% 0.03 86)", "oklch(95% 0.015 86)"] },
+      "catalog-paper": { "role": "neutral", "displayName": "Ledger Paper", "canonical": "#f7f7f4", "tonalRamp": ["oklch(15% 0.006 105)", "oklch(27% 0.006 105)", "oklch(39% 0.006 105)", "oklch(51% 0.006 105)", "oklch(63% 0.006 105)", "oklch(75% 0.006 105)", "oklch(87% 0.006 105)", "oklch(95% 0.006 105)"] },
+      "catalog-muted": { "role": "neutral", "displayName": "Ledger Muted", "canonical": "#626660", "tonalRamp": ["oklch(15% 0.012 135)", "oklch(27% 0.012 135)", "oklch(39% 0.012 135)", "oklch(51% 0.012 135)", "oklch(63% 0.012 135)", "oklch(75% 0.012 135)", "oklch(87% 0.012 135)", "oklch(95% 0.012 135)"] },
+      "catalog-rule": { "role": "neutral", "displayName": "Ledger Rule", "canonical": "#dcded8", "tonalRamp": ["oklch(15% 0.009 125)", "oklch(27% 0.009 125)", "oklch(39% 0.009 125)", "oklch(51% 0.009 125)", "oklch(63% 0.009 125)", "oklch(75% 0.009 125)", "oklch(87% 0.009 125)", "oklch(95% 0.009 125)"] },
+      "catalog-rule-strong": { "role": "neutral", "displayName": "Strong Ledger Rule", "canonical": "#bfc3ba", "tonalRamp": ["oklch(15% 0.012 125)", "oklch(27% 0.012 125)", "oklch(39% 0.012 125)", "oklch(51% 0.012 125)", "oklch(63% 0.012 125)", "oklch(75% 0.012 125)", "oklch(87% 0.012 125)", "oklch(95% 0.012 125)"] },
+      "lab-green": { "role": "primary", "displayName": "A101 Lab Green", "canonical": "#172019", "tonalRamp": ["oklch(15% 0.025 145)", "oklch(27% 0.035 145)", "oklch(39% 0.045 145)", "oklch(51% 0.05 145)", "oklch(63% 0.045 145)", "oklch(75% 0.035 145)", "oklch(87% 0.02 145)", "oklch(95% 0.01 145)"] },
+      "lab-green-hover": { "role": "primary", "displayName": "Lab Green Hover", "canonical": "#304234", "tonalRamp": ["oklch(15% 0.03 145)", "oklch(27% 0.04 145)", "oklch(39% 0.05 145)", "oklch(51% 0.055 145)", "oklch(63% 0.05 145)", "oklch(75% 0.04 145)", "oklch(87% 0.025 145)", "oklch(95% 0.01 145)"] },
+      "catalog-gold": { "role": "secondary", "displayName": "Operational Gold", "canonical": "#a97d18", "tonalRamp": ["oklch(15% 0.07 82)", "oklch(27% 0.10 82)", "oklch(39% 0.12 82)", "oklch(51% 0.13 82)", "oklch(63% 0.13 82)", "oklch(75% 0.11 82)", "oklch(87% 0.07 82)", "oklch(95% 0.03 82)"] },
+      "danger": { "role": "tertiary", "displayName": "Destructive Red", "canonical": "#9d2f2f", "tonalRamp": ["oklch(15% 0.08 25)", "oklch(27% 0.12 25)", "oklch(39% 0.15 25)", "oklch(51% 0.17 25)", "oklch(63% 0.15 25)", "oklch(75% 0.11 25)", "oklch(87% 0.06 25)", "oklch(95% 0.025 25)"] },
+      "available": { "role": "tertiary", "displayName": "Available Green", "canonical": "#608060", "tonalRamp": ["oklch(15% 0.05 145)", "oklch(27% 0.07 145)", "oklch(39% 0.08 145)", "oklch(51% 0.09 145)", "oklch(63% 0.08 145)", "oklch(75% 0.06 145)", "oklch(87% 0.035 145)", "oklch(95% 0.015 145)"] },
+      "checked-out": { "role": "tertiary", "displayName": "Checked-out Amber", "canonical": "#c17b2f", "tonalRamp": ["oklch(15% 0.07 58)", "oklch(27% 0.10 58)", "oklch(39% 0.13 58)", "oklch(51% 0.15 58)", "oklch(63% 0.14 58)", "oklch(75% 0.11 58)", "oklch(87% 0.065 58)", "oklch(95% 0.025 58)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Public Display", "purpose": "Singular recruiting statements and campaign-scale headlines." },
+      "headline": { "displayName": "Public Headline", "purpose": "Editorial section introductions and major claims." },
+      "body": { "displayName": "Public Body", "purpose": "Persuasive reading and supporting copy." },
+      "catalog-page-title": { "displayName": "Catalog Page Title", "purpose": "Workspace, people, box, and item identity." },
+      "catalog-body": { "displayName": "Catalog Body", "purpose": "Rows, facts, forms, descriptions, and history." },
+      "catalog-label": { "displayName": "Catalog Label", "purpose": "Fields, filters, table headings, statuses, and compact actions." }
+    },
+    "shadows": [
+      { "name": "public-card-hover", "value": "0 30px 60px -36px rgba(0,0,0,.28)", "purpose": "Diffuse lift for public editorial cards on hover." },
+      { "name": "catalog-dialog", "value": "0 12px 36px rgba(0,0,0,.22)", "purpose": "Structural elevation for modal catalog work." },
+      { "name": "catalog-toast", "value": "0 5px 16px rgba(0,0,0,.2)", "purpose": "Compact separation for transient catalog confirmation." }
+    ],
+    "motion": [
+      { "name": "public-expressive-ease", "value": "cubic-bezier(.22,1,.36,1)", "purpose": "Public-site reveals, hover lifts, and editorial motion." },
+      { "name": "catalog-row-feedback", "value": "background 140ms ease", "purpose": "Inventory row hover feedback without movement." },
+      { "name": "catalog-control-feedback", "value": "background 150ms ease, border-color 150ms ease, color 150ms ease", "purpose": "Routine catalog control state changes." },
+      { "name": "catalog-transient-feedback", "value": "opacity 160ms ease, transform 160ms ease", "purpose": "Toast entrance and exit only." },
+      { "name": "reduced-motion", "value": "transition-duration: .001ms; animation: none", "purpose": "Collapse nonessential motion when reduced motion is requested." }
+    ],
+    "breakpoints": [
+      { "name": "catalog-compact", "value": "860px" },
+      { "name": "catalog-phone", "value": "560px" },
+      { "name": "public-awards-phone", "value": "700px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Public Dark Button",
+      "kind": "button",
+      "refersTo": "public-button-dark",
+      "description": "Primary registration or commitment action on the public editorial site.",
+      "html": "<button class=\"ds-public-button\">Register</button>",
+      "css": ".ds-public-button { display:inline-flex; align-items:center; justify-content:center; border:0; border-radius:100px; padding:.8rem 1.5rem; background:var(--ink, #1d1d1f); color:#fff; font-family:var(--font, Satoshi, system-ui, sans-serif); font-size:1rem; font-weight:600; transition:background .25s cubic-bezier(.22,1,.36,1), transform .25s cubic-bezier(.22,1,.36,1); cursor:pointer; } .ds-public-button:hover { background:#000; transform:translateY(-2px); } .ds-public-button:focus-visible { outline:2px solid var(--gold, #B98A23); outline-offset:3px; } .ds-public-button:active { transform:translateY(0); }"
+    },
+    {
+      "name": "Public Editorial Card",
+      "kind": "card",
+      "refersTo": "public-card",
+      "description": "Expressive public-site content container; never an inventory substitute.",
+      "html": "<article class=\"ds-public-card\"><span class=\"ds-public-card__eyebrow\">About the team</span><h3>A training ground for scientists.</h3><p>Partners prepare, prototype, test, and compete together.</p></article>",
+      "css": ".ds-public-card { width:min(100%, 360px); padding:2.2rem; border:1px solid var(--line, #e3e3e6); border-radius:28px; background:var(--white, #fff); color:var(--ink, #1d1d1f); font-family:var(--font, Satoshi, system-ui, sans-serif); transition:transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s cubic-bezier(.22,1,.36,1); } .ds-public-card:hover { transform:translateY(-4px); box-shadow:0 30px 60px -36px rgba(0,0,0,.28); } .ds-public-card:focus-within { outline:2px solid var(--gold, #B98A23); outline-offset:3px; } .ds-public-card__eyebrow { color:var(--gold, #B98A23); font-size:.82rem; font-weight:600; } .ds-public-card h3 { margin:.8rem 0 .55rem; font-size:1.6rem; line-height:1.1; letter-spacing:-.025em; } .ds-public-card p { margin:0; color:var(--gray, #6e6e73); line-height:1.5; }"
+    },
+    {
+      "name": "Catalog Primary Button",
+      "kind": "button",
+      "refersTo": "catalog-button-primary",
+      "description": "Compact, grounded action for add, save, checkout, return, and movement work.",
+      "html": "<button class=\"ds-catalog-button-primary\">Add item</button>",
+      "css": ".ds-catalog-button-primary { display:inline-flex; min-height:40px; align-items:center; justify-content:center; padding:.55rem 1rem; border:1px solid transparent; border-radius:9px; background:var(--green, #172019); color:#fff; font-family:var(--font, Satoshi, system-ui, sans-serif); font-weight:700; transition:background 150ms ease, border-color 150ms ease, color 150ms ease; cursor:pointer; } .ds-catalog-button-primary:hover { background:var(--green-2, #304234); } .ds-catalog-button-primary:focus-visible { outline:2px solid var(--gold, #a97d18); outline-offset:2px; } .ds-catalog-button-primary:active { background:#172019; }"
+    },
+    {
+      "name": "Catalog Secondary Button",
+      "kind": "button",
+      "description": "Equal-size secondary action for editing, adding a box, or adding contents.",
+      "html": "<button class=\"ds-catalog-button-secondary\">Add box</button>",
+      "css": ".ds-catalog-button-secondary { display:inline-flex; min-height:40px; align-items:center; justify-content:center; padding:.55rem 1rem; border:1px solid var(--line-strong, #bfc3ba); border-radius:9px; background:#fff; color:var(--ink, #1d1d1f); font-family:var(--font, Satoshi, system-ui, sans-serif); font-weight:700; transition:background 150ms ease, border-color 150ms ease, color 150ms ease; cursor:pointer; } .ds-catalog-button-secondary:hover { background:#eceee8; } .ds-catalog-button-secondary:focus-visible { outline:2px solid var(--gold, #a97d18); outline-offset:2px; } .ds-catalog-button-secondary:active { background:#e8eae4; }"
+    },
+    {
+      "name": "Catalog Search Field",
+      "kind": "input",
+      "refersTo": "catalog-field",
+      "description": "Search-first field for boxes, tools, tags, holders, and locations.",
+      "html": "<label class=\"ds-catalog-search\"><svg aria-hidden=\"true\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m20 20-4-4\"/></svg><span>Search catalog</span><input type=\"search\" placeholder=\"Search boxes, tools, tags, or locations\"></label>",
+      "css": ".ds-catalog-search { position:relative; display:block; width:min(100%, 460px); color:var(--muted, #626660); font-family:var(--font, Satoshi, system-ui, sans-serif); } .ds-catalog-search > span { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); } .ds-catalog-search svg { position:absolute; z-index:1; left:.8rem; top:50%; width:18px; transform:translateY(-50%); } .ds-catalog-search input { width:100%; padding:.72rem .8rem .72rem 2.45rem; border:1px solid var(--line-strong, #bfc3ba); border-radius:8px; background:#fff; color:var(--ink, #1d1d1f); font:inherit; line-height:1.35; } .ds-catalog-search input:hover { border-color:#9fa59a; } .ds-catalog-search input:focus-visible { outline:2px solid var(--gold, #a97d18); outline-offset:0; border-color:var(--gold, #a97d18); }"
+    },
+    {
+      "name": "Catalog Filter",
+      "kind": "chip",
+      "refersTo": "catalog-filter",
+      "description": "Compact inventory scope selector with a filled active state.",
+      "html": "<div class=\"ds-catalog-filters\" aria-label=\"Inventory filter\"><button class=\"ds-catalog-filter ds-catalog-filter--active\">All</button><button class=\"ds-catalog-filter\">Boxes</button><button class=\"ds-catalog-filter\">Checked out</button></div>",
+      "css": ".ds-catalog-filters { display:flex; gap:.25rem; overflow-x:auto; font-family:var(--font, Satoshi, system-ui, sans-serif); } .ds-catalog-filter { padding:.45rem .7rem; border:0; border-radius:7px; background:transparent; color:var(--muted, #626660); font:inherit; font-weight:700; white-space:nowrap; transition:background 150ms ease, color 150ms ease; cursor:pointer; } .ds-catalog-filter:hover, .ds-catalog-filter--active { background:#e8eae4; color:var(--ink, #1d1d1f); } .ds-catalog-filter:focus-visible { outline:2px solid var(--gold, #a97d18); outline-offset:2px; } .ds-catalog-filter:active { background:#dcded8; }"
+    },
+    {
+      "name": "Inventory Ledger Row",
+      "kind": "custom",
+      "description": "Signature Operate-mode row exposing identity, status, location, and holder context.",
+      "html": "<button class=\"ds-inventory-row\"><span class=\"ds-inventory-name\"><span class=\"ds-inventory-type\">ITEM</span><span><strong>Locking pliers</strong><small>TOOL-014</small></span></span><span class=\"ds-inventory-status\">Available</span><span class=\"ds-inventory-cell\">Inside Box B</span><span class=\"ds-inventory-cell\">No checkout history</span><span class=\"ds-inventory-arrow\" aria-hidden=\"true\">›</span></button>",
+      "css": ".ds-inventory-row { width:100%; display:grid; grid-template-columns:minmax(220px,1.5fr) minmax(120px,.85fr) minmax(150px,1fr) minmax(140px,.8fr) 24px; gap:1rem; align-items:center; padding:1rem .7rem; border:0; border-top:1px solid var(--line, #dcded8); background:transparent; color:var(--ink, #1d1d1f); text-align:left; font-family:var(--font, Satoshi, system-ui, sans-serif); transition:background 140ms ease; cursor:pointer; } .ds-inventory-row:hover { background:#eeefe9; } .ds-inventory-row:focus-visible { outline:2px solid var(--gold, #a97d18); outline-offset:2px; } .ds-inventory-row:active { background:#e8eae4; } .ds-inventory-name { display:grid; grid-template-columns:34px 1fr; gap:.75rem; align-items:center; } .ds-inventory-name > span:last-child { display:grid; gap:.12rem; } .ds-inventory-name small { color:var(--muted, #626660); font-size:.82rem; } .ds-inventory-type { width:34px; height:34px; display:grid; place-items:center; border:1px solid var(--line-strong, #bfc3ba); border-radius:8px; color:var(--green, #172019); font-size:.72rem; font-weight:900; } .ds-inventory-status { display:inline-flex; align-items:center; gap:.45rem; font-size:.86rem; font-weight:700; } .ds-inventory-status::before { content:''; width:7px; height:7px; border-radius:50%; background:#608060; } .ds-inventory-cell { color:#414541; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .ds-inventory-arrow { color:var(--muted, #626660); font-size:1.2rem; }"
+    },
+    {
+      "name": "Catalog Top Navigation",
+      "kind": "nav",
+      "description": "Sticky 64px work bar with atom identity and gold active rule.",
+      "html": "<nav class=\"ds-catalog-nav\" aria-label=\"Catalog navigation\"><span class=\"ds-catalog-wordmark\"><svg aria-hidden=\"true\" viewBox=\"0 0 40 40\" fill=\"none\"><circle cx=\"20\" cy=\"20\" r=\"3.4\" fill=\"currentColor\"/><g stroke=\"currentColor\" stroke-width=\"1.4\"><ellipse cx=\"20\" cy=\"20\" rx=\"17.5\" ry=\"6.6\"/><ellipse cx=\"20\" cy=\"20\" rx=\"17.5\" ry=\"6.6\" transform=\"rotate(60 20 20)\"/><ellipse cx=\"20\" cy=\"20\" rx=\"17.5\" ry=\"6.6\" transform=\"rotate(120 20 20)\"/></g></svg><strong>Westview SO</strong></span><button class=\"ds-catalog-nav__item ds-catalog-nav__item--active\">Catalog</button><button class=\"ds-catalog-nav__item\">Checked out</button><button class=\"ds-catalog-nav__item\">People</button></nav>",
+      "css": ".ds-catalog-nav { height:64px; display:flex; align-items:center; gap:1.2rem; padding:0 24px; border-bottom:1px solid var(--line, #dcded8); background:rgba(247,247,244,.96); color:var(--ink, #1d1d1f); font-family:var(--font, Satoshi, system-ui, sans-serif); } .ds-catalog-wordmark { display:flex; align-items:center; gap:.65rem; margin-right:.8rem; } .ds-catalog-wordmark svg { width:30px; color:var(--green, #172019); } .ds-catalog-wordmark strong { font-size:.98rem; } .ds-catalog-nav__item { align-self:stretch; padding:.1rem .2rem 0; border:0; border-bottom:2px solid transparent; background:transparent; color:var(--muted, #626660); font:inherit; font-weight:600; cursor:pointer; } .ds-catalog-nav__item:hover, .ds-catalog-nav__item--active { color:var(--ink, #1d1d1f); border-bottom-color:var(--gold, #a97d18); } .ds-catalog-nav__item:focus-visible { outline:2px solid var(--gold, #a97d18); outline-offset:2px; } .ds-catalog-nav__item:active { background:#eceee8; }"
+    },
+    {
+      "name": "Catalog QR Panel",
+      "kind": "custom",
+      "refersTo": "catalog-qr-panel",
+      "description": "Square factual panel for identifying and printing a box or item code.",
+      "html": "<aside class=\"ds-qr-panel\"><div class=\"ds-qr-placeholder\" aria-hidden=\"true\">QR</div><h2>Scan to identify</h2><p>This code opens this exact item after login.</p><a href=\"#\">Open printable QR →</a></aside>",
+      "css": ".ds-qr-panel { width:min(100%, 300px); padding:1.25rem; border:1px solid var(--line-strong, #bfc3ba); border-radius:0; background:#fff; color:var(--ink, #1d1d1f); font-family:var(--font, Satoshi, system-ui, sans-serif); } .ds-qr-placeholder { aspect-ratio:1; display:grid; place-items:center; background:repeating-conic-gradient(#172019 0 25%, #fff 0 50%) 0 / 24px 24px; color:#fff; font-size:1.2rem; font-weight:900; text-shadow:0 1px 3px #000; } .ds-qr-panel h2 { margin:1rem 0 0; font-size:1rem; } .ds-qr-panel p { margin:.35rem 0 0; color:var(--muted, #626660); font-size:.84rem; } .ds-qr-panel a { display:inline-block; margin-top:.8rem; color:var(--gold, #a97d18); font-size:.86rem; font-weight:700; text-decoration:none; } .ds-qr-panel a:hover { text-decoration:underline; } .ds-qr-panel a:focus-visible { outline:2px solid var(--gold, #a97d18); outline-offset:2px; } .ds-qr-panel a:active { color:#7f5d10; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Wolverine Field Ledger",
+    "overview": "Westview's visual language pairs editorial confidence with scientific directness. Satoshi, near-black type, warm whites, and a rare gold accent create a recognizable identity; the atom mark is the compact signature. The public site expresses that world expansively through oversized type, team photography, dark dramatic fields, pill actions, and generous section rhythm.\n\nThe private catalog is the same identity under operational pressure. Its built thesis is that every object has a known home and a scannable identity, so it refuses dashboard theater: search and factual rows lead, rules replace decorative cards, controls become compact and gently squared, and elevation is reserved for transient or modal layers. This is an Operate-mode lab ledger, not a miniature marketing page.",
+    "keyCharacteristics": [
+      "One Satoshi voice across public and private surfaces.",
+      "Warm, near-white canvases with near-black text and restrained Westview gold.",
+      "The atom mark and gold focus treatment carry identity across modes.",
+      "Public surfaces are photographic, spacious, and expressive; catalog surfaces are flat, ruled, compact, and factual.",
+      "Responsive behavior preserves the task: columns become labeled stacked facts rather than disappearing into generic cards."
+    ],
+    "rules": [
+      { "name": "The Rare Gold Rule", "body": "Gold identifies Westview, active location, and interactive focus. It does not flood backgrounds or compete with factual status.", "section": "colors" },
+      { "name": "The Status Has Words Rule", "body": "Available, checked-out, error, and destructive states always retain a text label; hue is reinforcement.", "section": "colors" },
+      { "name": "The One Family Rule", "body": "Do not introduce a decorative display or monospace face. Satoshi's scale and weight already separate persuasion from operation.", "section": "typography" },
+      { "name": "The Identity Before Metadata Rule", "body": "Equipment name, box code, and page identity receive the strongest type; location, holder, status, and history remain compact but plainly readable.", "section": "typography" },
+      { "name": "The Ledger Before Cards Rule", "body": "Operational collections are rows divided by hairlines. Do not translate the inventory, people list, history, or fact grid into floating cards.", "section": "layout" },
+      { "name": "The Permanent Place Rule", "body": "Home, current location, holder, last holder, and QR identity remain structurally visible on detail views; responsive layouts may restack them but may not demote or hide them.", "section": "layout" },
+      { "name": "The Flat Ledger Rule", "body": "Catalog rows, fact groups, QR panels, filters, fields, and sticky navigation stay shadowless at rest.", "section": "elevation" },
+      { "name": "The Modal Boundary Rule", "body": "Elevation in the catalog means temporary context. If a surface is part of the permanent page hierarchy, separate it with tone or a rule instead.", "section": "elevation" },
+      { "name": "The Radius Follows Mode Rule", "body": "Large soft corners belong to expressive public cards; compact corners and square ruled panels belong to catalog work.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do keep Satoshi, near-black, warm white, and restrained gold as the durable cross-surface signature.",
+      "Do let photography, large type, and generous rhythm carry public persuasion.",
+      "Do let search, rules, rows, explicit labels, and familiar forms carry catalog operation.",
+      "Do preserve visible focus, reduced-motion behavior, explicit status text, and responsive fact labels.",
+      "Do use the atom mark as the compact brand signature in public navigation, catalog navigation, and authentication.",
+      "Do reserve catalog dialogs for create, edit, movement, account, and destructive confirmation tasks."
+    ],
+    "donts": [
+      "Don't import public bento cards, hover lifts, animated entrance choreography, or giant promotional copy into the catalog workspace.",
+      "Don't turn the catalog into a KPI dashboard or make add actions compete with search and inventory.",
+      "Don't use shadows on permanent catalog surfaces or round every operational container.",
+      "Don't use gold as a general background wash or replace available/checked-out wording with color alone.",
+      "Don't hide home, current location, holder, last holder, history, or QR identity to simplify a narrow layout; restack them.",
+      "Don't add a second font family or use ornamental typography to manufacture hierarchy."
+    ]
+  }
+}

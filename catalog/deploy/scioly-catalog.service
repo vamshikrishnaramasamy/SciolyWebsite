@@ -1,0 +1,23 @@
+[Unit]
+Description=Westview Science Olympiad equipment catalog
+After=network.target
+
+[Service]
+Type=simple
+User=scioly-catalog
+Group=scioly-catalog
+WorkingDirectory=/srv/scioly-catalog
+EnvironmentFile=/etc/scioly-catalog.env
+ExecStart=/usr/local/bin/node /srv/scioly-catalog/server.js
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/scioly-catalog/data
+RestrictSUIDSGID=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target
