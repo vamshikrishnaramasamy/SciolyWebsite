@@ -14,6 +14,7 @@ const state = {
   me: null,
   csrf: "",
   setupToken: "",
+  inviteToken: "",
   catalog: { boxes: [], items: [] },
   query: "",
   filter: "all",
@@ -39,6 +40,7 @@ const confirmDialog = $("#confirmDialog");
 function readSetupToken() {
   const params = new URLSearchParams(location.hash.slice(1));
   state.setupToken = params.get("setup") || "";
+  state.inviteToken = params.get("invite") || "";
   if (state.setupToken) history.replaceState({}, "", location.pathname + location.search);
 }
 
@@ -121,7 +123,7 @@ function renderImportPreview() {
   const preview = $("#importPreview");
   const users = state.importUsers;
   preview.hidden = false;
-  preview.innerHTML = `<p class="import-summary"><strong>${users.length} ${users.length === 1 ? "person" : "people"}</strong> ready to import · passwords will be generated automatically</p><div class="import-rows">${users.slice(0, 5).map((user) => `<div class="import-row"><span>${escapeHtml(user.name || "Missing name")}</span><span>${escapeHtml(user.email || "Missing email")}</span><span>${escapeHtml(user.role || "member")}</span></div>`).join("")}</div>${users.length > 5 ? `<p class="import-summary">Previewing 5 of ${users.length} rows.</p>` : ""}`;
+  preview.innerHTML = `<p class="import-summary"><strong>${users.length} ${users.length === 1 ? "person" : "people"}</strong> ready to import · setup links will be emailed automatically</p><div class="import-rows">${users.slice(0, 5).map((user) => `<div class="import-row"><span>${escapeHtml(user.name || "Missing name")}</span><span>${escapeHtml(user.email || "Missing email")}</span><span>${escapeHtml(user.role || "member")}</span></div>`).join("")}</div>${users.length > 5 ? `<p class="import-summary">Previewing 5 of ${users.length} rows.</p>` : ""}`;
 }
 
 function renderImportResult(result, single = false) {
@@ -129,9 +131,9 @@ function renderImportResult(result, single = false) {
   results.hidden = false;
   $("#importPreview").hidden = true;
   const changed = result.created + result.reactivated;
-  const credentials = result.credentials.length ? `<p class="credentials-note">Generated passwords are shown only here. Download them before closing.</p><div class="import-rows">${result.credentials.map((user) => `<div class="import-row"><span>${escapeHtml(user.name)}</span><span>${escapeHtml(user.email)}<br><strong>${escapeHtml(user.password)}</strong></span><span>${escapeHtml(user.role)}</span></div>`).join("")}</div><button class="button button--secondary" id="downloadImportedCredentials" type="button">Download credentials CSV</button>` : "";
+  const invitations = result.invited.length ? `<p class="credentials-note">Invitation emails sent from the Westview Science Olympiad account.</p><div class="import-rows">${result.invited.map((user) => `<div class="import-row"><span>${escapeHtml(user.name)}</span><span>${escapeHtml(user.email)}</span><span>${escapeHtml(user.role)}</span></div>`).join("")}</div>` : "";
   const errors = result.errors.length ? `<div class="import-rows">${result.errors.map((error) => `<div class="import-row import-row--error"><span>Row ${error.row}</span><span>${escapeHtml(error.email || "—")}</span><span>${escapeHtml(error.error)}</span></div>`).join("")}</div>` : "";
-  results.innerHTML = `${single ? `<p class="import-summary"><strong>Login created</strong></p>` : `<p class="import-summary"><strong>${changed} imported</strong> · ${result.skipped} existing ${result.skipped === 1 ? "account" : "accounts"} skipped · ${result.errors.length} ${result.errors.length === 1 ? "row needs" : "rows need"} attention</p>`}${credentials}${errors}`;
+  results.innerHTML = `${single ? `<p class="import-summary"><strong>Invitation sent</strong></p>` : `<p class="import-summary"><strong>${changed} invited</strong> · ${result.skipped} existing ${result.skipped === 1 ? "account" : "accounts"} skipped · ${result.errors.length} ${result.errors.length === 1 ? "row needs" : "rows need"} attention</p>`}${invitations}${errors}`;
   $(".file-field", importUsersDialog).hidden = true;
   $(".import-format", importUsersDialog).hidden = true;
   $("#importUsersClose").textContent = "Done";
@@ -163,6 +165,7 @@ function showAuth(setupRequired) {
   const setupAllowed = setupRequired && state.setupToken;
   $("#loginForm").hidden = setupRequired;
   $("#setupForm").hidden = !setupAllowed;
+  $("#passwordSetupForm").hidden = true;
   if (setupRequired) {
     $("#authTitle").textContent = setupAllowed ? "Set up catalog" : "Setup link required";
     $("#authCopy").textContent = setupAllowed
@@ -174,7 +177,22 @@ function showAuth(setupRequired) {
   }
 }
 
+function showPasswordSetup() {
+  app.hidden = true;
+  auth.hidden = false;
+  $("#loginForm").hidden = true;
+  $("#setupForm").hidden = true;
+  $("#passwordSetupForm").hidden = false;
+  $("#authTitle").textContent = "Set your password";
+  $("#authCopy").textContent = "Create the password you’ll use for the equipment catalog.";
+  $("#passwordSetupForm input").focus();
+}
+
 async function establishSession() {
+  if (state.inviteToken) {
+    showPasswordSetup();
+    return;
+  }
   try {
     const result = await api("/api/me");
     state.me = result.user;
@@ -432,7 +450,7 @@ async function confirmDelete(type, id, name) {
 
 async function renderUsers() {
   const { users } = await api("/api/users");
-  usersView.innerHTML = `<header class="page-head"><div><h1>People</h1><p>Accounts with access to the equipment catalog.</p></div><div class="people-actions"><button class="button button--secondary" id="importUsersButton">Import CSV</button><button class="button button--primary" id="addUserButton">Add person</button></div></header><div class="people">${users.map((user) => `<div class="person"><div><strong>${escapeHtml(user.name)}</strong><small>${escapeHtml(user.email)}</small></div><div><small>Last login</small>${escapeHtml(formatDate(user.last_login_at))}</div><span class="person__role">${escapeHtml(user.role)}</span>${user.id === state.me.id ? `<span></span>` : `<button class="icon-button" data-delete-type="user" data-id="${user.id}" data-name="${escapeHtml(user.name)}" aria-label="Delete ${escapeHtml(user.name)}">×</button>`}</div>`).join("")}</div>`;
+  usersView.innerHTML = `<header class="page-head"><div><h1>People</h1><p>Accounts with access to the equipment catalog.</p></div><div class="people-actions"><button class="button button--secondary" id="importUsersButton">Import CSV</button><button class="button button--primary" id="addUserButton">Add person</button></div></header><div class="people">${users.map((user) => `<div class="person"><div><strong>${escapeHtml(user.name)}</strong><small>${escapeHtml(user.email)}</small></div><div><small>${user.password_set_at ? "Last login" : "Account status"}</small>${user.password_set_at ? escapeHtml(formatDate(user.last_login_at)) : "Invitation pending"}</div><span class="person__role">${escapeHtml(user.role)}</span>${user.id === state.me.id ? `<span></span>` : `<span class="person__actions">${!user.password_set_at ? `<button class="button button--quiet" data-resend-user="${user.id}">Resend invite</button>` : ""}<button class="icon-button" data-delete-type="user" data-id="${user.id}" data-name="${escapeHtml(user.name)}" aria-label="Delete ${escapeHtml(user.name)}">×</button></span>`}</div>`).join("")}</div>`;
 }
 
 document.addEventListener("click", async (event) => {
@@ -464,7 +482,12 @@ document.addEventListener("click", async (event) => {
   if (event.target.closest("#addUserButton")) { $("#userForm").reset(); $("#userError").textContent = ""; userDialog.showModal(); }
   if (event.target.closest("#importUsersButton")) openUserImport();
   if (event.target.closest("#downloadUserTemplate")) downloadCsv("catalog-users-template.csv", [["name", "email", "role"], ["Alex Rivera", "alex@example.com", "member"]]);
-  if (event.target.closest("#downloadImportedCredentials") && state.importResult) downloadCsv("catalog-user-credentials.csv", [["name", "email", "temporary_password", "role"], ...state.importResult.credentials.map((user) => [user.name, user.email, user.password, user.role])]);
+  const resend = event.target.closest("[data-resend-user]");
+  if (resend) {
+    resend.disabled = true;
+    try { await api(`/api/users/${resend.dataset.resendUser}/invite`, { method: "POST" }); await renderUsers(); toast("Invitation resent"); }
+    catch (error) { toast(error.message); resend.disabled = false; }
+  }
 });
 
 $("#catalogSearch").addEventListener("input", (event) => { state.query = event.target.value; renderCatalog(); });
@@ -489,6 +512,22 @@ $("#setupForm").addEventListener("submit", async (event) => {
   } catch (error) { $("#setupError").textContent = error.message; }
 });
 
+$("#passwordSetupForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  $("#passwordSetupError").textContent = "";
+  const body = Object.fromEntries(new FormData(event.currentTarget));
+  body.token = state.inviteToken;
+  try {
+    await api("/api/set-password", { method: "POST", body });
+    state.inviteToken = "";
+    history.replaceState({}, "", "/");
+    event.currentTarget.reset();
+    showAuth(false);
+    $("#authTitle").textContent = "Password set";
+    $("#authCopy").textContent = "Sign in with your new password.";
+  } catch (error) { $("#passwordSetupError").textContent = error.message; }
+});
+
 $("#logoutButton").addEventListener("click", async () => {
   await api("/api/logout", { method: "POST" });
   state.me = null; state.csrf = ""; showAuth(false);
@@ -511,11 +550,11 @@ $("#userForm").addEventListener("submit", async (event) => {
     state.importResult = await api("/api/users", { method: "POST", body: Object.fromEntries(new FormData(event.currentTarget)) });
     userDialog.close();
     $("#importUsersForm").reset();
-    $("#importUsersTitle").textContent = "Login created";
-    $("#importUsersCopy").textContent = "Save the generated credentials before closing.";
+    $("#importUsersTitle").textContent = "Invitation sent";
+    $("#importUsersCopy").textContent = "The student can now set their password from the email link.";
     renderImportResult(state.importResult, true);
     importUsersDialog.showModal();
-    await renderUsers(); toast("Login created");
+    await renderUsers(); toast("Invitation sent");
   } catch (error) { $("#userError").textContent = error.message; }
 });
 
@@ -545,7 +584,7 @@ $("#importUsersForm").addEventListener("submit", async (event) => {
     state.importResult = await api("/api/users/import", { method: "POST", body: { users: state.importUsers } });
     renderImportResult(state.importResult);
     await renderUsers();
-    toast(`${state.importResult.created + state.importResult.reactivated} people imported`);
+    toast(`${state.importResult.created + state.importResult.reactivated} invitations sent`);
     submit.textContent = "Import complete";
   } catch (error) {
     $("#importUsersError").textContent = error.message;

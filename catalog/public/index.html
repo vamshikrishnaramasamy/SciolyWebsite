@@ -7,7 +7,7 @@
   <title>Westview Science Olympiad Catalog</title>
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700,900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/catalog.css?v=2" />
+  <link rel="stylesheet" href="/catalog.css?v=3" />
 </head>
 <body>
   <!--
@@ -41,6 +41,13 @@
         <p class="form-hint">Use at least 12 characters. This becomes the first administrator account.</p>
         <p class="form-error" id="setupError" role="alert"></p>
         <button class="button button--primary" type="submit">Create catalog administrator</button>
+      </form>
+      <form id="passwordSetupForm" class="form-stack" hidden>
+        <label>New password<input name="password" type="password" minlength="12" autocomplete="new-password" required /></label>
+        <label>Confirm password<input name="password_confirmation" type="password" minlength="12" autocomplete="new-password" required /></label>
+        <p class="form-hint">Use at least 12 characters. This invitation can be used once.</p>
+        <p class="form-error" id="passwordSetupError" role="alert"></p>
+        <button class="button button--primary" type="submit">Set password</button>
       </form>
     </div>
   </section>
@@ -131,14 +138,14 @@
 
   <dialog id="userDialog" class="dialog dialog--small">
     <form id="userForm" method="dialog">
-      <header><div><h2>Add person</h2><p>Create a login for a team member. A password is generated automatically.</p></div><button class="icon-button" type="button" data-close-dialog aria-label="Close">×</button></header>
+      <header><div><h2>Add person</h2><p>We’ll email this person a secure link to set their password.</p></div><button class="icon-button" type="button" data-close-dialog aria-label="Close">×</button></header>
       <div class="form-stack">
         <label>Name<input name="name" required /></label>
         <label>Email<input name="email" type="email" required /></label>
         <label>Role<select name="role"><option value="member">Member</option><option value="admin">Administrator</option></select></label>
       </div>
       <p class="form-error" id="userError" role="alert"></p>
-      <footer><button class="button button--quiet" type="button" data-close-dialog>Cancel</button><button class="button button--primary" value="default">Create login</button></footer>
+      <footer><button class="button button--quiet" type="button" data-close-dialog>Cancel</button><button class="button button--primary" value="default">Send invitation</button></footer>
     </form>
   </dialog>
 
@@ -147,7 +154,7 @@
       <header><div><h2 id="importUsersTitle">Import people</h2><p id="importUsersCopy">Add up to 50 catalog accounts from a CSV file.</p></div><button class="icon-button" type="button" data-close-dialog aria-label="Close">×</button></header>
       <div class="import-body">
         <label class="file-field">CSV file<input id="userCsvFile" name="csv" type="file" accept=".csv,text/csv" required /></label>
-        <div class="import-format"><p><strong>Required columns:</strong> name, email</p><p><strong>Optional column:</strong> role</p><p>Role defaults to member. Passwords are generated automatically and shown once after import.</p><button class="text-button" id="downloadUserTemplate" type="button">Download CSV template</button></div>
+        <div class="import-format"><p><strong>Required columns:</strong> name, email</p><p><strong>Optional column:</strong> role</p><p>Role defaults to member. Each person receives an email with a 48-hour password setup link.</p><button class="text-button" id="downloadUserTemplate" type="button">Download CSV template</button></div>
         <div class="import-preview" id="importPreview" hidden></div>
         <div class="import-results" id="importResults" hidden></div>
         <p class="form-error" id="importUsersError" role="alert"></p>
@@ -161,6 +168,6 @@
   </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="/catalog.js?v=5"></script>
+  <script type="module" src="/catalog.js?v=6"></script>
 </body>
 </html>

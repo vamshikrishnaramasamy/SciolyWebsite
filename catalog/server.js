@@ -8,6 +8,7 @@ import helmet from "@fastify/helmet";
 import rateLimit from "@fastify/rate-limit";
 import fastifyStatic from "@fastify/static";
 import bcrypt from "bcryptjs";
+import nodemailer from "nodemailer";
 import QRCode from "qrcode";
 import initSqlJs from "sql.js";
 
@@ -18,8 +19,27 @@ const config = {
   publicUrl: (process.env.PUBLIC_URL || "http://127.0.0.1:3010").replace(/\/$/, ""),
   dataDir: process.env.DATA_DIR || join(rootDir, "data"),
   setupToken: process.env.SETUP_TOKEN || "",
-  secureCookie: process.env.COOKIE_SECURE === "true" || (process.env.PUBLIC_URL || "").startsWith("https://")
+  secureCookie: process.env.COOKIE_SECURE === "true" || (process.env.PUBLIC_URL || "").startsWith("https://"),
+  mailTransport: process.env.MAIL_TRANSPORT || "smtp",
+  smtpUser: cleanEnv(process.env.SMTP_USER),
+  smtpPass: process.env.SMTP_PASS || "",
+  mailFrom: cleanEnv(process.env.MAIL_FROM || process.env.SMTP_USER),
+  testMode: process.env.NODE_ENV === "test"
 };
+
+function cleanEnv(value) {
+  return String(value || "").trim();
+}
+
+if (config.mailFrom && config.smtpUser && config.mailFrom.toLowerCase() !== config.smtpUser.toLowerCase()) {
+  throw new Error("MAIL_FROM must match SMTP_USER so invitations come from the authorized account");
+}
+
+const mailer = config.mailTransport === "json"
+  ? nodemailer.createTransport({ jsonTransport: true })
+  : config.smtpUser && config.smtpPass
+    ? nodemailer.createTransport({ service: "gmail", auth: { user: config.smtpUser, pass: config.smtpPass } })
+    : null;
 
 mkdirSync(config.dataDir, { recursive: true });
 const databasePath = join(config.dataDir, "catalog.db");
@@ -94,6 +114,13 @@ db.exec(`
     expires_at TEXT NOT NULL
   );
 
+  CREATE TABLE IF NOT EXISTS password_setup_tokens (
+    token_hash TEXT PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    expires_at TEXT NOT NULL
+  );
+
   CREATE TABLE IF NOT EXISTS boxes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     public_id TEXT NOT NULL UNIQUE,
@@ -147,11 +174,16 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_items_box ON items(box_id);
   CREATE INDEX IF NOT EXISTS idx_movements_entity ON movements(entity_type, entity_id, created_at DESC);
   CREATE INDEX IF NOT EXISTS idx_sessions_expiry ON sessions(expires_at);
+  CREATE INDEX IF NOT EXISTS idx_password_setup_user ON password_setup_tokens(user_id);
 `);
 
 const userColumns = db.prepare("PRAGMA table_info(users)").all();
 if (!userColumns.some((column) => column.name === "disabled_at")) {
   db.exec("ALTER TABLE users ADD COLUMN disabled_at TEXT");
+}
+if (!userColumns.some((column) => column.name === "password_set_at")) {
+  db.exec("ALTER TABLE users ADD COLUMN password_set_at TEXT");
+  db.exec("UPDATE users SET password_set_at = COALESCE(last_login_at, created_at)");
 }
 
 const app = Fastify({ logger: true, trustProxy: true, bodyLimit: 1_000_000 });
@@ -176,12 +208,38 @@ const clean = (value, max = 500) => String(value ?? "").trim().slice(0, max);
 const validEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 const tokenHash = (token) => createHash("sha256").update(token).digest("hex");
 const publicId = (prefix) => `${prefix}_${randomBytes(8).toString("base64url")}`;
-const temporaryPassword = () => randomBytes(12).toString("base64url");
 const safeEqual = (a, b) => {
   const left = Buffer.from(String(a));
   const right = Buffer.from(String(b));
   return left.length === right.length && timingSafeEqual(left, right);
 };
+
+async function sendPasswordSetup(user) {
+  if (!mailer || !config.mailFrom) throw new Error("Email invitations are not configured");
+  const token = randomBytes(32).toString("base64url");
+  const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
+  const setupUrl = `${config.publicUrl}/set-password#invite=${encodeURIComponent(token)}`;
+  db.prepare("DELETE FROM password_setup_tokens WHERE user_id = ? OR expires_at <= ?").run(user.id, nowIso());
+  db.prepare("INSERT INTO password_setup_tokens (token_hash,user_id,expires_at) VALUES (?,?,?)")
+    .run(tokenHash(token), user.id, expiresAt);
+  try {
+    await mailer.sendMail({
+      from: `Westview Science Olympiad <${config.mailFrom}>`,
+      to: user.email,
+      subject: "Set up your Westview Science Olympiad catalog password",
+      text: `Hi ${user.name},\n\nYou have been invited to the Westview Science Olympiad equipment catalog. Set your password within 48 hours:\n\n${setupUrl}\n\nIf you were not expecting this invitation, you can ignore this email.\n\nWestview Science Olympiad`,
+      html: `<p>Hi ${escapeEmailHtml(user.name)},</p><p>You have been invited to the Westview Science Olympiad equipment catalog.</p><p><a href="${setupUrl}">Set your password</a></p><p>This link expires in 48 hours and can be used once. If you were not expecting this invitation, you can ignore this email.</p><p>Westview Science Olympiad</p>`
+    });
+  } catch (error) {
+    db.prepare("DELETE FROM password_setup_tokens WHERE token_hash = ?").run(tokenHash(token));
+    throw error;
+  }
+  return config.testMode ? setupUrl : null;
+}
+
+function escapeEmailHtml(value) {
+  return String(value).replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
+}
 
 function sessionFor(request) {
   const token = request.cookies[SESSION_COOKIE];
@@ -296,6 +354,29 @@ app.post("/api/login", { config: { rateLimit: { max: 10, timeWindow: "15 minutes
   }
   db.prepare("UPDATE users SET last_login_at = ? WHERE id = ?").run(nowIso(), user.id);
   setSession(reply, user.id);
+  return { ok: true };
+});
+
+app.post("/api/set-password", { config: { rateLimit: { max: 10, timeWindow: "15 minutes" } } }, async (request, reply) => {
+  const token = String(request.body?.token || "");
+  const password = String(request.body?.password || "");
+  const confirmation = String(request.body?.password_confirmation || "");
+  if (password.length < 12) return reply.code(400).send({ error: "Use at least 12 characters" });
+  if (password !== confirmation) return reply.code(400).send({ error: "Passwords do not match" });
+  const invitation = token.length >= 32 ? db.prepare(`
+    SELECT p.token_hash,p.expires_at,u.id AS user_id
+    FROM password_setup_tokens p JOIN users u ON u.id = p.user_id
+    WHERE p.token_hash = ? AND u.disabled_at IS NULL
+  `).get(tokenHash(token)) : null;
+  if (!invitation || invitation.expires_at <= nowIso()) {
+    if (invitation) db.prepare("DELETE FROM password_setup_tokens WHERE token_hash = ?").run(invitation.token_hash);
+    return reply.code(410).send({ error: "This setup link is invalid or expired. Ask an administrator for a new invitation." });
+  }
+  const hash = await bcrypt.hash(password, 12);
+  db.prepare("UPDATE users SET password_hash=?,password_set_at=?,last_login_at=NULL WHERE id=?")
+    .run(hash, nowIso(), invitation.user_id);
+  db.prepare("DELETE FROM password_setup_tokens WHERE user_id = ?").run(invitation.user_id);
+  db.prepare("DELETE FROM sessions WHERE user_id = ?").run(invitation.user_id);
   return { ok: true };
 });
 
@@ -500,30 +581,50 @@ app.post("/api/move", async (request, reply) => {
 
 app.get("/api/users", async (request, reply) => {
   if (!requireUser(request, reply, { admin: true })) return;
-  return { users: db.prepare("SELECT id,email,name,role,created_at,last_login_at FROM users WHERE disabled_at IS NULL ORDER BY name COLLATE NOCASE").all() };
+  return { users: db.prepare(`
+    SELECT u.id,u.email,u.name,u.role,u.created_at,u.last_login_at,u.password_set_at,
+           p.expires_at AS invite_expires_at
+    FROM users u LEFT JOIN password_setup_tokens p ON p.user_id = u.id
+    WHERE u.disabled_at IS NULL ORDER BY u.name COLLATE NOCASE
+  `).all() };
 });
 
 app.post("/api/users", async (request, reply) => {
   const session = requireUser(request, reply, { csrf: true, admin: true });
   if (!session) return;
+  if (!mailer) return reply.code(503).send({ error: "Email invitations are not configured" });
   const email = clean(request.body?.email, 254).toLowerCase();
   const name = clean(request.body?.name, 120);
-  const password = temporaryPassword();
   const role = request.body?.role === "admin" ? "admin" : "member";
   if (!validEmail(email) || !name) {
     return reply.code(400).send({ error: "Name and valid email required" });
   }
   try {
-    const hash = await bcrypt.hash(password, 12);
-    const existing = db.prepare("SELECT id,disabled_at FROM users WHERE email = ?").get(email);
+    const hash = await bcrypt.hash(randomBytes(32).toString("base64url"), 12);
+    const existing = db.prepare("SELECT * FROM users WHERE email = ?").get(email);
     const reactivated = Boolean(existing?.disabled_at);
+    let userId;
     if (existing?.disabled_at) {
-      db.prepare("UPDATE users SET name=?,password_hash=?,role=?,disabled_at=NULL,last_login_at=NULL WHERE id=?")
+      db.prepare("UPDATE users SET name=?,password_hash=?,password_set_at=NULL,role=?,disabled_at=NULL,last_login_at=NULL WHERE id=?")
         .run(name, hash, role, existing.id);
+      userId = existing.id;
     } else {
-      db.prepare("INSERT INTO users (email,name,password_hash,role) VALUES (?,?,?,?)").run(email, name, hash, role);
+      const created = db.prepare("INSERT INTO users (email,name,password_hash,password_set_at,role) VALUES (?,?,?,NULL,?)").run(email, name, hash, role);
+      userId = created.lastInsertRowid;
     }
-    return reply.code(201).send({ created: reactivated ? 0 : 1, reactivated: reactivated ? 1 : 0, skipped: 0, errors: [], credentials: [{ name, email, password, role }] });
+    let testSetupUrl;
+    try {
+      testSetupUrl = await sendPasswordSetup({ id: userId, email, name });
+    } catch (error) {
+      if (reactivated) {
+        db.prepare("UPDATE users SET name=?,password_hash=?,password_set_at=?,role=?,disabled_at=?,last_login_at=? WHERE id=?")
+          .run(existing.name, existing.password_hash, existing.password_set_at, existing.role, existing.disabled_at, existing.last_login_at, existing.id);
+      } else {
+        db.prepare("DELETE FROM users WHERE id = ?").run(userId);
+      }
+      return reply.code(502).send({ error: "Invitation email could not be sent" });
+    }
+    return reply.code(201).send({ created: reactivated ? 0 : 1, reactivated: reactivated ? 1 : 0, skipped: 0, errors: [], invited: [{ name, email, role, ...(testSetupUrl ? { test_setup_url: testSetupUrl } : {}) }] });
   } catch (error) {
     if (String(error).includes("UNIQUE")) return reply.code(409).send({ error: "A user with that email already exists" });
     throw error;
@@ -533,6 +634,7 @@ app.post("/api/users", async (request, reply) => {
 app.post("/api/users/import", async (request, reply) => {
   const session = requireUser(request, reply, { csrf: true, admin: true });
   if (!session) return;
+  if (!mailer) return reply.code(503).send({ error: "Email invitations are not configured" });
   const rows = request.body?.users;
   if (!Array.isArray(rows) || rows.length === 0) {
     return reply.code(400).send({ error: "Choose a CSV containing at least one user" });
@@ -541,7 +643,7 @@ app.post("/api/users/import", async (request, reply) => {
     return reply.code(400).send({ error: "Import up to 50 users at a time" });
   }
 
-  const result = { created: 0, reactivated: 0, skipped: 0, errors: [], credentials: [] };
+  const result = { created: 0, reactivated: 0, skipped: 0, errors: [], invited: [] };
   const seen = new Set();
   for (let index = 0; index < rows.length; index += 1) {
     const source = rows[index] || {};
@@ -566,25 +668,56 @@ app.post("/api/users/import", async (request, reply) => {
       result.errors.push({ row: rowNumber, email, error: "Role must be member or admin" });
       continue;
     }
-    const existing = db.prepare("SELECT id,disabled_at FROM users WHERE email = ?").get(email);
+    const existing = db.prepare("SELECT * FROM users WHERE email = ?").get(email);
     if (existing && !existing.disabled_at) {
       result.skipped += 1;
       continue;
     }
-    const password = temporaryPassword();
-    const hash = await bcrypt.hash(password, 12);
+    const hash = await bcrypt.hash(randomBytes(32).toString("base64url"), 12);
+    let userId;
     if (existing?.disabled_at) {
-      db.prepare("UPDATE users SET name=?,password_hash=?,role=?,disabled_at=NULL,last_login_at=NULL WHERE id=?")
+      db.prepare("UPDATE users SET name=?,password_hash=?,password_set_at=NULL,role=?,disabled_at=NULL,last_login_at=NULL WHERE id=?")
         .run(name, hash, roleValue, existing.id);
-      result.reactivated += 1;
+      userId = existing.id;
     } else {
-      db.prepare("INSERT INTO users (email,name,password_hash,role) VALUES (?,?,?,?)")
-        .run(email, name, hash, roleValue);
-      result.created += 1;
+      userId = db.prepare("INSERT INTO users (email,name,password_hash,password_set_at,role) VALUES (?,?,?,NULL,?)")
+        .run(email, name, hash, roleValue).lastInsertRowid;
     }
-    result.credentials.push({ name, email, password, role: roleValue });
+    try {
+      const testSetupUrl = await sendPasswordSetup({ id: userId, email, name });
+      if (existing?.disabled_at) result.reactivated += 1;
+      else result.created += 1;
+      result.invited.push({ name, email, role: roleValue, ...(testSetupUrl ? { test_setup_url: testSetupUrl } : {}) });
+    } catch {
+      if (existing?.disabled_at) {
+        db.prepare("UPDATE users SET name=?,password_hash=?,password_set_at=?,role=?,disabled_at=?,last_login_at=? WHERE id=?")
+          .run(existing.name, existing.password_hash, existing.password_set_at, existing.role, existing.disabled_at, existing.last_login_at, existing.id);
+      } else {
+        db.prepare("DELETE FROM users WHERE id = ?").run(userId);
+      }
+      result.errors.push({ row: rowNumber, email, error: "Invitation email could not be sent" });
+    }
   }
   return result;
+});
+
+app.post("/api/users/:id/invite", async (request, reply) => {
+  const session = requireUser(request, reply, { csrf: true, admin: true });
+  if (!session) return;
+  if (!mailer) return reply.code(503).send({ error: "Email invitations are not configured" });
+  const user = db.prepare("SELECT * FROM users WHERE id = ? AND disabled_at IS NULL").get(Number(request.params.id));
+  if (!user) return reply.code(404).send({ error: "User not found" });
+  const hash = await bcrypt.hash(randomBytes(32).toString("base64url"), 12);
+  db.prepare("UPDATE users SET password_hash=?,password_set_at=NULL,last_login_at=NULL WHERE id=?").run(hash, user.id);
+  try {
+    const testSetupUrl = await sendPasswordSetup(user);
+    db.prepare("DELETE FROM sessions WHERE user_id = ?").run(user.id);
+    return { ok: true, ...(testSetupUrl ? { test_setup_url: testSetupUrl } : {}) };
+  } catch {
+    db.prepare("UPDATE users SET password_hash=?,password_set_at=?,last_login_at=? WHERE id=?")
+      .run(user.password_hash, user.password_set_at, user.last_login_at, user.id);
+    return reply.code(502).send({ error: "Invitation email could not be sent" });
+  }
 });
 
 app.delete("/api/users/:id", async (request, reply) => {

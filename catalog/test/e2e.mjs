@@ -10,7 +10,7 @@ const dataDir = await mkdtemp(join(tmpdir(), "scioly-catalog-test-"));
 const setupToken = "test-setup-token";
 const server = spawn(process.execPath, ["server.js"], {
   cwd: new URL("..", import.meta.url),
-  env: { ...process.env, PORT: String(port), PUBLIC_URL: base, DATA_DIR: dataDir, SETUP_TOKEN: setupToken, COOKIE_SECURE: "false" },
+  env: { ...process.env, NODE_ENV: "test", PORT: String(port), PUBLIC_URL: base, DATA_DIR: dataDir, SETUP_TOKEN: setupToken, COOKIE_SECURE: "false", MAIL_TRANSPORT: "json", SMTP_USER: "westviewso.ss@gmail.com", MAIL_FROM: "westviewso.ss@gmail.com" },
   stdio: ["ignore", "pipe", "pipe"]
 });
 
@@ -91,8 +91,13 @@ try {
 
   await admin.request("/api/move", { method: "POST", body: { entity_type: "box", id: boxId, action: "returned", location: "" } });
   const createdMember = (await admin.request("/api/users", { method: "POST", body: { email: "member@example.com", name: "Member", password: "admin-cannot-choose-this", role: "member" } })).payload;
-  const memberPassword = createdMember.credentials[0].password;
-  assert.notEqual(memberPassword, "admin-cannot-choose-this");
+  assert.equal(createdMember.invited[0].email, "member@example.com");
+  const memberInviteToken = new URL(createdMember.invited[0].test_setup_url).hash.slice("#invite=".length);
+  const memberPassword = "member-chosen-password";
+  const invitedMember = client();
+  await assert.rejects(invitedMember.request("/api/login", { method: "POST", body: { email: "member@example.com", password: "admin-cannot-choose-this" } }), /401/);
+  await invitedMember.request("/api/set-password", { method: "POST", body: { token: memberInviteToken, password: memberPassword, password_confirmation: memberPassword } });
+  await assert.rejects(invitedMember.request("/api/set-password", { method: "POST", body: { token: memberInviteToken, password: memberPassword, password_confirmation: memberPassword } }), /410/);
   const users = (await admin.request("/api/users")).payload.users;
   const memberUser = users.find((user) => user.email === "member@example.com");
 
@@ -108,12 +113,14 @@ try {
   assert.equal(imported.created, 2);
   assert.equal(imported.skipped, 1);
   assert.equal(imported.errors.length, 1);
-  const generatedCredential = imported.credentials.find((user) => user.email === "generated@example.com");
-  assert.ok(generatedCredential.password.length >= 12);
-  assert.notEqual(imported.credentials.find((user) => user.email === "imported-admin@example.com").password, "imported-password-123");
+  const generatedInvitation = imported.invited.find((user) => user.email === "generated@example.com");
+  assert.ok(generatedInvitation.test_setup_url.includes("#invite="));
+  await assert.rejects(client().request("/api/login", { method: "POST", body: { email: "imported-admin@example.com", password: "imported-password-123" } }), /401/);
 
   const generatedUser = client();
-  await generatedUser.request("/api/login", { method: "POST", body: { email: "generated@example.com", password: generatedCredential.password } });
+  const generatedPassword = "generated-user-password";
+  await generatedUser.request("/api/set-password", { method: "POST", body: { token: new URL(generatedInvitation.test_setup_url).hash.slice("#invite=".length), password: generatedPassword, password_confirmation: generatedPassword } });
+  await generatedUser.request("/api/login", { method: "POST", body: { email: "generated@example.com", password: generatedPassword } });
   assert.equal((await generatedUser.request("/api/me")).payload.user.role, "member");
 
   const member = client();
