@@ -57,6 +57,12 @@ function client() {
 
 try {
   await waitForServer();
+  const checkedOutPage = (await client().request("/checked-out")).payload;
+  assert.match(checkedOutPage, /data-route="\/checked-out"/);
+  assert.match(checkedOutPage, /catalog\.js\?v=8/);
+  const catalogScript = (await client().request("/catalog.js?v=8")).payload;
+  assert.match(catalogScript, /path === "\/checked-out"/);
+
   const admin = client();
   await admin.request("/api/setup", {
     method: "POST",

@@ -62,7 +62,7 @@
       </button>
       <nav class="topbar__nav" aria-label="Catalog navigation">
         <button data-route="/">Catalog</button>
-        <button data-filter-route="checked_out">Checked out</button>
+        <button data-route="/checked-out">Checked out</button>
         <button data-route="/users" id="usersNav" hidden>People</button>
       </nav>
       <div class="topbar__account">
@@ -74,8 +74,8 @@
     <main class="workspace" id="workspace" tabindex="-1">
       <section id="catalogView">
         <header class="page-head">
-          <div><h1>Catalog</h1><p id="catalogSummary">Loading inventory…</p></div>
-          <div class="page-head__actions">
+          <div><h1 id="catalogTitle">Catalog</h1><p id="catalogSummary">Loading inventory…</p></div>
+          <div class="page-head__actions" id="catalogActions">
             <button class="button button--secondary" data-add="box">Add box</button>
             <button class="button button--primary" data-add="item">Add item</button>
           </div>
@@ -90,7 +90,7 @@
             <button data-filter="all" class="is-active">All</button>
             <button data-filter="boxes">Boxes</button>
             <button data-filter="items">Items</button>
-            <button data-filter="checked_out">Checked out</button>
+            <button data-route="/checked-out">Checked out</button>
           </div>
         </div>
         <div class="inventory" id="inventory" aria-live="polite"></div>
@@ -168,6 +168,6 @@
   </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="/catalog.js?v=7"></script>
+  <script type="module" src="/catalog.js?v=8"></script>
 </body>
 </html>

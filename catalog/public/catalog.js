@@ -237,9 +237,15 @@ async function renderRoute() {
       usersView.hidden = false;
       $("#usersNav").classList.add("is-active");
       await renderUsers();
+    } else if (path === "/checked-out") {
+      catalogView.hidden = false;
+      state.filter = "checked_out";
+      $("[data-route='/checked-out']", $(".topbar__nav")).classList.add("is-active");
+      renderCatalog();
     } else {
       if (path !== "/") history.replaceState({}, "", "/");
       catalogView.hidden = false;
+      if (state.filter === "checked_out") state.filter = "all";
       $("[data-route='/']", $(".topbar__nav")).classList.add("is-active");
       renderCatalog();
     }
@@ -273,14 +279,23 @@ function catalogRows() {
 }
 
 function renderCatalog() {
+  const checkedOutPage = location.pathname === "/checked-out";
   const rows = catalogRows();
   const boxCount = state.catalog.boxes.length;
   const itemCount = state.catalog.items.length;
   const outCount = [...state.catalog.boxes, ...state.catalog.items].filter((entry) => (entry.resolved_status || entry.status) === "checked_out").length;
-  $("#catalogSummary").textContent = `${boxCount} ${boxCount === 1 ? "box" : "boxes"} · ${itemCount} ${itemCount === 1 ? "item" : "items"} · ${outCount} checked out`;
+  $("#catalogTitle").textContent = checkedOutPage ? "Checked out" : "Catalog";
+  $("#catalogActions").hidden = checkedOutPage;
+  $(".filters", catalogView).hidden = checkedOutPage;
+  $("#catalogSearch").placeholder = checkedOutPage ? "Search checked-out equipment" : "Search boxes, tools, tags, or locations";
+  $("#catalogSummary").textContent = checkedOutPage
+    ? `${outCount} ${outCount === 1 ? "piece of equipment is" : "pieces of equipment are"} currently checked out`
+    : `${boxCount} ${boxCount === 1 ? "box" : "boxes"} · ${itemCount} ${itemCount === 1 ? "item" : "items"} · ${outCount} checked out`;
   $$("[data-filter]").forEach((button) => button.classList.toggle("is-active", button.dataset.filter === state.filter));
   if (!rows.length) {
-    $("#inventory").innerHTML = `<div class="empty"><strong>${state.query ? "Nothing matches that search" : "Catalog is empty"}</strong>${state.query ? "Try another name, tag, box, or location." : "Add a box or item to start tracking A101 equipment."}</div>`;
+    const title = state.query ? "Nothing matches that search" : checkedOutPage ? "Nothing is checked out" : "Catalog is empty";
+    const copy = state.query ? "Try another name, tag, box, or location." : checkedOutPage ? "Equipment currently away from A101 will appear here." : "Add a box or item to start tracking A101 equipment.";
+    $("#inventory").innerHTML = `<div class="empty"><strong>${title}</strong>${copy}</div>`;
     return;
   }
   $("#inventory").innerHTML = `
@@ -461,8 +476,6 @@ document.addEventListener("click", async (event) => {
   }
   const route = event.target.closest("[data-route]");
   if (route) { event.preventDefault(); navigate(route.dataset.route); return; }
-  const filterRoute = event.target.closest("[data-filter-route]");
-  if (filterRoute) { state.filter = filterRoute.dataset.filterRoute; navigate("/"); renderCatalog(); return; }
   const filter = event.target.closest("[data-filter]");
   if (filter) { state.filter = filter.dataset.filter; renderCatalog(); return; }
   const open = event.target.closest("[data-open-type]");
