@@ -514,14 +514,15 @@ $("#setupForm").addEventListener("submit", async (event) => {
 
 $("#passwordSetupForm").addEventListener("submit", async (event) => {
   event.preventDefault();
+  const form = event.currentTarget;
   $("#passwordSetupError").textContent = "";
-  const body = Object.fromEntries(new FormData(event.currentTarget));
+  const body = Object.fromEntries(new FormData(form));
   body.token = state.inviteToken;
   try {
     await api("/api/set-password", { method: "POST", body });
     state.inviteToken = "";
     history.replaceState({}, "", "/");
-    event.currentTarget.reset();
+    form.reset();
     showAuth(false);
     $("#authTitle").textContent = "Password set";
     $("#authCopy").textContent = "Sign in with your new password.";
