@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=13" />
-  <link rel="stylesheet" href="preview.css?v=10" />
+  <link rel="stylesheet" href="preview.css?v=11" />
 </head>
 <body class="preview-site">
   <div class="progress" id="progress" aria-hidden="true"></div>
@@ -48,10 +48,39 @@
   </header>
 
   <main id="main">
-    <section class="notice notice--fundraiser" aria-label="Fundraiser announcement">
-      <div class="container notice__inner">
-        <p><strong>BOBAPOP fundraiser</strong><span>Friday, September 4 · after school–8:00 PM · Rancho Peñasquitos</span></p>
-        <a href="https://www.google.com/maps/dir/?api=1&amp;destination=BOBAPOP%20Rancho%20Penasquitos" target="_blank" rel="noopener">Get directions <span aria-hidden="true">→</span></a>
+    <section class="fundraiser-feature" aria-labelledby="fundraiser-heading">
+      <div class="container fundraiser-feature__layout">
+        <div class="fundraiser-feature__copy">
+          <h2 id="fundraiser-heading"><span>BOBA</span><span>POP.</span></h2>
+          <p>Westview Science Olympiad fundraiser at BOBAPOP Rancho Peñasquitos.</p>
+          <dl class="fundraiser-feature__details">
+            <div>
+              <dt>When</dt>
+              <dd>Friday, September 4<br />After school–8:00 PM</dd>
+            </div>
+            <div>
+              <dt>Where</dt>
+              <dd>BOBAPOP<br />Rancho Peñasquitos</dd>
+            </div>
+          </dl>
+          <a href="https://www.google.com/maps/dir/?api=1&amp;destination=BOBAPOP%20Rancho%20Penasquitos" class="btn btn--dark" target="_blank" rel="noopener">Get directions</a>
+        </div>
+        <div class="fundraiser-feature__art" aria-hidden="true">
+          <svg viewBox="0 0 520 520" role="presentation">
+            <path class="fundraiser-cup__straw" d="M333 40 301 168" />
+            <path class="fundraiser-cup__lid" d="M112 160h296" />
+            <path class="fundraiser-cup__body" d="M137 178h246l-38 282H175z" />
+            <path class="fundraiser-cup__tea" d="M162 260h196l-24 179H186z" />
+            <g class="fundraiser-cup__boba">
+              <circle cx="211" cy="383" r="18" />
+              <circle cx="259" cy="407" r="18" />
+              <circle cx="311" cy="377" r="18" />
+              <circle cx="231" cy="345" r="18" />
+              <circle cx="291" cy="337" r="18" />
+            </g>
+          </svg>
+          <p>SEP 04 <span>AFTER SCHOOL—8 PM</span></p>
+        </div>
       </div>
     </section>
 
