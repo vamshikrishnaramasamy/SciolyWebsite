@@ -81,6 +81,28 @@
   color: var(--gold-2);
 }
 
+.notice--fundraiser {
+  background: var(--gold-2);
+  color: var(--black);
+  border-bottom-color: rgba(10, 10, 11, .24);
+}
+
+.notice--fundraiser .notice__inner strong {
+  font-weight: 900;
+}
+
+.notice--fundraiser .notice__inner p span {
+  color: rgba(10, 10, 11, .72);
+}
+
+.notice--fundraiser .notice__inner > a {
+  color: var(--black);
+}
+
+.notice--fundraiser .notice__inner > a:focus-visible {
+  outline-color: var(--black);
+}
+
 .notice__inner > a:hover,
 .text-link:hover,
 .back-link:hover {
