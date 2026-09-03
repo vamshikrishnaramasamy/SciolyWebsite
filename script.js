@@ -80,6 +80,37 @@
     reveals.forEach((el) => io.observe(el));
   }
 
+  /* ---- editorial photo depth ---- */
+  if (!reduce && !touchFirst) {
+    document.querySelectorAll("[data-tilt]").forEach((frame) => {
+      let frameRequest = 0;
+      let pointerX = 0;
+      let pointerY = 0;
+
+      const paint = () => {
+        const bounds = frame.getBoundingClientRect();
+        const x = ((pointerX - bounds.left) / bounds.width - .5) * -10;
+        const y = ((pointerY - bounds.top) / bounds.height - .5) * -10;
+        frame.style.setProperty("--photo-x", x.toFixed(2) + "px");
+        frame.style.setProperty("--photo-y", y.toFixed(2) + "px");
+        frameRequest = 0;
+      };
+
+      frame.addEventListener("pointermove", (event) => {
+        pointerX = event.clientX;
+        pointerY = event.clientY;
+        if (!frameRequest) frameRequest = requestAnimationFrame(paint);
+      });
+
+      frame.addEventListener("pointerleave", () => {
+        if (frameRequest) cancelAnimationFrame(frameRequest);
+        frameRequest = 0;
+        frame.style.setProperty("--photo-x", "0px");
+        frame.style.setProperty("--photo-y", "0px");
+      });
+    });
+  }
+
   /* ---- counters ---- */
   const animateCount = (el) => {
     const end = parseFloat(el.dataset.count);

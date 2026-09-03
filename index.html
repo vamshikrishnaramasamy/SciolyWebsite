@@ -5,12 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Westview Science Olympiad</title>
   <meta name="description" content="Westview High School Science Olympiad — 100+ students competing across 23 Division C events." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Westview Science Olympiad" />
+  <meta property="og:description" content="Science is a team sport. Meet Westview's 100+ competitors across 23 Division C events." />
+  <meta property="og:image" content="https://vamshikrishnaramasamy.github.io/SciolyWebsite-preview/assets/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Westview Science Olympiad" />
+  <meta name="twitter:description" content="Science is a team sport." />
+  <meta name="twitter:image" content="https://vamshikrishnaramasamy.github.io/SciolyWebsite-preview/assets/og.png" />
   <meta name="theme-color" content="#fbfbfd" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=12" />
-  <link rel="stylesheet" href="preview.css?v=3" />
+  <link rel="stylesheet" href="preview.css?v=4" />
 </head>
 <body class="preview-site">
   <div class="progress" id="progress" aria-hidden="true"></div>
@@ -50,17 +58,36 @@
     <section class="home-hero">
       <div class="container home-hero__layout">
         <div class="home-hero__copy">
-          <h1>Science is a<br><em>team sport.</em></h1>
+          <h1 aria-label="Science is a team sport.">
+            <span class="hero-line" aria-hidden="true"><span>Science</span></span>
+            <span class="hero-line" aria-hidden="true"><span>is a</span></span>
+            <span class="hero-line" aria-hidden="true"><span><em>team sport.</em></span></span>
+          </h1>
           <p>More than 100 Westview students prepare, build, and compete across 23 Division C events.</p>
           <div class="home-hero__actions">
             <a href="https://forms.gle/PNPp8QDTmYA91HbE7" class="btn btn--dark">Join the team</a>
             <a href="events.html" class="text-link">Explore events <span aria-hidden="true">→</span></a>
           </div>
         </div>
-        <figure class="home-hero__photo">
+        <figure class="home-hero__photo" data-tilt>
           <img src="assets/photos/team-portrait.webp" width="1800" height="1350" alt="Westview Science Olympiad students and coaches together after competition" fetchpriority="high" />
           <figcaption>Westview Science Olympiad · 2026</figcaption>
         </figure>
+      </div>
+    </section>
+
+    <section class="home-score" aria-labelledby="season-proof">
+      <div class="container home-score__layout">
+        <p class="home-score__statement" id="season-proof">
+          <span>100+ students.</span>
+          <span>23 events.</span>
+          <span>70 placements.</span>
+          <span><em>One team.</em></span>
+        </p>
+        <div class="home-score__foot">
+          <p>Westview Science Olympiad · 2025–26</p>
+          <a href="awards.html">See every result <span aria-hidden="true">→</span></a>
+        </div>
       </div>
     </section>
 
@@ -112,6 +139,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=14" defer></script>
+  <script src="script.js?v=15" defer></script>
 </body>
 </html>
