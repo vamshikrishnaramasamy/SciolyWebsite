@@ -202,7 +202,7 @@ The shared palette is warm, high-contrast, and mostly neutral. Public pages use 
 
 Public pages use an 1120px content container with 28px gutters and sections that breathe from 80px upward. Editorial sections alternate between split compositions, full-width dark fields, photography, four-column card grids, and ruled lists. The public hero intentionally breaks the container into a near-equal copy/photo split.
 
-Member resources use the public container as a short, linear reading path rather than a second landing page. The document index is a full-width ruled list: title and file metadata, summary, then actions form three columns at wide widths; actions move beneath the summary below 920px, and each row becomes a single column below 680px. Accessible online copies use a centered reading column capped near 820px, 17px text with generous leading, restrained in-page navigation, and ruled definition rows for facts and dates.
+Member resources use the public container as a short, linear reading path rather than a second landing page. A direct page title leads into three full-width rows in a fixed overview → agreement → schedule sequence. The document index is a ruled list: oversized gold sequence numeral, title and file metadata, summary, and actions form four columns at wide widths; actions move beneath the summary below 920px, and each row becomes a single reading column below 680px. Accessible online copies use a centered reading column capped near 820px, 17px text with generous leading, restrained in-page navigation, and ruled definition rows for facts and dates.
 
 The catalog uses a 1240px workspace with 24px gutters, a 64px sticky top bar, and a 3rem top inset. Its inventory is a five-column ledger: identity, status, location, current or last holder, and disclosure. Detail pages use a roughly 70/30 content-to-QR split; the QR panel sticks beneath the top bar while facts form a two-column ruled grid. Dialogs cap at 700px, with a 520px compact variant.
 
@@ -259,8 +259,10 @@ Borders are one-pixel structural rules. Public cards may combine a soft border w
 
 ### Member Resources and Reading
 
-- **Document Index:** Present source documents as full-width rows divided by hairlines, not cards. Lead with file type and length, give each title editorial scale, keep the description readable, and group one dark primary action with quieter text actions.
-- **Action Order:** Offer the source file first, an accessible online reading path second, and download last. Labels stay explicit—“View PDF,” “Read online,” and “Download”—so destination and behavior are predictable.
+- **Document Index:** Present source documents as full-width rows divided by hairlines, not cards. Lead each row with an oversized gold 01/02/03 numeral, then file metadata and an editorial-scale title; keep the description readable and the actions visibly grouped. The numerals express order visually but stay out of the accessibility tree because document order and headings already communicate the sequence.
+- **Row Interaction:** Hover and keyboard focus-within invert the entire row from warm white to near-black. Copy and quiet actions become white, the numeral shifts to the brighter gold and may rotate and scale slightly, and dark buttons reverse to white with near-black text; gold primary actions retain near-black text for contrast. Apply hover only on hover-capable devices, but always preserve the equivalent focus-within state.
+- **Action Order:** Offer the most current source first, an accessible online reading path second, and download last. When the overview has a verified public view-only presentation, make “Open slide deck” the gold primary action and keep “Read online” and “Download PDF” explicit so destination and behavior are predictable; PDF-only rows use the dark primary action.
+- **Entrance Motion:** Reveal rows once as they intersect the viewport using a short stagger and alternating left/right travel, slight opposing tilt, blur, and directional clipping. A row skipped past during a fast scroll resolves immediately instead of remaining hidden; missing observer support shows every row, and reduced-motion preference removes the reveal entirely.
 - **Reading Surface:** Long-form member material is a single centered column with an “On this page” index, generous body leading, clear section breaks, and ruled term/value groups. Preserve source-document meaning without imitating the PDF's page layout.
 
 ### Inputs / Fields
@@ -292,7 +294,7 @@ Detail facts use definition lists, movement history uses a date/action two-colum
 - **Do** preserve visible focus, reduced-motion behavior, explicit status text, and responsive fact labels.
 - **Do** use the atom mark as the compact brand signature in public navigation, catalog navigation, and authentication.
 - **Do** reserve catalog dialogs for create, edit, movement, account, and destructive confirmation tasks.
-- **Do** give member documents one direct sequence from overview to expectations to source-file actions, with an accessible online equivalent when practical.
+- **Do** give member documents one direct overview → agreement → schedule sequence, with explicit source-file actions and an accessible online equivalent when practical.
 
 ### Don't:
 

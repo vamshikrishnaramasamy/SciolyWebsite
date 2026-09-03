@@ -80,6 +80,29 @@
     reveals.forEach((el) => io.observe(el));
   }
 
+  /* ---- member documents: staggered directional reveal ---- */
+  const memberDocuments = Array.from(document.querySelectorAll("[data-member-document]"));
+  if (memberDocuments.length && !reduce) {
+    memberDocuments.forEach((documentRow, index) => {
+      documentRow.style.setProperty("--member-delay", Math.min(index * 90, 180) + "ms");
+      documentRow.classList.add("is-armed");
+    });
+
+    if ("IntersectionObserver" in window) {
+      const memberObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          const hasPassedViewport = entry.boundingClientRect.top < 0;
+          if (!entry.isIntersecting && !hasPassedViewport) return;
+          entry.target.classList.add("is-live");
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.05, rootMargin: "0px 0px -2% 0px" });
+      memberDocuments.forEach((documentRow) => memberObserver.observe(documentRow));
+    } else {
+      memberDocuments.forEach((documentRow) => documentRow.classList.add("is-live"));
+    }
+  }
+
   /* ---- season score: one-shot line-by-line impact ---- */
   const score = document.querySelector("[data-score]");
   if (score && !reduce) {
