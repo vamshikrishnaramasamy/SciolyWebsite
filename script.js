@@ -80,6 +80,24 @@
     reveals.forEach((el) => io.observe(el));
   }
 
+  /* ---- season score: one-shot line-by-line impact ---- */
+  const score = document.querySelector("[data-score]");
+  if (score && !reduce) {
+    score.classList.add("is-armed");
+    if ("IntersectionObserver" in window) {
+      const scoreObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-live");
+          obs.unobserve(entry.target);
+        });
+      }, { threshold: 0.28, rootMargin: "0px 0px -6% 0px" });
+      scoreObserver.observe(score);
+    } else {
+      score.classList.add("is-live");
+    }
+  }
+
   /* ---- editorial photo depth ---- */
   if (!reduce && !touchFirst) {
     document.querySelectorAll("[data-tilt]").forEach((frame) => {
