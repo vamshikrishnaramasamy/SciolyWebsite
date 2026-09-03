@@ -4,332 +4,114 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Westview Science Olympiad</title>
-  <meta name="description" content="Westview High School Science Olympiad. 100+ students, 23 events, one podium. Poway Unified · San Diego Regional · Division C." />
+  <meta name="description" content="Westview High School Science Olympiad — 100+ students competing across 23 Division C events." />
   <meta name="theme-color" content="#fbfbfd" />
-  <meta property="og:title" content="Westview Science Olympiad" />
-  <meta property="og:description" content="100+ students. 23 events. One podium." />
-  <meta property="og:type" content="website" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=12" />
+  <link rel="stylesheet" href="preview.css?v=1" />
 </head>
-<body>
+<body class="preview-site">
   <div class="progress" id="progress" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- ============ NAV ============ -->
   <header class="nav" id="nav" data-state="top">
     <div class="nav__inner">
-      <a href="#top" class="brand" aria-label="Westview Science Olympiad">
+      <a href="index.html" class="brand" aria-label="Westview Science Olympiad home">
         <span class="brand__mark" aria-hidden="true">
           <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="3.4" fill="currentColor"/><g stroke="currentColor" stroke-width="1.4"><ellipse cx="20" cy="20" rx="17.5" ry="6.6"/><ellipse cx="20" cy="20" rx="17.5" ry="6.6" transform="rotate(60 20 20)"/><ellipse cx="20" cy="20" rx="17.5" ry="6.6" transform="rotate(120 20 20)"/></g></svg>
         </span>
         <span class="brand__name">Westview&nbsp;<span>Science&nbsp;Olympiad</span></span>
       </a>
       <nav class="nav__links" aria-label="Primary">
-        <a href="#about">About</a>
-        <a href="#events">Events</a>
-        <a href="#results">Results</a>
+        <a href="events.html">Events</a>
+        <a href="team.html">Team</a>
         <a href="awards.html">Awards</a>
-        <a href="#team">Team</a>
-        <a href="#join">Join</a>
         <a href="https://catalog.wvscioly.org">Catalog</a>
-        <a href="#faq">FAQ</a>
       </nav>
-      <a href="https://forms.gle/PNPp8QDTmYA91HbE7" class="nav__cta">Register</a>
-      <button class="nav__toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span></button>
+      <a href="https://forms.gle/PNPp8QDTmYA91HbE7" class="nav__cta">Join the team</a>
+      <button type="button" class="nav__toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span></button>
     </div>
     <div class="mobile-menu" id="mobileMenu" hidden>
-      <a href="#about">About</a><a href="#events">Events</a><a href="#results">Results</a><a href="awards.html">Awards</a><a href="#team">Team</a><a href="#join">Join</a><a href="https://catalog.wvscioly.org">Catalog</a><a href="#faq">FAQ</a>
-      <a href="https://forms.gle/PNPp8QDTmYA91HbE7" class="btn btn--dark">Register</a>
+      <a href="events.html">Events</a><a href="team.html">Team</a><a href="awards.html">Awards</a><a href="https://catalog.wvscioly.org">Equipment catalog</a>
+      <a href="https://forms.gle/PNPp8QDTmYA91HbE7" class="btn btn--dark">Join the team</a>
     </div>
   </header>
 
   <main id="main">
-    <span id="top"></span>
+    <section class="notice" aria-label="Team announcement">
+      <div class="container notice__inner">
+        <p><strong>First meeting today</strong><span>After school · Room A101 · new and returning members</span></p>
+        <a href="https://forms.gle/PNPp8QDTmYA91HbE7">Interest form <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
 
-    <!-- ============ FIRST MEETING ============ -->
-    <section class="meeting-promo" aria-labelledby="meeting-title">
-      <div class="meeting-promo__inner">
-        <figure class="meeting-promo__graphic">
-          <img src="assets/first-meeting.webp" width="1080" height="1350" alt="Science Olympiad first monthly meeting flyer: Room A101, after school Wednesday, September 2, for new and returning members" />
-        </figure>
-        <div class="meeting-promo__copy">
-          <h2 id="meeting-title">First meeting.<br>Be there.</h2>
-          <p class="meeting-promo__lead">New to Science Olympiad or coming back for another season? Meet the team, hear what is ahead, and find your place among 23 events.</p>
-          <dl class="meeting-promo__details">
-            <div><dt>When</dt><dd><time datetime="2026-09-02">Wednesday, September 2</time> · after school</dd></div>
-            <div><dt>Where</dt><dd>Room A101</dd></div>
-            <div><dt>Who</dt><dd>New and returning members</dd></div>
-          </dl>
-          <div class="meeting-promo__actions">
-            <a href="https://forms.gle/PNPp8QDTmYA91HbE7" class="btn btn--ink">Fill out the interest form</a>
-            <a href="#events" class="meeting-promo__link">Explore all 23 events <span aria-hidden="true">→</span></a>
+    <section class="home-hero">
+      <div class="container home-hero__layout">
+        <div class="home-hero__copy">
+          <h1>Science is a<br><em>team sport.</em></h1>
+          <p>More than 100 Westview students prepare, build, and compete across 23 Division C events.</p>
+          <div class="home-hero__actions">
+            <a href="https://forms.gle/PNPp8QDTmYA91HbE7" class="btn btn--dark">Join the team</a>
+            <a href="events.html" class="text-link">Explore events <span aria-hidden="true">→</span></a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- ============ HERO ============ -->
-    <section class="hero">
-      <div class="hero__copy">
-        <p class="kicker" data-hero><span class="kicker__dot"></span> Poway Unified · San Diego Regional · Division C</p>
-        <h1 class="hero__title" data-hero>Science is a<br><em class="goldword">team&nbsp;sport.</em></h1>
-        <p class="hero__sub" data-hero>Westview's Science Olympiad team — 100+ Wolverines competing across 23 events. We don't just study science. We compete in it.</p>
-        <div class="hero__cta" data-hero>
-          <a href="https://forms.gle/PNPp8QDTmYA91HbE7" class="btn btn--dark">Register</a>
-          <a href="https://catalog.wvscioly.org" class="btn btn--ink">Equipment catalog</a>
-          <a href="#events" class="btn btn--text">Explore the events <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></a>
-        </div>
-      </div>
-      <figure class="hero__photo" data-hero>
-        <img src="assets/photos/team-portrait.webp" width="1800" height="1350" alt="Westview Science Olympiad students and coaches together after competition" fetchpriority="high" />
-        <figcaption>Westview Science Olympiad · 2026</figcaption>
-      </figure>
-    </section>
-
-    <section class="season-strip" aria-label="2025-26 season snapshot">
-      <div class="container season-strip__inner">
-        <p><strong>2025-26 season</strong><span>70 placements across 7 tournaments</span></p>
-        <p><strong>Division C</strong><span>San Diego Region</span></p>
-        <a href="awards.html">Complete awards archive <span aria-hidden="true">→</span></a>
-      </div>
-    </section>
-
-    <!-- ============ STATEMENT ============ -->
-    <section class="statement">
-      <p class="statement__text" data-reveal>
-        A community of students who turn big questions into medals — on the bench, at the study table, and on the podium as <span>Wolverines.</span>
-      </p>
-    </section>
-
-    <!-- ============ BENTO ============ -->
-    <section class="section bento-wrap" id="about">
-      <div class="container">
-        <header class="head" data-reveal>
-          <p class="eyebrow">About the team</p>
-          <h2 class="head__title">More than a club.</h2>
-        </header>
-        <div class="bento">
-          <article class="tile tile--lg" data-reveal>
-            <h3>A training ground for scientists.</h3>
-            <p>Science Olympiad is a national STEM competition — teams go head-to-head across biology, chemistry, earth science, engineering, and lab inquiry. We help every member find their event and push their limits.</p>
-            <span class="tile__tag">Est. excellence · Wolverines</span>
-          </article>
-          <article class="tile tile--dark" data-reveal>
-            <span class="tile__num" data-count="100" data-suffix="+">0</span>
-            <p>Active members across all four grades.</p>
-          </article>
-          <article class="tile" data-reveal>
-            <span class="tile__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10M7 4v6a5 5 0 0 0 10 0V4"/></svg></span>
-            <h4>Compete to win</h4>
-            <p>Serious prep for every invitational and the Regional.</p>
-          </article>
-          <article class="tile" data-reveal>
-            <span class="tile__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
-            <h4>Learn beyond class</h4>
-            <p>Dissections, circuits, ciphers, orbital mechanics.</p>
-          </article>
-          <article class="tile tile--gold tile--wide" data-reveal>
-            <h3>23 events. 5 disciplines. 1 team.</h3>
-            <a href="#events" class="btn btn--ink">See the events</a>
-          </article>
-        </div>
-        <div class="team-work__intro" data-reveal>
-          <h3>What club life looks like.</h3>
-          <p>Partners prepare, prototype, test, and compete together all season.</p>
-        </div>
-        <div class="team-work">
-          <figure class="team-work__study" data-reveal>
-            <img src="assets/photos/study-session.webp" width="1200" height="1600" alt="Two Westview Science Olympiad students preparing together on laptops" loading="lazy" />
-            <figcaption><strong>Study together.</strong><span>Turn dense event rules into shared notes, practice tests, and confident competition-day decisions.</span></figcaption>
-          </figure>
-          <figure class="team-work__build" data-reveal>
-            <img src="assets/photos/engineering-build.webp" width="900" height="1599" alt="Westview students holding their completed boomilever structure" loading="lazy" />
-            <figcaption><strong>Build and iterate.</strong><span>Design, test, break, and rebuild devices until every gram and second counts.</span></figcaption>
-          </figure>
-          <figure class="team-work__lab" data-reveal>
-            <img src="assets/photos/lab-team.webp" width="1400" height="1050" alt="Westview Science Olympiad students ready for lab events in white coats" loading="lazy" />
-            <figcaption><strong>Compete as a team.</strong><span>Bring event-specific expertise together under one Westview score.</span></figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ EVENTS (horizontal pin) ============ -->
-    <section class="events" id="events">
-      <div class="events__head container">
-        <div data-reveal>
-          <p class="eyebrow">The 2026 season</p>
-          <h2 class="head__title">Twenty-three events.<br>Find&nbsp;yours.</h2>
-        </div>
-        <div class="events__nav" data-reveal>
-          <span class="events__hint">Drag or swipe</span>
-          <button class="enav" id="ePrev" data-dir="-1" aria-label="Previous events"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
-          <button class="enav" id="eNext" data-dir="1" aria-label="Next events"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
-        </div>
-      </div>
-      <div class="hscroll" id="hscroll" data-lenis-prevent-touch>
-        <div class="hscroll__track" id="htrack">
-          <article class="ecard" data-cat="Life"><span class="ecard__n">01</span><h3>Anatomy &amp; Physiology</h3><span class="ecard__tag">Life &amp; Social</span></article>
-          <article class="ecard" data-cat="Life"><span class="ecard__n">02</span><h3>Designer Genes</h3><span class="ecard__tag">Life &amp; Social</span></article>
-          <article class="ecard" data-cat="Life"><span class="ecard__n">03</span><h3>Disease Detectives</h3><span class="ecard__tag">Life &amp; Social</span></article>
-          <article class="ecard" data-cat="Life"><span class="ecard__n">04</span><h3>Entomology</h3><span class="ecard__tag">Life &amp; Social</span></article>
-          <article class="ecard" data-cat="Life"><span class="ecard__n">05</span><h3>Water Quality</h3><span class="ecard__tag">Life &amp; Social</span></article>
-          <article class="ecard" data-cat="Earth"><span class="ecard__n">06</span><h3>Astronomy</h3><span class="ecard__tag">Earth &amp; Space</span></article>
-          <article class="ecard" data-cat="Earth"><span class="ecard__n">07</span><h3>Dynamic Planet</h3><span class="ecard__tag">Earth &amp; Space</span></article>
-          <article class="ecard" data-cat="Earth"><span class="ecard__n">08</span><h3>Remote Sensing</h3><span class="ecard__tag">Earth &amp; Space</span></article>
-          <article class="ecard" data-cat="Earth"><span class="ecard__n">09</span><h3>Rocks &amp; Minerals</h3><span class="ecard__tag">Earth &amp; Space</span></article>
-          <article class="ecard" data-cat="Physical"><span class="ecard__n">10</span><h3>Chemistry Lab</h3><span class="ecard__tag">Physical &amp; Chem</span></article>
-          <article class="ecard" data-cat="Physical"><span class="ecard__n">11</span><h3>Circuit Lab</h3><span class="ecard__tag">Physical &amp; Chem</span></article>
-          <article class="ecard" data-cat="Physical"><span class="ecard__n">12</span><h3>Forensics</h3><span class="ecard__tag">Physical &amp; Chem</span></article>
-          <article class="ecard" data-cat="Physical"><span class="ecard__n">13</span><h3>Hovercraft</h3><span class="ecard__tag">Physical &amp; Chem</span></article>
-          <article class="ecard" data-cat="Physical"><span class="ecard__n">14</span><h3>Machines</h3><span class="ecard__tag">Physical &amp; Chem</span></article>
-          <article class="ecard" data-cat="Physical"><span class="ecard__n">15</span><h3>Materials Science</h3><span class="ecard__tag">Physical &amp; Chem</span></article>
-          <article class="ecard" data-cat="Eng"><span class="ecard__n">16</span><h3>Boomilever</h3><span class="ecard__tag">Engineering</span></article>
-          <article class="ecard" data-cat="Eng"><span class="ecard__n">17</span><h3>Electric Vehicle</h3><span class="ecard__tag">Engineering</span></article>
-          <article class="ecard" data-cat="Eng"><span class="ecard__n">18</span><h3>Helicopter</h3><span class="ecard__tag">Engineering</span></article>
-          <article class="ecard" data-cat="Eng"><span class="ecard__n">19</span><h3>Robot Tour</h3><span class="ecard__tag">Engineering</span></article>
-          <article class="ecard" data-cat="Inquiry"><span class="ecard__n">20</span><h3>Bungee Drop</h3><span class="ecard__tag">Inquiry</span></article>
-          <article class="ecard" data-cat="Inquiry"><span class="ecard__n">21</span><h3>Codebusters</h3><span class="ecard__tag">Inquiry</span></article>
-          <article class="ecard" data-cat="Inquiry"><span class="ecard__n">22</span><h3>Engineering CAD</h3><span class="ecard__tag">Inquiry</span></article>
-          <article class="ecard" data-cat="Inquiry"><span class="ecard__n">23</span><h3>Experimental Design</h3><span class="ecard__tag">Inquiry</span></article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ RESULTS / STATS ============ -->
-    <section class="section results" id="results">
-      <div class="container">
-        <header class="head" data-reveal>
-          <p class="eyebrow">By the numbers</p>
-          <h2 class="head__title">A season of Wolverine science.</h2>
-        </header>
-        <div class="stats">
-          <div class="stat" data-reveal><span class="stat__n" data-count="23">0</span><span class="stat__l">Division C events</span></div>
-          <div class="stat" data-reveal><span class="stat__n" data-count="100" data-suffix="+">0</span><span class="stat__l">Active members</span></div>
-          <div class="stat" data-reveal><span class="stat__n" data-count="5">0</span><span class="stat__l">STEM disciplines</span></div>
-          <div class="stat" data-reveal><span class="stat__n" data-count="70">0</span><span class="stat__l">Recorded placements</span></div>
-        </div>
-        <p class="results__foot" data-reveal>From the 2025-26 team medal tracker. <a href="awards.html">See every award and competitor&nbsp;→</a></p>
-      </div>
-    </section>
-
-    <!-- ============ ACHIEVEMENT (dark) ============ -->
-    <section class="showcase">
-      <div class="container showcase__inner">
-        <p class="eyebrow eyebrow--light" data-reveal>The trophy case</p>
-        <h2 class="showcase__big" data-reveal><span class="showcase__rank" data-count="5" data-prefix="Top ">Top 0</span></h2>
-        <p class="showcase__desc" data-reveal>San Diego Regional finish, Division C — and a ticket to the California state tournament. <em>Make this line yours.</em></p>
-        <div class="showcase__photos" data-reveal>
-          <figure class="showcase__photo">
-            <img src="assets/photos/regional-awards.webp" width="1600" height="1200" alt="Westview High School announced third overall in Division C at the San Diego Regional" loading="lazy" />
-            <figcaption>San Diego Regional · Division C</figcaption>
-          </figure>
-          <figure class="showcase__photo">
-            <img src="assets/photos/team-trophy.webp" width="1600" height="1200" alt="Westview Science Olympiad students holding a team trophy and wearing event medals after the 2025 regional tournament" loading="lazy" />
-            <figcaption>Team trophy · 2025 regional</figcaption>
-          </figure>
-        </div>
-        <ul class="showcase__list">
-          <li data-reveal><b>State qualifier</b><span>Advancing to the state tournament</span></li>
-          <li data-reveal><b>70 placements</b><span>Across seven tournaments</span></li>
-          <li data-reveal><b>3 invitationals</b><span>Fall &amp; winter season</span></li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- ============ TEAM ============ -->
-    <section class="section team" id="team">
-      <div class="container">
-        <header class="head" data-reveal>
-          <p class="eyebrow">How the team runs</p>
-          <h2 class="head__title">Student-led. Coach-backed.</h2>
-        </header>
-        <div class="team-structure">
-          <article data-reveal><span>01</span><div><h3>Executive board</h3><p>Students coordinate the season, communication, tournament logistics, and the culture that connects more than 100 members.</p></div></article>
-          <article data-reveal><span>02</span><div><h3>Event captains</h3><p>Experienced competitors organize resources, run practice, and help partners make progress across all 23 events.</p></div></article>
-          <article data-reveal><span>03</span><div><h3>Coaches</h3><p>Faculty and volunteer coaches provide continuity, technical guidance, safety oversight, and competition-day support.</p></div></article>
-        </div>
-        <p class="team-structure__contact" data-reveal>Want to meet the current leadership? <a href="https://www.instagram.com/westviewscioly/" target="_blank" rel="noopener">Follow team updates</a> or <a href="mailto:westviewso@gmail.com">email us</a>.</p>
-      </div>
-    </section>
-
-    <!-- ============ JOIN (CTA) ============ -->
-    <section class="cta" id="join">
-      <div class="container cta__inner">
-        <h2 class="cta__title" data-reveal>Ready to compete?</h2>
-        <p class="cta__sub" data-reveal>No experience required — just curiosity and commitment. We recruit at the start of each school year and welcome new members at weekly meetings.</p>
-        <div class="cta__btns" data-reveal>
-          <a href="https://forms.gle/PNPp8QDTmYA91HbE7" class="btn btn--dark btn--lg">Register now</a>
-          <a href="https://www.instagram.com/westviewscioly/" target="_blank" rel="noopener" class="btn btn--text">@westviewscioly <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></a>
-        </div>
-        <ol class="cta__steps">
-          <li data-reveal><b>01</b><span>Come to a weekly meeting (find it on Instagram)</span></li>
-          <li data-reveal><b>02</b><span>Pick your events with help from captains</span></li>
-          <li data-reveal><b>03</b><span>Train with your 1–2 partners</span></li>
-          <li data-reveal><b>04</b><span>Compete as a Wolverine</span></li>
-        </ol>
-        <figure class="cta__photo" data-reveal>
-          <img src="assets/photos/team-candid.webp" width="1200" height="900" alt="Westview Science Olympiad teammates together at an end-of-season gathering" loading="lazy" />
+        <figure class="home-hero__photo">
+          <img src="assets/photos/team-portrait.webp" width="1800" height="1350" alt="Westview Science Olympiad students and coaches together after competition" fetchpriority="high" />
+          <figcaption>Westview Science Olympiad · 2026</figcaption>
         </figure>
       </div>
     </section>
 
-    <!-- ============ FAQ ============ -->
-    <section class="section faq" id="faq">
-      <div class="container container--narrow">
-        <header class="head" data-reveal>
-          <p class="eyebrow">Questions, answered</p>
-          <h2 class="head__title">Frequently asked.</h2>
-        </header>
-        <div class="faq__list">
-          <details class="faq__item" data-reveal><summary>Do I need experience to join?<i></i></summary><div class="faq__b"><p>Not at all. Many of our strongest competitors started knowing nothing about their event. Captains and coaches help you learn from the ground up.</p></div></details>
-          <details class="faq__item" data-reveal><summary>How much of a time commitment is it?<i></i></summary><div class="faq__b"><p>It scales with you — a weekly meeting plus independent study or build time with your partner. More as a tournament approaches, but you control the pace.</p></div></details>
-          <details class="faq__item" data-reveal><summary>What's the difference between build and study events?<i></i></summary><div class="faq__b"><p>Build events (Boomilever, Helicopter) mean designing and constructing a device. Study events (Astronomy, Forensics) are knowledge- and lab-based. Most members do a mix.</p></div></details>
-          <details class="faq__item" data-reveal><summary>How many events can I do?<i></i></summary><div class="faq__b"><p>Typically 3–4 events per competitor, each with 1–2 partners. We help you balance your schedule so events don't conflict at tournaments.</p></div></details>
-          <details class="faq__item" data-reveal><summary>When can I join?<i></i></summary><div class="faq__b"><p>We recruit heavily at the start of the school year, but reach out any time — email <a href="mailto:westviewso@gmail.com">westviewso@gmail.com</a>.</p></div></details>
+    <section class="home-paths" aria-labelledby="explore-heading">
+      <div class="container">
+        <div class="section-intro">
+          <h2 id="explore-heading">Find what you need.</h2>
+          <p>Start with one path. Details live on focused pages.</p>
         </div>
+        <nav class="path-list" aria-label="Explore Westview Science Olympiad">
+          <a href="events.html"><span><strong>Events</strong><span class="path-list__description">Browse all 23 study, lab, and build events.</span></span><b aria-hidden="true">→</b></a>
+          <a href="team.html"><span><strong>The team</strong><span class="path-list__description">See how members prepare and how the club runs.</span></span><b aria-hidden="true">→</b></a>
+          <a href="awards.html"><span><strong>Awards</strong><span class="path-list__description">Review 70 placements from the 2025–26 season.</span></span><b aria-hidden="true">→</b></a>
+        </nav>
+      </div>
+    </section>
+
+    <section class="home-story">
+      <div class="container home-story__layout">
+        <figure>
+          <img src="assets/photos/engineering-build.webp" width="900" height="1599" alt="Westview students holding their completed boomilever structure" loading="lazy" />
+        </figure>
+        <div>
+          <h2>Built by students.</h2>
+          <p>Partners study, prototype, test, and compete together. Event captains guide preparation; coaches provide technical and safety support.</p>
+          <a href="team.html" class="text-link">How the team works <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-join">
+      <div class="container home-join__layout">
+        <div>
+          <h2>Ready to compete?</h2>
+          <p>No experience required. Bring curiosity and commitment.</p>
+        </div>
+        <a href="https://forms.gle/PNPp8QDTmYA91HbE7" class="btn btn--light">Fill out the interest form</a>
       </div>
     </section>
   </main>
 
-  <!-- ============ FOOTER ============ -->
   <footer class="footer">
     <div class="container">
-      <div class="footer__grid">
-        <div class="footer__brand">
-          <a href="#top" class="brand"><span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="3.4" fill="currentColor"/><g stroke="currentColor" stroke-width="1.4"><ellipse cx="20" cy="20" rx="17.5" ry="6.6"/><ellipse cx="20" cy="20" rx="17.5" ry="6.6" transform="rotate(60 20 20)"/><ellipse cx="20" cy="20" rx="17.5" ry="6.6" transform="rotate(120 20 20)"/></g></svg></span><span class="brand__name">Westview Science Olympiad</span></a>
-          <p class="footer__tag">Westview High School · Poway Unified School District · San Diego, CA</p>
-        </div>
-        <div class="footer__cols">
-          <div><h5>Explore</h5><a href="#about">About</a><a href="#events">Events</a><a href="#results">Results</a><a href="awards.html">Awards</a><a href="#team">Team</a></div>
-          <div><h5>Get involved</h5><a href="https://forms.gle/PNPp8QDTmYA91HbE7">Register</a><a href="https://catalog.wvscioly.org">Equipment catalog</a><a href="#faq">FAQ</a><a href="mailto:westviewso@gmail.com">Contact</a></div>
-          <div><h5>Connect</h5><a href="https://www.instagram.com/westviewscioly/" target="_blank" rel="noopener">Instagram</a><a href="https://forms.gle/PNPp8QDTmYA91HbE7">Student interest form</a><a href="https://www.soinc.org/" target="_blank" rel="noopener">Science Olympiad</a></div>
-        </div>
+      <div class="preview-footer">
+        <a href="index.html" class="brand"><span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="3.4" fill="currentColor"/><g stroke="currentColor" stroke-width="1.4"><ellipse cx="20" cy="20" rx="17.5" ry="6.6"/><ellipse cx="20" cy="20" rx="17.5" ry="6.6" transform="rotate(60 20 20)"/><ellipse cx="20" cy="20" rx="17.5" ry="6.6" transform="rotate(120 20 20)"/></g></svg></span><span class="brand__name">Westview Science Olympiad</span></a>
+        <nav aria-label="Footer"><a href="events.html">Events</a><a href="team.html">Team</a><a href="awards.html">Awards</a><a href="https://catalog.wvscioly.org">Catalog</a><a href="mailto:westviewso@gmail.com">Contact</a><a href="https://www.instagram.com/westviewscioly/" target="_blank" rel="noopener">Instagram</a></nav>
       </div>
-      <div class="footer__bar">
-        <p>© <span id="year"></span> Westview Science Olympiad. Go Wolverines.</p>
-        <p>Built for the love of the podium.</p>
-      </div>
+      <div class="footer__bar"><p>© <span id="year"></span> Westview Science Olympiad.</p><p>Westview High School · San Diego, CA</p></div>
     </div>
   </footer>
 
-  <dialog class="photo-viewer" id="photoViewer" aria-label="Photo viewer">
-    <button class="photo-viewer__close" id="photoViewerClose" type="button" aria-label="Close photo viewer">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
-    </button>
-    <figure class="photo-viewer__stage" id="photoViewerStage">
-      <img id="photoViewerImage" src="assets/photos/team-portrait.webp" alt="" />
-      <figcaption id="photoViewerCaption"></figcaption>
-    </figure>
-  </dialog>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
   <script src="script.js?v=14" defer></script>
 </body>
 </html>
