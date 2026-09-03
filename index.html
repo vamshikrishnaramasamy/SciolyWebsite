@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=13" />
-  <link rel="stylesheet" href="preview.css?v=11" />
+  <link rel="stylesheet" href="preview.css?v=12" />
 </head>
 <body class="preview-site">
   <div class="progress" id="progress" aria-hidden="true"></div>
@@ -67,16 +67,28 @@
         </div>
         <div class="fundraiser-feature__art" aria-hidden="true">
           <svg viewBox="0 0 520 520" role="presentation">
+            <defs>
+              <clipPath id="fundraiser-cup-clip">
+                <path d="M137 178h246l-38 282H175z" />
+              </clipPath>
+            </defs>
             <path class="fundraiser-cup__straw" d="M333 40 301 168" />
             <path class="fundraiser-cup__lid" d="M112 160h296" />
             <path class="fundraiser-cup__body" d="M137 178h246l-38 282H175z" />
-            <path class="fundraiser-cup__tea" d="M162 260h196l-24 179H186z" />
-            <g class="fundraiser-cup__boba">
-              <circle cx="211" cy="383" r="18" />
-              <circle cx="259" cy="407" r="18" />
-              <circle cx="311" cy="377" r="18" />
-              <circle cx="231" cy="345" r="18" />
-              <circle cx="291" cy="337" r="18" />
+            <g class="fundraiser-cup__liquid" clip-path="url(#fundraiser-cup-clip)">
+              <path class="fundraiser-cup__tea" d="M151 263c46-26 96 21 207-11l-24 187H186z" />
+              <g class="fundraiser-cup__boba">
+                <circle cx="211" cy="383" r="18" />
+                <circle cx="259" cy="407" r="18" />
+                <circle cx="311" cy="377" r="18" />
+                <circle cx="231" cy="345" r="18" />
+                <circle cx="291" cy="337" r="18" />
+              </g>
+              <g class="fundraiser-cup__bubbles">
+                <circle cx="196" cy="310" r="7" />
+                <circle cx="269" cy="294" r="6" />
+                <circle cx="326" cy="318" r="8" />
+              </g>
             </g>
           </svg>
           <p>SEP 04 <span>AFTER SCHOOL—8 PM</span></p>
@@ -170,6 +182,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=17" defer></script>
+  <script src="script.js?v=18" defer></script>
 </body>
 </html>

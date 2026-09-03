@@ -121,6 +121,26 @@
     }
   }
 
+  /* ---- fundraiser cup: slosh only while visible ---- */
+  const fundraiser = document.querySelector(".fundraiser-feature");
+  if (fundraiser && !reduce) {
+    let fundraiserInView = true;
+    const syncFundraiserMotion = () => {
+      fundraiser.classList.toggle("is-motion-active", fundraiserInView && !document.hidden);
+    };
+
+    if ("IntersectionObserver" in window) {
+      const fundraiserObserver = new IntersectionObserver((entries) => {
+        fundraiserInView = entries[0].isIntersecting;
+        syncFundraiserMotion();
+      }, { threshold: 0.08 });
+      fundraiserObserver.observe(fundraiser);
+    }
+
+    document.addEventListener("visibilitychange", syncFundraiserMotion);
+    syncFundraiserMotion();
+  }
+
   /* ---- editorial photo depth ---- */
   if (!reduce && !touchFirst) {
     document.querySelectorAll("[data-tilt]").forEach((frame) => {
