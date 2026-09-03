@@ -202,6 +202,8 @@ The shared palette is warm, high-contrast, and mostly neutral. Public pages use 
 
 Public pages use an 1120px content container with 28px gutters and sections that breathe from 80px upward. Editorial sections alternate between split compositions, full-width dark fields, photography, four-column card grids, and ruled lists. The public hero intentionally breaks the container into a near-equal copy/photo split.
 
+Member resources use the public container as a short, linear reading path rather than a second landing page. The document index is a full-width ruled list: title and file metadata, summary, then actions form three columns at wide widths; actions move beneath the summary below 920px, and each row becomes a single column below 680px. Accessible online copies use a centered reading column capped near 820px, 17px text with generous leading, restrained in-page navigation, and ruled definition rows for facts and dates.
+
 The catalog uses a 1240px workspace with 24px gutters, a 64px sticky top bar, and a 3rem top inset. Its inventory is a five-column ledger: identity, status, location, current or last holder, and disclosure. Detail pages use a roughly 70/30 content-to-QR split; the QR panel sticks beneath the top bar while facts form a two-column ruled grid. Dialogs cap at 700px, with a 520px compact variant.
 
 At 860px, the catalog hides its secondary top navigation, stacks search above horizontally scrollable filters, turns inventory columns into labeled facts, and moves the QR panel into normal flow. At 560px, headers and actions stack, facts become one column, form pairs become single fields, and dialogs become full-screen. Public layouts likewise collapse multi-column arrangements while keeping generous reading gutters.
@@ -255,6 +257,12 @@ Borders are one-pixel structural rules. Public cards may combine a soft border w
 - **QR Panel:** Square white panel with a strong catalog rule and 1.25rem padding. It is a factual print/scan tool, not a promotional card.
 - **Dialog:** White, 12px corners on larger screens, ruled header/footer, and a modal shadow. It becomes edge-to-edge and square on narrow phones.
 
+### Member Resources and Reading
+
+- **Document Index:** Present source documents as full-width rows divided by hairlines, not cards. Lead with file type and length, give each title editorial scale, keep the description readable, and group one dark primary action with quieter text actions.
+- **Action Order:** Offer the source file first, an accessible online reading path second, and download last. Labels stay explicit—“View PDF,” “Read online,” and “Download”—so destination and behavior are predictable.
+- **Reading Surface:** Long-form member material is a single centered column with an “On this page” index, generous body leading, clear section breaks, and ruled term/value groups. Preserve source-document meaning without imitating the PDF's page layout.
+
 ### Inputs / Fields
 
 - **Style:** White fill, one-pixel strong catalog rule, 8px corners, and compact internal padding. Labels are small, bold, and dark gray.
@@ -284,6 +292,7 @@ Detail facts use definition lists, movement history uses a date/action two-colum
 - **Do** preserve visible focus, reduced-motion behavior, explicit status text, and responsive fact labels.
 - **Do** use the atom mark as the compact brand signature in public navigation, catalog navigation, and authentication.
 - **Do** reserve catalog dialogs for create, edit, movement, account, and destructive confirmation tasks.
+- **Do** give member documents one direct sequence from overview to expectations to source-file actions, with an accessible online equivalent when practical.
 
 ### Don't:
 
@@ -293,3 +302,4 @@ Detail facts use definition lists, movement history uses a date/action two-colum
 - **Don't** use gold as a general background wash or replace available/checked-out wording with color alone.
 - **Don't** hide home, current location, holder, last holder, history, or QR identity to simplify a narrow layout; restack them.
 - **Don't** add a second font family or use ornamental typography to manufacture hierarchy.
+- **Don't** turn focused member resources into another crowded home page; use ruled rows, a narrow reading measure, and only the context needed to choose or read a document.
