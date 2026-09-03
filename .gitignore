@@ -2,6 +2,3 @@ catalog/node_modules/
 catalog/data/
 catalog/.env
 catalog/test/*.png
-node_modules/
-dist/
-.wrangler/
