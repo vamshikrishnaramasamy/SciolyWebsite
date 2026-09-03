@@ -23,6 +23,11 @@
   transform: none;
 }
 
+.preview-site .btn--dark:active,
+.preview-site .nav__cta:active {
+  background: var(--black);
+}
+
 .notice {
   padding-top: 72px;
   background: var(--bg-2);
@@ -177,12 +182,13 @@
   padding: 28px 4px;
   border-bottom: 1px solid var(--line);
   color: var(--ink);
-  transition: background-color 160ms ease;
+  transition: background-color 160ms ease, box-shadow 180ms ease;
 }
 
 .path-list a:hover,
 .path-list a:focus-visible {
   background: var(--bg-2);
+  box-shadow: inset 0 -2px var(--gold);
 }
 
 .path-list a > span {
@@ -441,6 +447,147 @@
   padding-bottom: clamp(110px, 15vw, 190px);
 }
 
+/* Motion thesis: images develop into view; copy locks into place. */
+@keyframes headline-lock {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(10px);
+    clip-path: inset(0 0 34% 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    clip-path: inset(0);
+  }
+}
+
+@keyframes copy-settle {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes photo-develop {
+  from {
+    opacity: .35;
+    transform: scale(1.045);
+    filter: grayscale(1) contrast(.82) blur(7px);
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: grayscale(0) contrast(1) blur(0);
+    clip-path: inset(0);
+  }
+}
+
+@keyframes boundary-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(34px);
+    filter: blur(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes page-leave {
+  to {
+    opacity: 0;
+    filter: blur(4px);
+  }
+}
+
+@keyframes page-arrive {
+  from {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .notice__inner {
+    animation: copy-settle 460ms cubic-bezier(.16, 1, .3, 1) 80ms both;
+  }
+
+  .home-hero__copy h1,
+  .page-intro h1 {
+    animation: headline-lock 720ms cubic-bezier(.16, 1, .3, 1) both;
+  }
+
+  .home-hero__copy > p,
+  .page-intro > p {
+    animation: copy-settle 560ms cubic-bezier(.16, 1, .3, 1) 150ms both;
+  }
+
+  .home-hero__actions,
+  .page-intro .back-link {
+    animation: copy-settle 520ms cubic-bezier(.16, 1, .3, 1) 260ms both;
+  }
+
+  .home-hero__photo {
+    animation: photo-develop 880ms cubic-bezier(.16, 1, .3, 1) 120ms both;
+  }
+
+  @supports (animation-timeline: view()) {
+    .home-paths .section-intro,
+    .path-list a,
+    .home-story__layout > div,
+    .home-join__layout,
+    .event-group,
+    .team-feature > div,
+    .team-roles,
+    .team-faq,
+    .award-meet {
+      animation: boundary-reveal cubic-bezier(.16, 1, .3, 1) both;
+      animation-timeline: view();
+      animation-range: entry 4% cover 28%;
+    }
+
+    .home-story figure,
+    .team-feature figure {
+      animation: photo-develop cubic-bezier(.16, 1, .3, 1) both;
+      animation-timeline: view();
+      animation-range: entry 2% cover 34%;
+    }
+  }
+}
+
+@supports (view-transition-name: root) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  .preview-site .nav {
+    view-transition-name: site-navigation;
+  }
+
+  ::view-transition-old(root) {
+    animation: page-leave 160ms ease-in both;
+  }
+
+  ::view-transition-new(root) {
+    animation: page-arrive 360ms cubic-bezier(.16, 1, .3, 1) both;
+  }
+
+  ::view-transition-old(site-navigation),
+  ::view-transition-new(site-navigation) {
+    animation: none;
+  }
+}
+
 @media (max-width: 920px) {
   .home-hero__layout {
     grid-template-columns: 1fr;
@@ -560,5 +707,13 @@
   .team-roles dl > div {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: .001ms !important;
   }
 }
