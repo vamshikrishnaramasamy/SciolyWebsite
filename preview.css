@@ -206,6 +206,8 @@
 
 .fundraiser-cup__liquid,
 .fundraiser-cup__straw,
+.fundraiser-cup__tea,
+.fundraiser-cup__boba,
 .fundraiser-cup__boba circle,
 .fundraiser-cup__bubbles circle {
   transform-box: fill-box;
@@ -224,11 +226,56 @@
   transform-origin: center;
 }
 
+.fundraiser-cup__tea,
+.fundraiser-cup__boba {
+  transform-origin: center bottom;
+}
+
 .fundraiser-cup__bubbles {
   fill: #fff;
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .preview-site.ready .fundraiser-feature__copy h2 span:first-child {
+    animation: fundraiser-wordmark-left 560ms cubic-bezier(.16, 1, .3, 1) 60ms both;
+  }
+
+  .preview-site.ready .fundraiser-feature__copy h2 span:last-child {
+    animation: fundraiser-wordmark-right 560ms cubic-bezier(.16, 1, .3, 1) 160ms both;
+  }
+
+  .preview-site.ready .fundraiser-feature__copy > p {
+    animation: fundraiser-copy-rise 440ms cubic-bezier(.16, 1, .3, 1) 300ms both;
+  }
+
+  .preview-site.ready .fundraiser-feature__details {
+    animation: fundraiser-copy-rise 520ms cubic-bezier(.16, 1, .3, 1) 400ms both;
+  }
+
+  .preview-site.ready .fundraiser-feature__copy .btn--dark {
+    animation: fundraiser-action-cut 420ms cubic-bezier(.16, 1, .3, 1) 520ms both;
+  }
+
+  .preview-site.ready .fundraiser-feature__art {
+    animation: fundraiser-panel-strike 760ms cubic-bezier(.16, 1, .3, 1) both;
+  }
+
+  .preview-site.ready .fundraiser-feature__art svg {
+    animation: fundraiser-cup-drop 720ms cubic-bezier(.16, 1, .3, 1) 220ms both;
+  }
+
+  .preview-site.ready .fundraiser-cup__tea {
+    animation: fundraiser-tea-fill 640ms cubic-bezier(.16, 1, .3, 1) 480ms both;
+  }
+
+  .preview-site.ready .fundraiser-cup__boba {
+    animation: fundraiser-pearls-land 520ms cubic-bezier(.16, 1, .3, 1) 660ms both;
+  }
+
+  .preview-site.ready .fundraiser-feature__art > p {
+    animation: fundraiser-art-caption 380ms cubic-bezier(.16, 1, .3, 1) 720ms both;
+  }
+
   .fundraiser-feature.is-motion-active .fundraiser-cup__liquid {
     animation: fundraiser-liquid-slosh 3.2s cubic-bezier(.45, .05, .55, .95) infinite;
   }
@@ -271,6 +318,100 @@
 
   .fundraiser-feature.is-motion-active .fundraiser-cup__bubbles circle:nth-child(3) {
     animation-delay: -1.8s;
+  }
+}
+
+@keyframes fundraiser-wordmark-left {
+  from {
+    clip-path: inset(0 100% 0 0);
+    filter: blur(5px);
+    transform: translateX(-72px) rotate(-3deg);
+  }
+  to {
+    clip-path: inset(0);
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+@keyframes fundraiser-wordmark-right {
+  from {
+    clip-path: inset(0 0 0 100%);
+    filter: blur(5px);
+    transform: translateX(72px) rotate(3deg);
+  }
+  to {
+    clip-path: inset(0);
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+@keyframes fundraiser-copy-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fundraiser-action-cut {
+  from {
+    clip-path: inset(0 100% 0 0);
+    transform: scaleX(.72);
+    transform-origin: left center;
+  }
+  to {
+    clip-path: inset(0);
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+}
+
+@keyframes fundraiser-panel-strike {
+  from { transform: translateX(105%) skewX(-5deg); }
+  62% { transform: translateX(-2.5%) skewX(1deg); }
+  to { transform: none; }
+}
+
+@keyframes fundraiser-cup-drop {
+  from {
+    filter: blur(6px);
+    transform: translateY(-92px) rotate(-5deg) scale(.94);
+  }
+  to {
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+@keyframes fundraiser-tea-fill {
+  from { transform: scaleY(.08); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes fundraiser-pearls-land {
+  from {
+    opacity: 0;
+    transform: translateY(-120px) rotate(-10deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fundraiser-art-caption {
+  from {
+    clip-path: inset(0 100% 0 0);
+    transform: translateY(12px);
+  }
+  to {
+    clip-path: inset(0);
+    transform: none;
   }
 }
 
@@ -1749,6 +1890,8 @@
 @media (prefers-reduced-motion: reduce) {
   .fundraiser-cup__liquid,
   .fundraiser-cup__straw,
+  .fundraiser-cup__tea,
+  .fundraiser-cup__boba,
   .fundraiser-cup__boba circle,
   .fundraiser-cup__bubbles circle {
     animation: none;
