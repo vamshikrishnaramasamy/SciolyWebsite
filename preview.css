@@ -713,7 +713,6 @@
 }
 
 .home-score__foot a span,
-.path-list b,
 .text-link span,
 .notice__inner > a span {
   display: inline-block;
@@ -722,18 +721,11 @@
 
 .home-score__foot a:hover span,
 .home-score__foot a:focus-visible span,
-.path-list a:hover b,
-.path-list a:focus-visible b,
 .text-link:hover span,
 .text-link:focus-visible span,
 .notice__inner > a:hover span,
 .notice__inner > a:focus-visible span {
   transform: translateX(5px);
-}
-
-.home-paths {
-  padding: clamp(100px, 13vw, 168px) 0;
-  border-top: 1px solid var(--line);
 }
 
 .section-intro {
@@ -762,52 +754,6 @@
   color: var(--gray);
   font-size: 1.08rem;
   line-height: 1.6;
-}
-
-.path-list {
-  border-top: 1px solid var(--line);
-}
-
-.path-list a {
-  min-height: 132px;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 32px;
-  padding: 28px 4px;
-  border-bottom: 1px solid var(--line);
-  color: var(--ink);
-  transition: background-color 160ms ease, box-shadow 180ms ease;
-}
-
-.path-list a:hover,
-.path-list a:focus-visible {
-  background: var(--gold-tint);
-  box-shadow: inset 0 -2px var(--gold);
-}
-
-.path-list a > span {
-  display: grid;
-  grid-template-columns: minmax(180px, .65fr) 1fr;
-  align-items: baseline;
-  gap: 32px;
-}
-
-.path-list strong {
-  font-size: clamp(1.75rem, 3.2vw, 2.7rem);
-  line-height: 1.1;
-  letter-spacing: -.03em;
-}
-
-.path-list__description {
-  color: var(--gray);
-  font-size: 1rem;
-}
-
-.path-list b {
-  color: var(--gold);
-  font-size: 1.7rem;
-  font-weight: 500;
 }
 
 .home-story {
@@ -1563,8 +1509,6 @@
   }
 
   @supports (animation-timeline: view()) {
-    .home-paths .section-intro,
-    .path-list a,
     .home-story__layout > div,
     .home-join__layout,
     .event-group,
@@ -1836,16 +1780,6 @@
     align-items: flex-start;
     flex-direction: column;
     margin-top: 56px;
-  }
-
-  .path-list a {
-    min-height: 0;
-    padding: 24px 0;
-  }
-
-  .path-list a > span {
-    grid-template-columns: 1fr;
-    gap: 8px;
   }
 
   .home-story img,
