@@ -1,5 +1,6 @@
 /* Decluttered preview — focused pages, restrained hierarchy */
 .preview-site {
+  --preview-nav-height: 60px;
   background: var(--bg);
   color: var(--ink);
 }
@@ -40,7 +41,7 @@
 }
 
 .notice {
-  padding-top: 72px;
+  padding-top: var(--preview-nav-height);
   background: var(--black);
   color: #fff;
   border-bottom: 1px solid rgba(255, 255, 255, .18);
@@ -88,7 +89,7 @@
 }
 
 .fundraiser-feature {
-  padding-top: 72px;
+  padding-top: 0;
   overflow: hidden;
   background: var(--gold-2);
   color: var(--black);
@@ -1695,6 +1696,32 @@
 }
 
 @media (max-width: 680px) {
+  .notice--members .notice__inner {
+    min-height: 72px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .notice--members .notice__inner p {
+    display: grid;
+    gap: 2px;
+  }
+
+  .notice--members .notice__inner p span {
+    font-size: .82rem;
+  }
+
+  .notice--members .notice__inner > a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
   .fundraiser-feature__layout {
     min-height: 0;
     grid-template-columns: 1fr;
@@ -1740,8 +1767,8 @@
     font-size: .82rem;
   }
 
-  .notice__inner,
-  .notice__inner p,
+  .notice:not(.notice--members) .notice__inner,
+  .notice:not(.notice--members) .notice__inner p,
   .home-join__layout,
   .page-action__layout,
   .preview-footer {
